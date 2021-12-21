@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ const Box = styled.div`
 `;
 
 const Content = styled.div`
-  margin-left: 220px;
+  margin-left: var(--margin-left);
   max-height: 100vh;
   padding: 10px 20px;
   overflow-y: auto;
@@ -41,6 +41,7 @@ function App() {
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
+  const [leftWidth, setLeftWidth] = useState(200);
 
   useEffect(() => {
     axios.get(`${API_PREFIX}/user-config`).then((res) => {
@@ -75,9 +76,17 @@ function App() {
 
   return (
     <Box>
-      <FileList list={list} clickFile={clickFile} activeFile={fileName} />
+      <FileList
+        width={leftWidth}
+        list={list}
+        clickFile={clickFile}
+        activeFile={fileName}
+        setLeftWidth={setLeftWidth}
+      />
 
-      <Content>
+      <Content
+        style={{ '--margin-left': leftWidth + 20 + 'px' } as CSSProperties}
+      >
         {fileName && (
           <Button
             onClick={() => {

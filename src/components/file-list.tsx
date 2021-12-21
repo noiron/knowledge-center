@@ -1,13 +1,26 @@
+import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
+
+const BORDER_WIDTH = 4;
 
 const StyledFileList = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   border-right: 1px solid #eee;
-  width: 200px;
+  width: var(--width);
   height: 100%;
   padding: 0 0px;
+`;
+
+const RightBorder = styled.div`
+  background-color: #eee;
+  position: absolute;
+  top: 0;
+  right: -${BORDER_WIDTH}px;
+  width: ${BORDER_WIDTH}px;
+  height: 100%;
+  cursor: col-resize;
 `;
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
@@ -16,28 +29,47 @@ const StyledFileItem = styled.div<{ isActive: boolean }>`
 `;
 
 interface FileListProps {
+  width: number;
   list: string[];
   /** 当前选中的文件名称 */
   activeFile: string;
   clickFile: (fileName: string) => void;
+  setLeftWidth: (width: number) => void;
 }
 
 const FileList = (props: FileListProps) => {
-  const { list, activeFile, clickFile } = props;
+  const { list, activeFile, clickFile, width } = props;
+  const ref = useRef<any>();
+
+  // https://stackoverflow.com/a/62437093
+  const handler = useCallback(() => {
+    function onMouseMove(e: any) {
+      props.setLeftWidth(e.clientX);
+    }
+    function onMouseUp() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }, []);
 
   return (
-    <StyledFileList>
-      {list.map((fileName) => {
-        return (
-          <StyledFileItem
-            onClick={() => clickFile(fileName)}
-            key={fileName}
-            isActive={activeFile === fileName}
-          >
-            {fileName}
-          </StyledFileItem>
-        );
-      })}
+    <StyledFileList style={{ '--width': width + 'px' } as CSSProperties}>
+      <div>
+        {list.map((fileName) => {
+          return (
+            <StyledFileItem
+              onClick={() => clickFile(fileName)}
+              key={fileName}
+              isActive={activeFile === fileName}
+            >
+              {fileName}
+            </StyledFileItem>
+          );
+        })}
+      </div>
+      <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
     </StyledFileList>
   );
 };
