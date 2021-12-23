@@ -72,6 +72,9 @@ function App() {
 
   const clickFile = (fileName: string) => {
     setFileName(fileName);
+    axios.post(`${API_PREFIX}/save-config`, {
+      lastActiveFile: fileName,
+    });
   };
 
   return (

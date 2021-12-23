@@ -3,11 +3,13 @@ const path = require('path');
 const Koa = require('koa');
 const router = require('@koa/router')();
 const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 const { exec } = require('child_process');
 
 const app = new Koa();
 app.use(cors());
+app.use(bodyParser());
 const filePath = path.resolve(__dirname, '../mds');
 
 app.use(serve(filePath));
@@ -17,7 +19,8 @@ router
   .get('/list', getMarkdownList)
   .get('/file/:fileName', getMarkdownFile)
   .post('/run', runCommand)
-  .get('/user-config', getUserConfig);
+  .get('/user-config', getUserConfig)
+  .post('/save-config', saveUserConfig);
 
 app.use(router.routes());
 
@@ -65,6 +68,18 @@ async function runCommand(ctx) {
 async function getUserConfig(ctx) {
   const config = require('./user-config.js');
   ctx.body = config;
+}
+
+async function saveUserConfig(ctx) {
+  const configPath = path.resolve(__dirname, './user-config.js');
+  const config = ctx.request.body;
+  const originalConfig = require(configPath);
+  const newConfig = Object.assign(originalConfig, config);
+  const str = `module.exports = ${JSON.stringify(newConfig)}`;
+  fs.writeFileSync(configPath, str, 'utf8');
+  ctx.body = {
+    success: true,
+  };
 }
 
 app.listen(4001);
