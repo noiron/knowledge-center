@@ -2,13 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const router = require('@koa/router')();
+const serve = require('koa-static');
 const cors = require('@koa/cors');
 const { exec } = require('child_process');
 
 const app = new Koa();
 app.use(cors());
-
 const filePath = path.resolve(__dirname, '../mds');
+
+app.use(serve(filePath));
 
 router
   .get('/', renderList)
