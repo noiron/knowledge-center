@@ -1,5 +1,6 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
+import Tree from './tree';
 
 const BORDER_WIDTH = 4;
 
@@ -60,7 +61,7 @@ const FileList = (props: FileListProps) => {
 
   return (
     <StyledFileList style={{ '--width': width + 'px' } as CSSProperties}>
-      <div>
+      {/* <div>
         {list.map((fileName) => {
           return (
             <StyledFileItem
@@ -72,7 +73,10 @@ const FileList = (props: FileListProps) => {
             </StyledFileItem>
           );
         })}
-      </div>
+      </div> */}
+
+      <Tree onSelect={clickFile} />
+
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
     </StyledFileList>
   );

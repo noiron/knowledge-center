@@ -14,13 +14,16 @@
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-static": "^5.0.0",
+    "lodash": "^4.17.21",
     "markdown-it": "^12.3.0",
     "markdown-it-task-lists": "^2.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "@types/markdown-it": "^12.2.3",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",

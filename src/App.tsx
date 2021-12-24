@@ -79,9 +79,14 @@ function App() {
     });
   }, [fileName]);
 
-  const clickFile = (fileName: string) => {
-    setFileName(fileName);
-    saveUserConfig({ lastActiveFile: fileName });
+  const clickFile = (filePath: string) => {
+    setFileName(filePath);
+    saveUserConfig({ lastActiveFile: filePath });
+
+    const arr = filePath.trim().split('/');
+    arr.pop();
+    const prefix = arr.join('/');
+    history.pushState(null, prefix, prefix + '/');
   };
 
   const saveLeftWidth = (width: number) => {

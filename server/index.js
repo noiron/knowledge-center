@@ -17,7 +17,7 @@ app.use(serve(filePath));
 router
   .get('/', renderList)
   .get('/list', getMarkdownList)
-  .get('/file/:fileName', getMarkdownFile)
+  .get('/file/(.*)', getMarkdownFile)
   .post('/run', runCommand)
   .get('/user-config', getUserConfig)
   .post('/save-config', saveUserConfig);
@@ -34,7 +34,7 @@ async function getMarkdownList(ctx) {
 }
 
 async function getMarkdownFile(ctx) {
-  const { fileName } = ctx.params;
+  const fileName = ctx.params[0];
   const myMarkdown = fs.readFileSync(
     path.resolve(__dirname, `../mds/${fileName}`),
     'utf8'
