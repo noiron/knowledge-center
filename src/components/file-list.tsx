@@ -35,6 +35,7 @@ interface FileListProps {
   activeFile: string;
   clickFile: (fileName: string) => void;
   setLeftWidth: (width: number) => void;
+  saveLeftWidth: (width: number) => void;
 }
 
 const FileList = (props: FileListProps) => {
@@ -46,9 +47,12 @@ const FileList = (props: FileListProps) => {
     function onMouseMove(e: any) {
       props.setLeftWidth(e.clientX);
     }
-    function onMouseUp() {
+    function onMouseUp(e: any) {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      // 因为 handler 使用了 useCallback 包装，所以直接保存上层传入的 width 值会是一个固
+      // 定值，需要手动传入要保存的值
+      props.saveLeftWidth(e.clientX);
     }
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);

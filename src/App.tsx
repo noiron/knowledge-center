@@ -4,6 +4,12 @@ import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import FileList from './components/file-list';
+import {
+  getFileContent,
+  getFileList,
+  getUserConfig,
+  postUserConfig,
+} from './api';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -36,23 +42,27 @@ const Button = styled.div`
 `;
 
 function App() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<string[]>([]);
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
 
   useEffect(() => {
-    axios.get('/api/user-config').then((res) => {
+    getUserConfig().then((res) => {
       setUserConfig({
         ...userConfig,
         ...res.data,
       });
+
+      if (res.data.leftWidth) {
+        setLeftWidth(res.data.leftWidth);
+      }
     });
   }, []);
 
   useEffect(() => {
-    axios.get('/api/list').then((res) => {
+    getFileList().then((res) => {
       setList(res.data);
     });
   }, []);
@@ -64,16 +74,22 @@ function App() {
 
   useEffect(() => {
     if (fileName === '') return;
-    axios.get(`/api/file/${fileName}`).then((res) => {
+    getFileContent(fileName).then((res) => {
       setContent(md.render(res.data));
     });
   }, [fileName]);
 
   const clickFile = (fileName: string) => {
     setFileName(fileName);
-    axios.post('/api/save-config', {
-      lastActiveFile: fileName,
-    });
+    saveUserConfig({ lastActiveFile: fileName });
+  };
+
+  const saveLeftWidth = (width: number) => {
+    saveUserConfig({ leftWidth: width });
+  };
+
+  const saveUserConfig = (data: any) => {
+    postUserConfig(data);
   };
 
   return (
@@ -84,6 +100,7 @@ function App() {
         clickFile={clickFile}
         activeFile={fileName}
         setLeftWidth={setLeftWidth}
+        saveLeftWidth={saveLeftWidth}
       />
 
       <Content
