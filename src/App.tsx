@@ -2,7 +2,6 @@ import { CSSProperties, useEffect, useState } from 'react';
 import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
-import { API_PREFIX } from './configs';
 import taskLists from 'markdown-it-task-lists';
 import FileList from './components/file-list';
 
@@ -44,7 +43,7 @@ function App() {
   const [leftWidth, setLeftWidth] = useState(200);
 
   useEffect(() => {
-    axios.get(`${API_PREFIX}/user-config`).then((res) => {
+    axios.get('/api/user-config').then((res) => {
       setUserConfig({
         ...userConfig,
         ...res.data,
@@ -53,7 +52,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    axios.get(`${API_PREFIX}/list`).then((res) => {
+    axios.get('/api/list').then((res) => {
       setList(res.data);
     });
   }, []);
@@ -65,14 +64,14 @@ function App() {
 
   useEffect(() => {
     if (fileName === '') return;
-    axios.get(`${API_PREFIX}/file/${fileName}`).then((res) => {
+    axios.get(`/api/file/${fileName}`).then((res) => {
       setContent(md.render(res.data));
     });
   }, [fileName]);
 
   const clickFile = (fileName: string) => {
     setFileName(fileName);
-    axios.post(`${API_PREFIX}/save-config`, {
+    axios.post('/api/save-config', {
       lastActiveFile: fileName,
     });
   };
@@ -93,7 +92,7 @@ function App() {
         {fileName && (
           <Button
             onClick={() => {
-              axios.post(`${API_PREFIX}/run?file=` + fileName);
+              axios.post(`/api/run?file=${fileName}`);
             }}
           >
             在 Typora 中打开
