@@ -1,0 +1,15 @@
+pre {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+blockquote {
+  border-left: 4px solid #ccc;
+  margin-left: 0;
+  padding: 5px 0 5px 20px;
+}
+
+img {
+  width: 100%;
+}

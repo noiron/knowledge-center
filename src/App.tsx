@@ -32,6 +32,7 @@ const Button = styled.div`
   padding: 10px;
   border: 1px solid #eee;
   display: inline-block;
+  background: #fff;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
