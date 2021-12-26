@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import values from 'lodash/values';
 import TreeNode from './tree-node';
 
@@ -52,10 +52,16 @@ const data: {
 
 interface IProps {
   onSelect: (path: string) => void;
+  list: { [key: string]: INode };
 }
 
 const Tree = (props: IProps) => {
-  const [nodes, setNodes] = useState(data);
+  const [nodes, setNodes] = useState<{ [key: string]: INode }>({});
+  console.log('nodes: ', nodes);
+
+  useEffect(() => {
+    setNodes(props.list);
+  }, [props.list]);
 
   const getRootNodes = () => {
     return values(nodes).filter((node) => node.isRoot === true);
@@ -67,6 +73,7 @@ const Tree = (props: IProps) => {
   };
 
   const onToggle = (node: INode) => {
+    console.log('node: ', node);
     nodes[node.path].isOpen = !node.isOpen;
     setNodes({ ...nodes });
   };
@@ -77,6 +84,9 @@ const Tree = (props: IProps) => {
   };
 
   const rootNodes = getRootNodes();
+  if (rootNodes[0]) {
+    rootNodes[0].isOpen = true;
+  }
 
   return (
     <div>
@@ -86,6 +96,7 @@ const Tree = (props: IProps) => {
           getChildNodes={getChildNodes}
           onToggle={onToggle}
           onNodeSelect={onNodeSelect}
+          key={node.path}
         />
       ))}
     </div>

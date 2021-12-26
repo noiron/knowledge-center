@@ -6,6 +6,7 @@ const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 const { exec } = require('child_process');
+const utils = require('./utils');
 
 const app = new Koa();
 app.use(cors());
@@ -25,12 +26,30 @@ router
 app.use(router.routes());
 
 async function getMarkdownList(ctx) {
-  let fileList = fs.readdirSync(filePath);
-  fileList = fileList.filter((file) => {
-    const extname = path.extname(file).toLowerCase();
-    return extname === '.md' || extname === '.markdown';
-  });
-  ctx.body = fileList;
+  // let fileList = fs.readdirSync(filePath);
+  // fileList = fileList.filter((file) => {
+  //   const extname = path.extname(file).toLowerCase();
+  //   return extname === '.md' || extname === '.markdown';
+  // });
+  // ctx.body = fileList;
+
+  const root = {
+    path: './mds',
+    type: 'folder',
+    children: [],
+    isRoot: true,
+  };
+
+  const myList = {
+    './mds': root,
+  };
+  const list = utils.myWalk(
+    path.resolve(__dirname, '../mds'),
+    './',
+    myList,
+    root
+  );
+  ctx.body = list;
 }
 
 async function getMarkdownFile(ctx) {

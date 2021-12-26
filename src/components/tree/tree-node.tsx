@@ -57,7 +57,12 @@ const TreeNode = (props: any) => {
 
       {node.isOpen &&
         getChildNodes(node).map((childNode: INode) => (
-          <TreeNode {...props} node={childNode} level={level + 1} />
+          <TreeNode
+            {...props}
+            node={childNode}
+            level={level + 1}
+            key={childNode.path}
+          />
         ))}
     </>
   );
