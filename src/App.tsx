@@ -1,4 +1,5 @@
 import { CSSProperties, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
@@ -48,6 +49,7 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserConfig().then((res) => {
@@ -87,7 +89,7 @@ function App() {
     const arr = filePath.trim().split('/');
     arr.pop();
     const prefix = arr.join('/');
-    history.pushState(null, prefix, prefix + '/');
+    navigate(prefix + '/');
   };
 
   const saveLeftWidth = (width: number) => {
