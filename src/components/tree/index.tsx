@@ -53,6 +53,8 @@ const data: {
 interface IProps {
   onSelect: (path: string) => void;
   list: { [key: string]: INode };
+  /** 当前选中的文件 */
+  activeFile: string;
 }
 
 const Tree = (props: IProps) => {
@@ -90,15 +92,18 @@ const Tree = (props: IProps) => {
 
   return (
     <div>
-      {rootNodes.map((node) => (
-        <TreeNode
-          node={node}
-          getChildNodes={getChildNodes}
-          onToggle={onToggle}
-          onNodeSelect={onNodeSelect}
-          key={node.path}
-        />
-      ))}
+      {rootNodes.map((node) => {
+        return (
+          <TreeNode
+            node={node}
+            getChildNodes={getChildNodes}
+            onToggle={onToggle}
+            onNodeSelect={onNodeSelect}
+            key={node.path}
+            activeFile={props.activeFile}
+          />
+        );
+      })}
     </div>
   );
 };

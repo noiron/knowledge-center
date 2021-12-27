@@ -75,7 +75,7 @@ const FileList = (props: FileListProps) => {
         })}
       </div> */}
 
-      <Tree onSelect={clickFile} list={list} />
+      <Tree onSelect={clickFile} list={list} activeFile={activeFile} />
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
     </StyledFileList>

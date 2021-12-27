@@ -21,8 +21,13 @@ const StyledTreeNode = styled.div<{ level: number; type: NodeType }>`
   align-items: center;
   padding: 5px 8px;
   padding-left: ${(props) => getPaddingLeft(props.level, props.type)}px;
+  cursor: pointer;
   &:hover {
-    background: lightgray;
+    background: #fafafa;
+  }
+  &.active {
+    border-left: 2px solid #000;
+    background: #eee;
   }
 `;
 
@@ -33,26 +38,45 @@ const NodeIcon = styled.div<{ marginRight?: number }>`
 
 const getNodeLabel = (node: INode) => last(node.path.split('/'));
 
-const TreeNode = (props: any) => {
-  const { node, getChildNodes, level, onToggle, onNodeSelect } = props;
+interface TreeNodeProps {
+  node: INode;
+  level: number;
+  activeFile: string;
+  getChildNodes: (node: INode) => INode[];
+  onToggle: (node: INode) => void;
+  onNodeSelect: (node: INode) => void;
+}
+
+const TreeNode = (props: TreeNodeProps) => {
+  const { node, getChildNodes, level, onToggle, onNodeSelect, activeFile } =
+    props;
 
   return (
     <>
-      <StyledTreeNode level={level} type={node.type}>
-        <NodeIcon onClick={() => onToggle(node)}>
+      <StyledTreeNode
+        level={level}
+        type={node.type}
+        onClick={() => {
+          if (node.type === 'file') {
+            onNodeSelect(node);
+          } else {
+            onToggle(node);
+          }
+        }}
+        className={activeFile === node.path ? 'active' : ''}
+      >
+        <NodeIcon>
           {node.type === 'folder' &&
             (node.isOpen ? <FaChevronDown /> : <FaChevronRight />)}
         </NodeIcon>
 
         <NodeIcon marginRight={10}>
           {node.type === 'file' && <FaFile />}
-          {node.type === 'folder' && node.isOpen === true && <FaFolderOpen />}
-          {node.type === 'folder' && !node.isOpen && <FaFolder />}
+          {node.type === 'folder' &&
+            (node.isOpen ? <FaFolderOpen /> : <FaFolder />)}
         </NodeIcon>
 
-        <span role="button" onClick={() => onNodeSelect(node)}>
-          {getNodeLabel(node)}
-        </span>
+        <span role="button">{getNodeLabel(node)}</span>
       </StyledTreeNode>
 
       {node.isOpen &&
