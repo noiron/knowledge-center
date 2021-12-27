@@ -4,6 +4,7 @@ import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
+import hljs from 'highlight.js';
 import FileList from './components/file-list';
 import {
   getFileContent,
@@ -14,6 +15,15 @@ import {
 
 const md = new MarkdownIt({
   breaks: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) {}
+    }
+
+    return ''; // 使用额外的默认转义
+  }
 });
 md.use(taskLists);
 
