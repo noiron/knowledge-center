@@ -10,7 +10,7 @@ import last from 'lodash/last';
 import { INode, NodeType } from '.';
 
 const getPaddingLeft = (level: number, type: NodeType) => {
-  let paddingLeft = level * 10;
+  let paddingLeft = level * 10 + 8;
   if (type === 'file') paddingLeft += 10;
   return paddingLeft;
 };

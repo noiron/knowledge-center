@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import { ACTIVITY_BAR_WIDTH } from "../../configs";
+import styled from 'styled-components';
+import { ACTIVITY_BAR_WIDTH } from '../../configs';
+import { FaFile, FaTags, FaSearch, FaCog } from 'react-icons/fa';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -9,10 +10,34 @@ const StyledBar = styled.div`
   height: 100vh;
   border: 1px solid #eee;
   background: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  svg {
+    font-size: 25px;
+    margin: 0.5em 0;
+    color: #666;
+  }
+
+  .end {
+    margin-top: auto;
+    margin-bottom: 15px;
+  }
 `;
 
 const ActivityBar = () => {
-  return <StyledBar />;
-}
+  return (
+    <StyledBar>
+      <FaFile />
+      <FaTags />
+      <FaSearch />
+
+      <div className="end">
+        <FaCog />
+      </div>
+    </StyledBar>
+  );
+};
 
 export default ActivityBar;
