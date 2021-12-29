@@ -1,7 +1,7 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../configs';
-import Tree from './tree';
+import Tree, { INode } from './tree';
 
 const BORDER_WIDTH = 4;
 
@@ -32,7 +32,7 @@ const StyledFileItem = styled.div<{ isActive: boolean }>`
 
 interface FileListProps {
   width: number;
-  list: string[];
+  list: { [key: string]: INode };
   /** 当前选中的文件名称 */
   activeFile: string;
   clickFile: (fileName: string) => void;

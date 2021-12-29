@@ -1,6 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
+import { INode } from './components/tree';
 
-export function getFileList(): AxiosPromise<string[]> {
+export function getFileList(): AxiosPromise<{ [key: string]: INode }> {
   return axios.get('/api/list');
 }
 

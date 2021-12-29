@@ -14,6 +14,7 @@ import {
 } from './api';
 import ActivityBar from './components/activity-bar';
 import { ACTIVITY_BAR_WIDTH } from './configs';
+import { INode } from './components/tree';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -56,7 +57,7 @@ const Button = styled.div`
 `;
 
 function App() {
-  const [list, setList] = useState<string[]>([]);
+  const [list, setList] = useState<{ [key: string]: INode }>({});
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
@@ -83,7 +84,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (list.length === 0) return;
+    if (Object.keys(list).length === 0) return;
     setFileName(userConfig.lastActiveFile || list[0]);
   }, [list, userConfig.lastActiveFile]);
 
