@@ -12,6 +12,8 @@ import {
   getUserConfig,
   postUserConfig,
 } from './api';
+import ActivityBar from './components/activity-bar';
+import { ACTIVITY_BAR_WIDTH } from './configs';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -23,7 +25,7 @@ const md = new MarkdownIt({
     }
 
     return ''; // 使用额外的默认转义
-  }
+  },
 });
 md.use(taskLists);
 
@@ -112,6 +114,8 @@ function App() {
 
   return (
     <Box>
+      <ActivityBar />
+
       <FileList
         width={leftWidth}
         list={list}
@@ -122,7 +126,11 @@ function App() {
       />
 
       <Content
-        style={{ '--margin-left': leftWidth + 20 + 'px' } as CSSProperties}
+        style={
+          {
+            '--margin-left': leftWidth + 20 + ACTIVITY_BAR_WIDTH + 'px',
+          } as CSSProperties
+        }
       >
         {fileName && (
           <Button

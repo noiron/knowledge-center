@@ -1,5 +1,6 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
+import { ACTIVITY_BAR_WIDTH } from '../configs';
 import Tree from './tree';
 
 const BORDER_WIDTH = 4;
@@ -7,7 +8,7 @@ const BORDER_WIDTH = 4;
 const StyledFileList = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  left: ${ACTIVITY_BAR_WIDTH}px;
   border-right: 1px solid #eee;
   width: var(--width);
   height: 100%;
@@ -46,21 +47,24 @@ const FileList = (props: FileListProps) => {
   // https://stackoverflow.com/a/62437093
   const handler = useCallback(() => {
     function onMouseMove(e: any) {
-      props.setLeftWidth(e.clientX);
+      props.setLeftWidth(e.clientX - ref.current.offsetLeft);
     }
     function onMouseUp(e: any) {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
       // 因为 handler 使用了 useCallback 包装，所以直接保存上层传入的 width 值会是一个固
       // 定值，需要手动传入要保存的值
-      props.saveLeftWidth(e.clientX);
+      props.saveLeftWidth(e.clientX - ref.current.offsetLeft);
     }
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }, []);
 
   return (
-    <StyledFileList style={{ '--width': width + 'px' } as CSSProperties}>
+    <StyledFileList
+      style={{ '--width': width + 'px' } as CSSProperties}
+      ref={ref}
+    >
       {/* <div>
         {list.map((fileName) => {
           return (
