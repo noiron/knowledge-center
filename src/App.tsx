@@ -15,6 +15,7 @@ import {
 import ActivityBar from './components/activity-bar';
 import { ACTIVITY_BAR_WIDTH } from './configs';
 import { INode } from './components/tree';
+import { ModeType } from './types';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -58,6 +59,7 @@ const Button = styled.div`
 
 function App() {
   const [list, setList] = useState<{ [key: string]: INode }>({});
+  const [mode, setMode] = useState<ModeType>('file');
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
@@ -113,9 +115,13 @@ function App() {
     postUserConfig(data);
   };
 
+  const changeMode = (mode: ModeType) => {
+    setMode(mode);
+  };
+
   return (
     <Box>
-      <ActivityBar />
+      <ActivityBar changeMode={changeMode} />
 
       <FileList
         width={leftWidth}
@@ -124,6 +130,7 @@ function App() {
         activeFile={fileName}
         setLeftWidth={setLeftWidth}
         saveLeftWidth={saveLeftWidth}
+        mode={mode}
       />
 
       <Content

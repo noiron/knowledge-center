@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../../configs';
 import { FaFile, FaTags, FaSearch, FaCog } from 'react-icons/fa';
+import { ModeType } from '../../types';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -18,6 +19,7 @@ const StyledBar = styled.div`
     font-size: 25px;
     margin: 0.5em 0;
     color: #666;
+    cursor: pointer;
   }
 
   .end {
@@ -26,11 +28,17 @@ const StyledBar = styled.div`
   }
 `;
 
-const ActivityBar = () => {
+interface BarProps {
+  changeMode: (mode: ModeType) => void;
+}
+
+const ActivityBar = (props: BarProps) => {
+  const { changeMode } = props;
+
   return (
     <StyledBar>
-      <FaFile />
-      <FaTags />
+      <FaFile onClick={() => changeMode('file')} />
+      <FaTags onClick={() => changeMode('tag')} />
       <FaSearch />
 
       <div className="end">
