@@ -64,6 +64,7 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
+  const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -119,6 +120,13 @@ function App() {
     setMode(mode);
   };
 
+  useEffect(() => {
+    axios.get('/api/tags').then((res) => {
+      console.log('获取到的标签如下：', res.data.data);
+      setTags(res.data.data);
+    });
+  }, []);
+
   return (
     <Box>
       <ActivityBar changeMode={changeMode} />
@@ -131,6 +139,7 @@ function App() {
         setLeftWidth={setLeftWidth}
         saveLeftWidth={saveLeftWidth}
         mode={mode}
+        tags={tags}
       />
 
       <Content

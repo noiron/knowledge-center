@@ -2,6 +2,7 @@ import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../configs';
 import { ModeType } from '../types';
+import Tag from './tag';
 import Tree, { INode } from './tree';
 
 const BORDER_WIDTH = 4;
@@ -40,6 +41,7 @@ interface FileListProps {
   setLeftWidth: (width: number) => void;
   saveLeftWidth: (width: number) => void;
   mode: ModeType;
+  tags: string[];
 }
 
 const FileList = (props: FileListProps) => {
@@ -85,7 +87,21 @@ const FileList = (props: FileListProps) => {
         <Tree onSelect={clickFile} list={list} activeFile={activeFile} />
       )}
 
-      {mode === 'tag' && <div>这里展示所有文件中出现的标签</div>}
+      {mode === 'tag' && (
+        <div>
+          {props.tags.map((tag) => {
+            return (
+              <p
+                style={{
+                  padding: '0px 20px',
+                }}
+              >
+                <Tag text={tag} />
+              </p>
+            );
+          })}
+        </div>
+      )}
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
     </StyledFileList>
