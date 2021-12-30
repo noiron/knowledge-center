@@ -20,6 +20,9 @@ const StyledBar = styled.div`
     margin: 0.5em 0;
     color: #666;
     cursor: pointer;
+    &.active {
+      color: red;
+    }
   }
 
   .end {
@@ -29,16 +32,23 @@ const StyledBar = styled.div`
 `;
 
 interface BarProps {
+  currentMode: ModeType;
   changeMode: (mode: ModeType) => void;
 }
 
 const ActivityBar = (props: BarProps) => {
-  const { changeMode } = props;
+  const { changeMode, currentMode } = props;
 
   return (
     <StyledBar>
-      <FaFile onClick={() => changeMode('file')} />
-      <FaTags onClick={() => changeMode('tag')} />
+      <FaFile
+        onClick={() => changeMode('file')}
+        className={currentMode === 'file' ? 'active' : ''}
+      />
+      <FaTags
+        onClick={() => changeMode('tag')}
+        className={currentMode === 'tag' ? 'active' : ''}
+      />
       <FaSearch />
 
       <div className="end">

@@ -129,7 +129,7 @@ function App() {
 
   return (
     <Box>
-      <ActivityBar changeMode={changeMode} />
+      <ActivityBar changeMode={changeMode} currentMode={mode} />
 
       <FileList
         width={leftWidth}
