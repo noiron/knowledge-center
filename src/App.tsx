@@ -92,6 +92,10 @@ function App() {
   }, [list, userConfig.lastActiveFile]);
 
   useEffect(() => {
+    setMode(userConfig.mode || 'file');
+  }, [userConfig.mode]);
+
+  useEffect(() => {
     if (fileName === '') return;
     getFileContent(fileName).then((res) => {
       setContent(md.render(res.data));
@@ -118,6 +122,7 @@ function App() {
 
   const changeMode = (mode: ModeType) => {
     setMode(mode);
+    saveUserConfig({ mode });
   };
 
   useEffect(() => {
