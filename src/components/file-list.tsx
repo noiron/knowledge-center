@@ -91,13 +91,15 @@ const FileList = (props: FileListProps) => {
         <div>
           {props.tags.map((tag) => {
             return (
-              <p
+              <div
                 style={{
                   padding: '0px 20px',
+                  margin: '10px 0',
                 }}
+                key={tag}
               >
                 <Tag text={tag} />
-              </p>
+              </div>
             );
           })}
         </div>
