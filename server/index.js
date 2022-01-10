@@ -12,13 +12,12 @@ const {
   runCommand,
   getUserConfig,
   saveUserConfig,
+  filePath,
 } = require('./services');
 
 const app = new Koa();
 app.use(cors());
 app.use(bodyParser());
-const filePath = path.resolve(__dirname, '../mds');
-
 app.use(serve(filePath));
 
 router

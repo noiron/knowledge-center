@@ -3,6 +3,11 @@ const path = require('path');
 const utils = require('./utils');
 const { exec } = require('child_process');
 
+const filePath = path.resolve(__dirname, '../mds');
+
+/**
+ * 获取一个 markdown 文件的内容
+ */
 async function getMarkdownFile(ctx) {
   const fileName = ctx.params[0];
   const myMarkdown = fs.readFileSync(
@@ -12,6 +17,9 @@ async function getMarkdownFile(ctx) {
   ctx.body = myMarkdown;
 }
 
+/**
+ * 读取目录下的文件，使用基本的链接形式展示为列表
+ */
 async function renderList(ctx) {
   const fileList = fs.readdirSync(filePath);
   const links = fileList
@@ -28,12 +36,18 @@ async function renderList(ctx) {
   ctx.type = 'html';
 }
 
+/**
+ * 运行一个 shell 命令
+ */
 async function runCommand(ctx) {
   const query = ctx.request.query;
   const { file } = query;
   exec('open -a typora ' + path.resolve(__dirname, '../mds', file));
 }
 
+/**
+ * 获取目录下所有的 markdown 文件，以树形结构返回
+ */
 async function getMarkdownList(ctx) {
   const root = {
     path: './mds',
@@ -78,4 +92,5 @@ module.exports = {
   runCommand,
   getUserConfig,
   saveUserConfig,
+  filePath,
 };
