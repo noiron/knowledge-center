@@ -64,8 +64,12 @@ async function getMarkdownList(ctx) {
   const myList = {
     './mds': root,
   };
-  // TODO: 函数参数改为对象格式
-  const list = utils.myWalk(filePath, './', myList, root);
+  const list = utils.myWalk({
+    basePath: filePath,
+    filePath: './',
+    myList: myList,
+    parent: root,
+  });
   ctx.body = list;
 }
 
