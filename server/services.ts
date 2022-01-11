@@ -1,14 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const utils = require('./utils');
-const { exec } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import * as utils from './utils';
+import { exec } from 'child_process';
 
-const filePath = path.resolve(__dirname, '../mds');
+export const filePath = path.resolve(__dirname, '../mds');
 
 /**
  * 获取一个 markdown 文件的内容
  */
-async function getMarkdownFile(ctx) {
+export async function getMarkdownFile(ctx) {
   const fileName = ctx.params[0];
   const myMarkdown = fs.readFileSync(
     path.resolve(filePath, `${fileName}`),
@@ -20,7 +20,7 @@ async function getMarkdownFile(ctx) {
 /**
  * 读取目录下的文件，使用基本的链接形式展示为列表
  */
-async function renderList(ctx) {
+export async function renderList(ctx) {
   const fileList = fs.readdirSync(filePath);
   const links = fileList
     .map((file) => {
@@ -39,7 +39,7 @@ async function renderList(ctx) {
 /**
  * 运行一个 shell 命令
  */
-async function runCommand(ctx) {
+export async function runCommand(ctx) {
   const query = ctx.request.query;
   const { file } = query;
   exec('open -a typora ' + path.resolve(filePath, file));
@@ -52,7 +52,7 @@ async function runCommand(ctx) {
 /**
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */
-async function getMarkdownList(ctx) {
+export async function getMarkdownList(ctx) {
   // TODO: mds 这个文件名从 filePath 中获取
   const root = {
     path: './mds',
@@ -73,14 +73,16 @@ async function getMarkdownList(ctx) {
   ctx.body = list;
 }
 
-async function getUserConfig(ctx) {
-  const config = require('./user-config.js');
+export async function getUserConfig(ctx) {
+  const config = await import('./user-config.js');
   ctx.body = config;
 }
 
-async function saveUserConfig(ctx) {
+export async function saveUserConfig(ctx) {
   const configPath = path.resolve(__dirname, './user-config.js');
   const config = ctx.request.body;
+  
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const originalConfig = require(configPath);
   const newConfig = Object.assign(originalConfig, config);
   const str = `module.exports = ${JSON.stringify(newConfig)}`;
@@ -92,7 +94,7 @@ async function saveUserConfig(ctx) {
 
 // TODO: 处理多级目录
 /** 读取给定目录下的 markdown 文件，并查找带有 #tag 的内容 */
-async function getTags(ctx) {
+export async function getTags(ctx) {
   // 先不考虑多级目录的情况
   let fileList = fs.readdirSync(filePath);
   fileList = fileList.filter((file) => {
@@ -116,14 +118,3 @@ async function getTags(ctx) {
     data: Array.from(tags),
   };
 }
-
-module.exports = {
-  getMarkdownList,
-  getMarkdownFile,
-  renderList,
-  runCommand,
-  getUserConfig,
-  saveUserConfig,
-  filePath,
-  getTags,
-};

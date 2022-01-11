@@ -5,7 +5,7 @@
     "dev": "vite --port 4000",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server:dev": "nodemon ./server/index.js"
+    "server:dev": "nodemon --exec 'ts-node' ./server/index.ts"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
@@ -22,9 +22,11 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "ts-node": "^10.4.0"
   },
   "devDependencies": {
+    "@types/koa": "^2.13.4",
     "@types/lodash": "^4.14.178",
     "@types/markdown-it": "^12.2.3",
     "@types/react": "^17.0.33",

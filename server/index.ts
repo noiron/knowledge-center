@@ -1,9 +1,9 @@
-const Koa = require('koa');
-const router = require('@koa/router')();
-const serve = require('koa-static');
-const bodyParser = require('koa-bodyparser');
-const cors = require('@koa/cors');
-const {
+import Koa from 'koa';
+import Router from '@koa/router';
+import serve from 'koa-static';
+import bodyParser from 'koa-bodyparser';
+import cors from '@koa/cors';
+import {
   renderList,
   getMarkdownList,
   getMarkdownFile,
@@ -12,8 +12,9 @@ const {
   saveUserConfig,
   getTags,
   filePath,
-} = require('./services');
+} from './services';
 
+const router = Router();
 const app = new Koa();
 app.use(cors());
 app.use(bodyParser());

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 // todo: 这里全部是用同步的方式，可考虑改为异步的
 /**
@@ -8,7 +8,7 @@ const path = require('path');
  * myList 是要保存的数据内容，以相对路径为 key
  * parent 是当前文件的父级文件夹，遍历时需要修改 parent 的 children 属性
  */
-const myWalk = ({ basePath, filePath, myList, parent }) => {
+export const myWalk = ({ basePath, filePath, myList, parent }) => {
   const files = fs.readdirSync(path.resolve(basePath, filePath));
   files.forEach((file) => {
     const absolutePath = path.resolve(basePath, filePath, file);
@@ -50,8 +50,4 @@ const myWalk = ({ basePath, filePath, myList, parent }) => {
   });
 
   return myList;
-};
-
-module.exports = {
-  myWalk,
 };
