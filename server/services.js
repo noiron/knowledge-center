@@ -11,7 +11,7 @@ const filePath = path.resolve(__dirname, '../mds');
 async function getMarkdownFile(ctx) {
   const fileName = ctx.params[0];
   const myMarkdown = fs.readFileSync(
-    path.resolve(__dirname, `../mds/${fileName}`),
+    path.resolve(filePath, `${fileName}`),
     'utf8'
   );
   ctx.body = myMarkdown;
@@ -42,13 +42,18 @@ async function renderList(ctx) {
 async function runCommand(ctx) {
   const query = ctx.request.query;
   const { file } = query;
-  exec('open -a typora ' + path.resolve(__dirname, '../mds', file));
+  exec('open -a typora ' + path.resolve(filePath, file));
+  ctx.body = {
+    code: 0,
+    message: 'success',
+  };
 }
 
 /**
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */
 async function getMarkdownList(ctx) {
+  // TODO: mds 这个文件名从 filePath 中获取
   const root = {
     path: './mds',
     type: 'folder',
@@ -59,12 +64,8 @@ async function getMarkdownList(ctx) {
   const myList = {
     './mds': root,
   };
-  const list = utils.myWalk(
-    path.resolve(__dirname, '../mds'),
-    './',
-    myList,
-    root
-  );
+  // TODO: 函数参数改为对象格式
+  const list = utils.myWalk(filePath, './', myList, root);
   ctx.body = list;
 }
 
@@ -97,10 +98,7 @@ async function getTags(ctx) {
 
   const tags = new Set();
   fileList.forEach((file) => {
-    const content = fs.readFileSync(
-      path.resolve(__dirname, '../mds', file),
-      'utf8'
-    );
+    const content = fs.readFileSync(path.resolve(filePath, file), 'utf8');
     const tag = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
     if (tag) {
       tag.forEach((t) => {
