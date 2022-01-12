@@ -2,8 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import * as utils from './utils';
 import { exec } from 'child_process';
+import { homedir } from 'os';
 
-export const filePath = path.resolve(__dirname, '../mds');
+// export const filePath = path.resolve(__dirname, '../mds');
+export const filePath = path.resolve(
+  homedir(),
+  './Desktop/markdown-notes-sync'
+);
 
 /**
  * 获取一个 markdown 文件的内容
@@ -53,16 +58,16 @@ export async function runCommand(ctx) {
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */
 export async function getMarkdownList(ctx) {
-  // TODO: mds 这个文件名从 filePath 中获取
+  const baseNameOfFolder = path.basename(filePath);
   const root = {
-    path: './mds',
+    path: baseNameOfFolder,
     type: 'folder',
     children: [],
     isRoot: true,
   };
 
   const myList = {
-    './mds': root,
+    [baseNameOfFolder]: root,
   };
   const list = utils.myWalk({
     basePath: filePath,
@@ -81,7 +86,7 @@ export async function getUserConfig(ctx) {
 export async function saveUserConfig(ctx) {
   const configPath = path.resolve(__dirname, './user-config.js');
   const config = ctx.request.body;
-  
+
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const originalConfig = require(configPath);
   const newConfig = Object.assign(originalConfig, config);
