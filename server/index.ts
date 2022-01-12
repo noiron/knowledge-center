@@ -11,6 +11,7 @@ import {
   getUserConfig,
   saveUserConfig,
   getTags,
+  getTag,
   filePath,
 } from './services';
 
@@ -27,7 +28,8 @@ router
   .post('/run', runCommand)
   .get('/user-config', getUserConfig)
   .post('/save-config', saveUserConfig)
-  .get('/tags', getTags);
+  .get('/tags', getTags)
+  .get('/tag/(.*)', getTag);
 
 app.use(router.routes());
 app.listen(4001);

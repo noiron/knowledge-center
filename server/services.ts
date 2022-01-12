@@ -120,3 +120,26 @@ export async function getTags(ctx) {
     data: Array.from(tags),
   };
 }
+
+/**
+ * 获取含有指定 tag 的 markdown 文件列表
+ */
+export async function getTag(ctx) {
+  const searchTag = ctx.params[0];
+
+  const list: string[] = [];
+  let fileList = fs.readdirSync(filePath);
+  fileList = fileList.filter(utils.isMarkdownFile);
+  fileList.forEach((file) => {
+    const content = fs.readFileSync(path.resolve(filePath, file), 'utf8');
+    const tag = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
+    if (tag && searchTag === tag[0].slice(1)) {
+      list.push(file);
+    }
+  });
+
+  ctx.body = {
+    success: true,
+    data: list,
+  };
+}

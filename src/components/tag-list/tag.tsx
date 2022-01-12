@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import axios from 'axios';
 import { FaTags } from 'react-icons/fa';
 
 const StyledTag = styled.div`
@@ -15,20 +16,25 @@ const StyledTag = styled.div`
 
 interface TagProps {
   text: string;
+  onClick: (text: string) => void;
 }
 
 const Tag = (props: TagProps) => {
-
   let text = props.text;
   if (text[0] === '#') {
     text = text.slice(1);
   }
 
   return (
-    <StyledTag>
-      <FaTags></FaTags>{text}
+    <StyledTag
+      onClick={() => {
+        props.onClick(text);
+      }}
+    >
+      <FaTags></FaTags>
+      {text}
     </StyledTag>
   );
-}
+};
 
 export default Tag;

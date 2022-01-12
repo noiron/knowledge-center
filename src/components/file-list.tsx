@@ -2,7 +2,7 @@ import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../configs';
 import { ModeType } from '../types';
-import Tag from './tag';
+import TagList from './tag-list';
 import Tree, { INode } from './tree';
 
 const BORDER_WIDTH = 4;
@@ -27,10 +27,10 @@ const RightBorder = styled.div`
   cursor: col-resize;
 `;
 
-const StyledFileItem = styled.div<{ isActive: boolean }>`
-  padding: 10px;
-  background: ${(props) => (props.isActive ? '#eee' : null)};
-`;
+// const StyledFileItem = styled.div<{ isActive: boolean }>`
+//   padding: 10px;
+//   background: ${(props) => (props.isActive ? '#eee' : null)};
+// `;
 
 interface FileListProps {
   width: number;
@@ -89,19 +89,7 @@ const FileList = (props: FileListProps) => {
 
       {mode === 'tag' && (
         <div>
-          {props.tags.map((tag) => {
-            return (
-              <div
-                style={{
-                  padding: '0px 20px',
-                  margin: '10px 0',
-                }}
-                key={tag}
-              >
-                <Tag text={tag} />
-              </div>
-            );
-          })}
+          <TagList tags={props.tags} />
         </div>
       )}
 
