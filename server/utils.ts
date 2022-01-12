@@ -24,7 +24,7 @@ export const myWalk = ({ basePath, filePath, myList, parent }) => {
         parent.children.push(relativePath);
       }
     }
-    if (stats.isDirectory()) {
+    if (stats.isDirectory() && !isHiddenDir(file)) {
       // 文件夹保存的是绝对路径，而文件保存的相对路径
       const newParent = {
         path: relativePath,
@@ -56,3 +56,10 @@ export const isMarkdownFile = (filePath: string) => {
   const extname = path.extname(filePath).toLowerCase();
   return extname === '.md' || extname === '.markdown';
 };
+
+/**
+ * 判断一个文件夹是否为隐藏文件夹
+ */
+export const isHiddenDir = (dirName: string) => {
+  return dirName.startsWith('.');
+}
