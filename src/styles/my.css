@@ -22,3 +22,8 @@ p code {
   padding: 2px 5px;
   font-size: 0.9em;
 }
+
+h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
