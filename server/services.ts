@@ -59,21 +59,21 @@ export async function runCommand(ctx) {
  */
 export async function getMarkdownList(ctx) {
   const baseNameOfFolder = path.basename(filePath);
-  const root = {
+  const rootNode = {
     path: baseNameOfFolder,
     type: 'folder',
     children: [],
     isRoot: true,
   };
 
-  const myList = {
-    [baseNameOfFolder]: root,
+  const nodes = {
+    [baseNameOfFolder]: rootNode,
   };
-  const list = utils.myWalk({
-    basePath: filePath,
-    filePath: './',
-    myList: myList,
-    parent: root,
+  const list = utils.walkFolder({
+    rootPath: filePath,
+    folderRelativePath: './',
+    nodes,
+    parentNode: rootNode,
   });
   ctx.body = list;
 }

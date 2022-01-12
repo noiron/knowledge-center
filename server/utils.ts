@@ -2,27 +2,34 @@ import fs from 'fs';
 import path from 'path';
 
 // todo: 这里全部是用同步的方式，可考虑改为异步的
-/**
- * basePath 指的是这个文件夹的根目录
- * filePath 指的是当前文件的相对于根目录的相对路径
- * myList 是要保存的数据内容，以相对路径为 key
- * parent 是当前文件的父级文件夹，遍历时需要修改 parent 的 children 属性
- */
-export const myWalk = ({ basePath, filePath, myList, parent }) => {
-  const files = fs.readdirSync(path.resolve(basePath, filePath));
+export const walkFolder = ({
+  rootPath,
+  folderRelativePath,
+  nodes,
+  parentNode,
+}: {
+  /** 这个文件夹的根目录 */
+  rootPath: string;
+  /** 正在遍历的这个文件夹相对于根目录的相对路径 */
+  folderRelativePath: string;
+  /** 要保存的数据内容，以相对路径为 key */
+  nodes: any;
+  /** 当前文件的父级文件夹，遍历时需要修改 parent 的 children 属性 */
+  parentNode: any;
+}) => {
+  const files = fs.readdirSync(path.resolve(rootPath, folderRelativePath));
+
   files.forEach((file) => {
-    const absolutePath = path.resolve(basePath, filePath, file);
-    const relativePath = path.relative(basePath, absolutePath);
+    const absolutePath = path.resolve(rootPath, folderRelativePath, file);
+    const relativePath = path.relative(rootPath, absolutePath);
     const stats = fs.statSync(absolutePath);
 
     if (stats.isFile() && isMarkdownFile(absolutePath)) {
-      myList[relativePath] = {
+      nodes[relativePath] = {
         path: relativePath,
         type: 'file',
       };
-      if (parent.children) {
-        parent.children.push(relativePath);
-      }
+      parentNode.children.push(relativePath);
     }
     if (stats.isDirectory() && !isHiddenDir(file)) {
       // 文件夹保存的是绝对路径，而文件保存的相对路径
@@ -32,21 +39,18 @@ export const myWalk = ({ basePath, filePath, myList, parent }) => {
         children: [],
       };
 
-      myWalk({
-        basePath,
-        filePath: relativePath,
-        myList,
-        parent: newParent,
+      walkFolder({
+        rootPath,
+        folderRelativePath: relativePath,
+        nodes,
+        parentNode: newParent,
       });
-      myList[relativePath] = newParent;
-
-      if (parent.children) {
-        parent.children.push(relativePath);
-      }
+      nodes[relativePath] = newParent;
+      parentNode.children.push(relativePath);
     }
   });
 
-  return myList;
+  return nodes;
 };
 
 /**
@@ -62,4 +66,4 @@ export const isMarkdownFile = (filePath: string) => {
  */
 export const isHiddenDir = (dirName: string) => {
   return dirName.startsWith('.');
-}
+};
