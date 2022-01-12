@@ -18,10 +18,10 @@ const StyledBar = styled.div`
   svg {
     font-size: 25px;
     margin: 0.5em 0;
-    color: #666;
+    color: #999;
     cursor: pointer;
     &.active {
-      color: red;
+      color: #333;
     }
   }
 

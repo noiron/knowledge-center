@@ -97,10 +97,7 @@ export async function saveUserConfig(ctx) {
 export async function getTags(ctx) {
   // 先不考虑多级目录的情况
   let fileList = fs.readdirSync(filePath);
-  fileList = fileList.filter((file) => {
-    const extname = path.extname(file).toLowerCase();
-    return extname === '.md' || extname === '.markdown';
-  });
+  fileList = fileList.filter(utils.isMarkdownFile);
 
   const tags = new Set();
   fileList.forEach((file) => {

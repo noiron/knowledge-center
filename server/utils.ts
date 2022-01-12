@@ -14,17 +14,14 @@ export const myWalk = ({ basePath, filePath, myList, parent }) => {
     const absolutePath = path.resolve(basePath, filePath, file);
     const relativePath = path.relative(basePath, absolutePath);
     const stats = fs.statSync(absolutePath);
-    const extname = path.extname(file).toLowerCase();
 
-    if (stats.isFile()) {
-      if (extname === '.md' || extname === '.markdown') {
-        myList[relativePath] = {
-          path: relativePath,
-          type: 'file',
-        };
-        if (parent.children) {
-          parent.children.push(relativePath);
-        }
+    if (stats.isFile() && isMarkdownFile(absolutePath)) {
+      myList[relativePath] = {
+        path: relativePath,
+        type: 'file',
+      };
+      if (parent.children) {
+        parent.children.push(relativePath);
       }
     }
     if (stats.isDirectory()) {
@@ -50,4 +47,12 @@ export const myWalk = ({ basePath, filePath, myList, parent }) => {
   });
 
   return myList;
+};
+
+/**
+ * 判断一个文件是否为 markdown 文件
+ */
+export const isMarkdownFile = (filePath: string) => {
+  const extname = path.extname(filePath).toLowerCase();
+  return extname === '.md' || extname === '.markdown';
 };
