@@ -128,7 +128,7 @@ function App() {
   useEffect(() => {
     axios.get('/api/tags').then((res) => {
       console.log('获取到的标签如下：', res.data.data);
-      setTags(res.data.data);
+      setTags(res.data.data.map((_) => _.slice(1)));
     });
   }, []);
 

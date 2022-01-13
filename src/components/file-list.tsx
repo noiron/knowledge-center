@@ -27,11 +27,6 @@ const RightBorder = styled.div`
   cursor: col-resize;
 `;
 
-// const StyledFileItem = styled.div<{ isActive: boolean }>`
-//   padding: 10px;
-//   background: ${(props) => (props.isActive ? '#eee' : null)};
-// `;
-
 interface FileListProps {
   width: number;
   list: { [key: string]: INode };
@@ -89,7 +84,7 @@ const FileList = (props: FileListProps) => {
 
       {mode === 'tag' && (
         <div>
-          <TagList tags={props.tags} />
+          <TagList tags={props.tags} clickFile={clickFile} />
         </div>
       )}
 
