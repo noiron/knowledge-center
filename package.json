@@ -5,7 +5,8 @@
     "dev": "vite --port 4000",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server:dev": "nodemon --exec 'ts-node' ./server/index.ts"
+    "server:dev": "nodemon --exec 'ts-node' ./server/index.ts",
+    "cloc": "cloc src server --not-match-f=bear.css"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
