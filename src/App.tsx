@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MarkdownIt from 'markdown-it';
@@ -13,7 +13,7 @@ import {
   postUserConfig,
 } from './api';
 import ActivityBar from './components/activity-bar';
-import { ACTIVITY_BAR_WIDTH } from './configs';
+import Content from './components/content';
 import { INode } from './components/tree';
 import { ModeType } from './types';
 
@@ -34,27 +34,6 @@ md.use(taskLists);
 const Box = styled.div`
   height: 100vh;
   position: relative;
-`;
-
-const Content = styled.div`
-  margin-left: var(--margin-left);
-  max-height: 100vh;
-  padding: 10px 20px;
-  overflow-y: auto;
-`;
-
-const Button = styled.div`
-  padding: 10px;
-  border: 1px solid #eee;
-  display: inline-block;
-  background: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
 `;
 
 function App() {
@@ -147,32 +126,7 @@ function App() {
         tags={tags}
       />
 
-      <Content
-        style={
-          {
-            '--margin-left': leftWidth + 20 + ACTIVITY_BAR_WIDTH + 'px',
-          } as CSSProperties
-        }
-      >
-        {fileName && (
-          <Button
-            onClick={() => {
-              axios.post(`/api/run?file=${fileName}`);
-            }}
-          >
-            在 Typora 中打开
-          </Button>
-        )}
-        {content ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: content as string,
-            }}
-          ></div>
-        ) : (
-          <p>这里没有内容</p>
-        )}
-      </Content>
+      <Content content={content} fileName={fileName} leftWidth={leftWidth} />
     </Box>
   );
 }
