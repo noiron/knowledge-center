@@ -1,21 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js';
 import FileList from './components/file-list';
-import {
-  getFileContent,
-  getFileList,
-  getUserConfig,
-  postUserConfig,
-} from './api';
+import { getFileContent, getUserConfig, postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
 import Content from './components/content';
-import { INode } from './components/tree';
 import { ModeType } from './types';
+import { useFileList, useTags } from './hooks';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -23,7 +18,9 @@ const md = new MarkdownIt({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value;
-      } catch (__) {}
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     return ''; // 使用额外的默认转义
@@ -37,13 +34,13 @@ const Box = styled.div`
 `;
 
 function App() {
-  const [list, setList] = useState<{ [key: string]: INode }>({});
+  const list = useFileList();
+  const tags = useTags();
   const [mode, setMode] = useState<ModeType>('file');
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
-  const [tags, setTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,12 +53,6 @@ function App() {
       if (res.data.leftWidth) {
         setLeftWidth(res.data.leftWidth);
       }
-    });
-  }, []);
-
-  useEffect(() => {
-    getFileList().then((res) => {
-      setList(res.data);
     });
   }, []);
 
@@ -95,7 +86,7 @@ function App() {
     saveUserConfig({ leftWidth: width });
   };
 
-  const saveUserConfig = (data: any) => {
+  const saveUserConfig = (data: Partial<UserConfig>) => {
     postUserConfig(data);
   };
 
@@ -103,13 +94,6 @@ function App() {
     setMode(mode);
     saveUserConfig({ mode });
   };
-
-  useEffect(() => {
-    axios.get('/api/tags').then((res) => {
-      console.log('获取到的标签如下：', res.data.data);
-      setTags(res.data.data.map((_) => _.slice(1)));
-    });
-  }, []);
 
   return (
     <Box>

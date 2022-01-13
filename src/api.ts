@@ -9,15 +9,23 @@ export function getFileContent(fileName: string): AxiosPromise<string> {
   return axios.get(`/api/file/${fileName}`);
 }
 
-interface UserConfig {
+export interface UserConfig {
   lastActiveFile: string;
   leftWidth: number;
+  mode: string;
 }
 
 export function getUserConfig(): AxiosPromise<UserConfig> {
   return axios.get('/api/user-config');
 }
 
-export function postUserConfig(userConfig: any): AxiosPromise {
+export function postUserConfig(userConfig: Partial<UserConfig>): AxiosPromise {
   return axios.post('/api/save-config', userConfig);
+}
+
+export function getTags(): AxiosPromise<{
+  success: true;
+  data: string[];
+}> {
+  return axios.get('/api/tags');
 }
