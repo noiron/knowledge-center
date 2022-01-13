@@ -1,21 +1,35 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 import Tag from './tag';
 
-const TagList = (props: any) => {
-  const [list, setList] = useState([]);
+const StyledFileItem = styled.div<{ isActive: boolean }>`
+  padding: 10px;
+  background: ${(props) => (props.isActive ? '#ccc' : '#eee')};
+`;
 
+interface Props {
+  /** 所有的标签的列表 */
+  tags: string[];
+}
+
+const TagList = (props: Props) => {
+  const { tags } = props;
+  const [fileList, setFileList] = useState([]);
+
+  /**
+   * 获取特定标签对应的文件列表
+   */
   const getTag = (text: string) => {
     axios.get(`/api/tag/${text}`).then((res) => {
-      console.log('获取到文件如下：', res.data.data);
-      setList(res.data.data);
+      setFileList(res.data.data);
     });
   };
 
   return (
     <div>
       <div>
-        {props.tags.map((tag: string) => {
+        {tags.map((tag: string) => {
           return (
             <div
               style={{
@@ -36,16 +50,11 @@ const TagList = (props: any) => {
         }}
       >
         <p>这里是包含选中标签的文件列表</p>
-        {list.map((file: any) => {
+        {fileList.map((file: string) => {
           return (
-            <div
-              style={{
-                margin: '10px 0',
-              }}
-              key={file}
-            >
+            <StyledFileItem key={file} isActive={false}>
               {file}
-            </div>
+            </StyledFileItem>
           );
         })}
       </div>
