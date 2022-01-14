@@ -10,6 +10,7 @@ import ActivityBar from './components/activity-bar';
 import Content from './components/content';
 import { ModeType } from './types';
 import { useFileContent, useFileList, useTags, useUserConfig } from './hooks';
+import { MODES } from './constants';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -39,7 +40,7 @@ function App() {
   const content = md.render(useFileContent(fileName));
   const tags = useTags();
 
-  const [mode, setMode] = useState<ModeType>('FILE');
+  const [mode, setMode] = useState<ModeType>(MODES.FILE);
   const [leftWidth, setLeftWidth] = useState(200);
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ function App() {
   }, [list, userConfig.lastActiveFile]);
 
   useEffect(() => {
-    setMode(userConfig.mode || 'FILE');
+    setMode(userConfig.mode || MODES.TAG);
   }, [userConfig.mode]);
 
   const clickFile = (filePath: string) => {

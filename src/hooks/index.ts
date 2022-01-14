@@ -25,8 +25,7 @@ export const useTags = (): string[] => {
 
   useEffect(() => {
     getTags().then((res) => {
-      // todo: 如何处理 #tag 前面的井字符
-      setTags(res.data.data.map((_) => _.slice(1)));
+      setTags(res.data.data);
     });
   }, []);
 

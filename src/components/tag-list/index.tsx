@@ -31,7 +31,7 @@ const TagList = (props: Props) => {
   return (
     <div>
       <div>
-        {tags.map((tag: string) => {
+        {Object.keys(tags).map((tag: string) => {
           return (
             <div
               style={{
@@ -47,6 +47,7 @@ const TagList = (props: Props) => {
                   getTag(text);
                   setActiveTag(text);
                 }}
+                count={tags[tag]}
               />
             </div>
           );

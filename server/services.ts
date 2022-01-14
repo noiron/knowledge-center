@@ -103,20 +103,21 @@ export async function getTags(ctx) {
   utils.traverseFolder(FILE_PATH, list);
   const fileList = list.filter(utils.isMarkdownFile);
 
-  const tags = new Set();
+  const tags = {};
   fileList.forEach((file) => {
     const content = fs.readFileSync(path.resolve(FILE_PATH, file), 'utf8');
-    const tag = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
-    if (tag) {
-      tag.forEach((t) => {
-        tags.add(t);
+    const matchedTags = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
+    if (matchedTags) {
+      matchedTags.forEach((t) => {
+        if (t[0] === '#') t = t.slice(1); // 去掉开头的 hash
+        tags[t] = !tags[t] ? 1 : tags[t] + 1;
       });
     }
   });
 
   ctx.body = {
     success: true,
-    data: Array.from(tags),
+    data: tags,
   };
 }
 

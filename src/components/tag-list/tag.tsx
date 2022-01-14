@@ -15,12 +15,13 @@ const StyledTag = styled.div<{ isActive: boolean }>`
 
 interface TagProps {
   text: string;
+  count: number;
   onClick: (text: string) => void;
   isActive: boolean;
 }
 
 const Tag = (props: TagProps) => {
-  const { onClick, isActive } = props;
+  const { onClick, isActive, count } = props;
 
   let text = props.text;
   if (text[0] === '#') {
@@ -35,7 +36,7 @@ const Tag = (props: TagProps) => {
       isActive={isActive}
     >
       <FaTags></FaTags>
-      {text}
+      {text} x {count}
     </StyledTag>
   );
 };

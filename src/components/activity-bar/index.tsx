@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../../configs';
 import { FaFile, FaTags, FaSearch, FaCog } from 'react-icons/fa';
 import { ModeType } from '../../types';
+import { MODES } from '../../constants';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -42,12 +43,12 @@ const ActivityBar = (props: BarProps) => {
   return (
     <StyledBar>
       <FaFile
-        onClick={() => changeMode('file')}
-        className={currentMode === 'file' ? 'active' : ''}
+        onClick={() => changeMode(MODES.FILE)}
+        className={currentMode === MODES.FILE ? 'active' : ''}
       />
       <FaTags
-        onClick={() => changeMode('tag')}
-        className={currentMode === 'tag' ? 'active' : ''}
+        onClick={() => changeMode(MODES.TAG)}
+        className={currentMode === MODES.TAG ? 'active' : ''}
       />
       <FaSearch />
 

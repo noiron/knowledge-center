@@ -1,6 +1,7 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../configs';
+import { MODES } from '../constants';
 import { ModeType } from '../types';
 import TagList from './tag-list';
 import Tree, { INode } from './tree';
@@ -64,25 +65,11 @@ const FileList = (props: FileListProps) => {
       style={{ '--width': width + 'px' } as CSSProperties}
       ref={ref}
     >
-      {/* <div>
-        {list.map((fileName) => {
-          return (
-            <StyledFileItem
-              onClick={() => clickFile(fileName)}
-              key={fileName}
-              isActive={activeFile === fileName}
-            >
-              {fileName}
-            </StyledFileItem>
-          );
-        })}
-      </div> */}
-
-      {mode === 'file' && (
+      {mode === MODES.FILE && (
         <Tree onSelect={clickFile} list={list} activeFile={activeFile} />
       )}
 
-      {mode === 'tag' && (
+      {mode === MODES.TAG && (
         <div>
           <TagList tags={props.tags} clickFile={clickFile} />
         </div>
