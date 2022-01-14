@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFileContent, getFileList, getTags } from '../api';
+import { getFileContent, getFileList, getTags, getUserConfig } from '../api';
 import { INode } from '../components/tree';
 
 /**
@@ -47,4 +47,18 @@ export const useFileContent = (fileName: string) => {
   }, [fileName]);
 
   return content;
+}
+
+/**
+ * 获取用户配置
+ */
+export const useUserConfig = () => {
+  const [userConfig, setUserConfig] = useState<any>({});
+  useEffect(() => {
+    getUserConfig().then((res) => {
+      setUserConfig(res.data);
+    });
+  }, []);
+
+  return userConfig;
 }

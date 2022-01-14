@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js';
 import FileList from './components/file-list';
-import { getUserConfig, postUserConfig, UserConfig } from './api';
+import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
 import Content from './components/content';
 import { ModeType } from './types';
-import { useFileContent, useFileList, useTags } from './hooks';
+import { useFileContent, useFileList, useTags, useUserConfig } from './hooks';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -33,28 +33,21 @@ const Box = styled.div`
 `;
 
 function App() {
+  const userConfig = useUserConfig();
   const list = useFileList();
-  const tags = useTags();
   const [fileName, setFileName] = useState('');
   const content = md.render(useFileContent(fileName));
+  const tags = useTags();
 
   const [mode, setMode] = useState<ModeType>('FILE');
-  const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getUserConfig().then((res) => {
-      setUserConfig({
-        ...userConfig,
-        ...res.data,
-      });
-
-      if (res.data.leftWidth) {
-        setLeftWidth(res.data.leftWidth);
-      }
-    });
-  }, []);
+    if (userConfig.leftWidth) {
+      setLeftWidth(userConfig.leftWidth);
+    }
+  }, [userConfig.leftWidth]);
 
   useEffect(() => {
     if (Object.keys(list).length === 0) return;
@@ -62,7 +55,7 @@ function App() {
   }, [list, userConfig.lastActiveFile]);
 
   useEffect(() => {
-    setMode(userConfig.mode || 'file');
+    setMode(userConfig.mode || 'FILE');
   }, [userConfig.mode]);
 
   const clickFile = (filePath: string) => {
@@ -79,13 +72,13 @@ function App() {
     saveUserConfig({ leftWidth: width });
   };
 
-  const saveUserConfig = (data: Partial<UserConfig>) => {
-    postUserConfig(data);
-  };
-
   const changeMode = (mode: ModeType) => {
     setMode(mode);
     saveUserConfig({ mode });
+  };
+
+  const saveUserConfig = (data: Partial<UserConfig>) => {
+    postUserConfig(data);
   };
 
   return (
