@@ -67,3 +67,25 @@ export const isMarkdownFile = (filePath: string) => {
 export const isHiddenDir = (dirName: string) => {
   return dirName.startsWith('.');
 };
+
+/**
+ * 读取给定根目录下的所有文件，按数组格式返回
+ */
+export const traverseFolder = (rootPath: string, list: string[]) => {
+  const files = fs.readdirSync(rootPath);
+
+  files.forEach((file) => {
+    const absolutePath = path.resolve(rootPath, file);
+    const stats = fs.statSync(absolutePath);
+
+    if (stats.isFile()) {
+      list.push(absolutePath);
+    }
+
+    if (stats.isDirectory() && !isHiddenDir(file)) {
+      traverseFolder(absolutePath, list);
+    }
+  });
+
+  return list;
+};

@@ -66,7 +66,7 @@ function App() {
   }, [userConfig.mode]);
 
   useEffect(() => {
-    if (fileName === '') return;
+    if (!fileName) return;
     getFileContent(fileName).then((res) => {
       setContent(md.render(res.data));
     });

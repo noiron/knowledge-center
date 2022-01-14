@@ -97,12 +97,11 @@ export async function saveUserConfig(ctx) {
   };
 }
 
-// TODO: 处理多级目录
 /** 读取给定目录下的 markdown 文件，并查找带有 #tag 的内容 */
 export async function getTags(ctx) {
-  // 先不考虑多级目录的情况
-  let fileList = fs.readdirSync(filePath);
-  fileList = fileList.filter(utils.isMarkdownFile);
+  const list = [];
+  utils.traverseFolder(filePath, list);
+  const fileList = list.filter(utils.isMarkdownFile);
 
   const tags = new Set();
   fileList.forEach((file) => {
@@ -128,7 +127,8 @@ export async function getTag(ctx) {
   const searchTag = ctx.params[0];
 
   const list: string[] = [];
-  let fileList = fs.readdirSync(filePath);
+  let fileList = [];
+  utils.traverseFolder(filePath, fileList);
   fileList = fileList.filter(utils.isMarkdownFile);
   fileList.forEach((file) => {
     const content = fs.readFileSync(path.resolve(filePath, file), 'utf8');
