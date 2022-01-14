@@ -12,14 +12,14 @@ import {
   saveUserConfig,
   getTags,
   getTag,
-  filePath,
+  FILE_PATH,
 } from './services';
 
 const router = Router();
 const app = new Koa();
 app.use(cors());
 app.use(bodyParser());
-app.use(serve(filePath));
+app.use(serve(FILE_PATH));
 
 router
   .get('/', renderList)
