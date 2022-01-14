@@ -40,17 +40,33 @@ interface BarProps {
 const ActivityBar = (props: BarProps) => {
   const { changeMode, currentMode } = props;
 
+  const list = [
+    {
+      mode: MODES.FILE,
+      icon: FaFile,
+    },
+    {
+      mode: MODES.TAG,
+      icon: FaTags,
+    },
+    {
+      mode: MODES.SEARCH,
+      icon: FaSearch,
+    },
+  ];
+
   return (
     <StyledBar>
-      <FaFile
-        onClick={() => changeMode(MODES.FILE)}
-        className={currentMode === MODES.FILE ? 'active' : ''}
-      />
-      <FaTags
-        onClick={() => changeMode(MODES.TAG)}
-        className={currentMode === MODES.TAG ? 'active' : ''}
-      />
-      <FaSearch />
+      {list.map((item) => {
+        const Icon = item.icon;
+        return (
+          <Icon
+            key={item.mode}
+            onClick={() => changeMode(item.mode)}
+            className={currentMode === item.mode ? 'active' : ''}
+          />
+        );
+      })}
 
       <div className="end">
         <FaCog />
