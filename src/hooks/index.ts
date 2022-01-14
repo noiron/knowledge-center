@@ -47,7 +47,7 @@ export const useFileContent = (fileName: string) => {
   }, [fileName]);
 
   return content;
-}
+};
 
 /**
  * 获取用户配置
@@ -61,4 +61,4 @@ export const useUserConfig = () => {
   }, []);
 
   return userConfig;
-}
+};

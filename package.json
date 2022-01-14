@@ -41,5 +41,11 @@
     "nodemon": "^2.0.15",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
   }
 }
