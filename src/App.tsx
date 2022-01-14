@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js';
 import FileList from './components/file-list';
-import { getFileContent, getUserConfig, postUserConfig, UserConfig } from './api';
+import { getUserConfig, postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
 import Content from './components/content';
 import { ModeType } from './types';
-import { useFileList, useTags } from './hooks';
+import { useFileContent, useFileList, useTags } from './hooks';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -36,9 +35,10 @@ const Box = styled.div`
 function App() {
   const list = useFileList();
   const tags = useTags();
-  const [mode, setMode] = useState<ModeType>('file');
-  const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
+  const content = md.render(useFileContent(fileName));
+
+  const [mode, setMode] = useState<ModeType>('FILE');
   const [userConfig, setUserConfig] = useState<any>({});
   const [leftWidth, setLeftWidth] = useState(200);
   const navigate = useNavigate();
@@ -64,13 +64,6 @@ function App() {
   useEffect(() => {
     setMode(userConfig.mode || 'file');
   }, [userConfig.mode]);
-
-  useEffect(() => {
-    if (!fileName) return;
-    getFileContent(fileName).then((res) => {
-      setContent(md.render(res.data));
-    });
-  }, [fileName]);
 
   const clickFile = (filePath: string) => {
     setFileName(filePath);

@@ -1,2 +1,2 @@
-export type ModeType = 'file' | 'tag';
+export type ModeType = 'FILE' | 'TAG';
 
