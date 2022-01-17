@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { ACTIVITY_BAR_WIDTH } from '../../configs';
@@ -28,10 +28,31 @@ interface Props {
   content: string;
   leftWidth: number;
   fileName: string;
+  clickFile: (fileName: string) => void;
 }
 
 const Content = (props: Props) => {
   const { content, leftWidth, fileName } = props;
+
+  useEffect(() => {
+    if (!content) return;
+
+    const allLinks = document.querySelectorAll('a');
+    const relativeLinks = Array.from(allLinks).filter((a) => {
+      // 用一个粗暴的方法来找出所有的相对链接
+      if (a.href.indexOf('http://localhost:4000') > -1) return true;
+      return false;
+    });
+
+    relativeLinks.forEach((a) => {
+      a.addEventListener('click', (e) => {
+        // 阻止默认的跳转，行为改为和点击了文件树种的文件一样
+        e.preventDefault();
+        const fileName = a.href.split('http://localhost:4000');
+        props.clickFile(fileName[1]);
+      });
+    });
+  }, [content]);
 
   return (
     <StyledContent

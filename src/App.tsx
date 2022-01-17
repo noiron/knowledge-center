@@ -97,7 +97,12 @@ function App() {
         tags={tags}
       />
 
-      <Content content={content} fileName={fileName} leftWidth={leftWidth} />
+      <Content
+        content={content}
+        fileName={fileName}
+        leftWidth={leftWidth}
+        clickFile={clickFile}
+      />
     </Box>
   );
 }
