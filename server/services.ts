@@ -132,6 +132,7 @@ export async function getTag(ctx) {
   utils.traverseFolder(FILE_PATH, fileList);
   fileList.filter(utils.isMarkdownFile).forEach((file) => {
     const absolutePath = path.resolve(FILE_PATH, file);
+    // TODO: 这里和上面的函数可抽离相同代码
     const content = fs.readFileSync(absolutePath, 'utf8');
     const tag = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
     if (tag && searchTag === tag[0].slice(1)) {

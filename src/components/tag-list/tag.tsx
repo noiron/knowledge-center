@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { FaTags } from 'react-icons/fa';
 
 const StyledTag = styled.div<{ isActive: boolean }>`
+  font-size: 14px;
   border: 1px solid #eee;
-  padding: 5px 15px;
+  padding: 4px 15px;
   display: inline-flex;
   border-radius: 5px;
   background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
