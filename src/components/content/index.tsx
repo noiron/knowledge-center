@@ -53,6 +53,32 @@ const Content = (props: Props) => {
     });
   }, [content]);
 
+  // 由 markdown 转换来的图片如果引用的是相对路径
+  // 比如根目录下的 1/2/3.md，引用了一张同级目录下的一张图片，<img src="assets/3.png" />
+  // 读取 img.src 属性，其值和当前页面的 url 是相关的
+  // 如果是 http://localhost:4000，那么 img.src 就是 http://localhost:4000/assets/3.png
+  // 如果是 http://localhost:4000/1/2，那么 img.src 就是 http://localhost:4000/1/2/assets/3.png
+  // 只有后一张情况才能正常访问图片，所以需要把 img 标签中的 src 替换为以 http:// 开头的绝对路径
+  useEffect(() => {
+    if (!content) return;
+
+    const allImages = document.querySelectorAll('img');
+    Array.from(allImages).forEach((img) => {
+      // 网络图片不做处理
+      if (!img.src.startsWith(origin)) return;
+
+      const outerHTML = img.outerHTML;
+      const matches = outerHTML.match(/src="(.+?)"/); // 问号表示非贪婪模式
+      if (!matches) return;
+
+      const src = matches[1];
+      const paths = fileName.split('/');
+      paths.pop();
+      const completeSrc = [origin, ...paths, src].join('/');
+      img.outerHTML = outerHTML.replace(src, completeSrc);
+    });
+  }, [content]);
+
   return (
     <StyledContent
       style={
