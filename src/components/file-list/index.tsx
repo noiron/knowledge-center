@@ -1,10 +1,10 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
-import { ACTIVITY_BAR_WIDTH } from '../configs';
-import { MODES } from '../constants';
-import { ModeType } from '../types';
-import TagList from './tag-list';
-import Tree, { INode } from './tree';
+import { ACTIVITY_BAR_WIDTH } from '../../configs';
+import { MODES } from '../../constants';
+import { ModeType } from '../../types';
+import TagList from '../tag-list';
+import Tree, { INode } from '../tree';
 
 const BORDER_WIDTH = 4;
 
@@ -76,6 +76,8 @@ const FileList = (props: FileListProps) => {
       )}
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
+
+      
     </StyledFileList>
   );
 };
