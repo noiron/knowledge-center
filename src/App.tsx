@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
@@ -38,6 +38,7 @@ function App() {
   const list = useFileList();
   const [fileName, setFileName] = useState('');
   const content = md.render(useFileContent(fileName));
+  const [searchParams] = useSearchParams();
   const tags = useTags();
 
   const [mode, setMode] = useState<ModeType>(MODES.FILE);
@@ -50,10 +51,18 @@ function App() {
     }
   }, [userConfig.leftWidth]);
 
+  const fileParam = searchParams.get('file');
   useEffect(() => {
     if (Object.keys(list).length === 0) return;
+
+    // url 上带有 file 参数时，以其为最高优先级
+    if (fileParam) {
+      setFileName(fileParam);
+      return;
+    }
+
     setFileName(userConfig.lastActiveFile || list[0]);
-  }, [list, userConfig.lastActiveFile]);
+  }, [list, userConfig.lastActiveFile, fileParam]);
 
   useEffect(() => {
     setMode(userConfig.mode || MODES.TAG);
@@ -63,10 +72,15 @@ function App() {
     setFileName(filePath);
     saveUserConfig({ lastActiveFile: filePath });
 
-    const arr = filePath.trim().split('/');
-    arr.pop();
-    const prefix = arr.join('/');
-    navigate(prefix + '/');
+    // const arr = filePath.trim().split('/');
+    // arr.pop();
+    // const prefix = arr.join('/');
+    // navigate(prefix + '/');
+
+    navigate({
+      pathname: window.location.pathname,
+      search: '?file=' + filePath,
+    });
   };
 
   const saveLeftWidth = (width: number) => {
