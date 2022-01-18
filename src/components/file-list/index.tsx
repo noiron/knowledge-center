@@ -5,6 +5,8 @@ import { MODES } from '../../constants';
 import { ModeType } from '../../types';
 import TagList from '../tag-list';
 import Tree, { INode } from '../tree';
+import FolderName from './folder-name';
+import values from 'lodash/values';
 
 const BORDER_WIDTH = 4;
 
@@ -60,6 +62,13 @@ const FileList = (props: FileListProps) => {
     document.addEventListener('mouseup', onMouseUp);
   }, []);
 
+  // FIXME: 这个函数和 Tree 组件中的是重复的
+  const getRootNodes = () => {
+    return values(list).filter((node) => node.isRoot === true);
+  };
+
+  const rootNodes = getRootNodes();
+
   return (
     <StyledFileList
       style={{ '--width': width + 'px' } as CSSProperties}
@@ -77,7 +86,7 @@ const FileList = (props: FileListProps) => {
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
 
-      
+      <FolderName name={rootNodes[0]?.path || ''} />
     </StyledFileList>
   );
 };
