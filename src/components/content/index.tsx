@@ -33,23 +33,22 @@ interface Props {
 
 const Content = (props: Props) => {
   const { content, leftWidth, fileName } = props;
+  const origin = location.origin; // 一般是 http://localhost:4000
 
   useEffect(() => {
     if (!content) return;
 
     const allLinks = document.querySelectorAll('a');
-    const relativeLinks = Array.from(allLinks).filter((a) => {
-      // 用一个粗暴的方法来找出所有的相对链接
-      if (a.href.indexOf('http://localhost:4000') > -1) return true;
-      return false;
+    const relativeLinks = Array.from(allLinks).filter((link) => {
+      return link.href.startsWith(origin);
     });
 
-    relativeLinks.forEach((a) => {
-      a.addEventListener('click', (e) => {
-        // 阻止默认的跳转，行为改为和点击了文件树种的文件一样
+    relativeLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        // 阻止默认的跳转，行为改为和点击了文件树中的文件一样
         e.preventDefault();
-        const fileName = a.href.split('http://localhost:4000');
-        props.clickFile(fileName[1]);
+        const fileName = link.href.split(origin)[1];
+        props.clickFile(fileName);
       });
     });
   }, [content]);
