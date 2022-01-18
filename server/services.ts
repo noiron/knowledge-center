@@ -105,8 +105,8 @@ export async function getTags(ctx) {
 
   const tags = {};
   fileList.forEach((file) => {
-    const content = fs.readFileSync(path.resolve(FILE_PATH, file), 'utf8');
-    const matchedTags = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
+    const absolutePath = path.resolve(FILE_PATH, file);
+    const matchedTags = utils.checkFileTags(absolutePath);
     if (matchedTags) {
       matchedTags.forEach((t) => {
         if (t[0] === '#') t = t.slice(1); // 去掉开头的 hash
@@ -132,11 +132,14 @@ export async function getTag(ctx) {
   utils.traverseFolder(FILE_PATH, fileList);
   fileList.filter(utils.isMarkdownFile).forEach((file) => {
     const absolutePath = path.resolve(FILE_PATH, file);
-    // TODO: 这里和上面的函数可抽离相同代码
-    const content = fs.readFileSync(absolutePath, 'utf8');
-    const tag = content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
-    if (tag && searchTag === tag[0].slice(1)) {
-      list.push(path.relative(FILE_PATH, absolutePath));
+    const matchedTags = utils.checkFileTags(absolutePath);
+    if (matchedTags) {
+      for (const tag of matchedTags) {
+        if (tag.slice(1) === searchTag) {
+          list.push(path.relative(FILE_PATH, absolutePath));
+          break;
+        }
+      }
     }
   });
 

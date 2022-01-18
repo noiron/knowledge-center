@@ -53,6 +53,7 @@ export const useFileContent = (fileName: string) => {
  */
 export const useUserConfig = () => {
   const [userConfig, setUserConfig] = useState<any>({});
+
   useEffect(() => {
     getUserConfig().then((res) => {
       setUserConfig(res.data);
