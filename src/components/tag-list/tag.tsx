@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { FaTags } from 'react-icons/fa';
+import { FaTags, FaReact, FaNodeJs } from 'react-icons/fa';
+import { SiLeetcode, SiWebpack, SiJavascript, SiVite } from 'react-icons/si';
 
 const StyledTag = styled.div<{ isActive: boolean }>`
   font-size: 14px;
@@ -11,8 +12,18 @@ const StyledTag = styled.div<{ isActive: boolean }>`
 
   svg {
     margin-right: 5px;
+    margin-top: 2px;
   }
 `;
+
+const TAG_ICONS: { [key: string]: any } = {
+  react: <FaReact />,
+  leetcode: <SiLeetcode />,
+  nodejs: <FaNodeJs />,
+  webpack: <SiWebpack />,
+  javascript: <SiJavascript />,
+  vite: <SiVite />,
+};
 
 interface TagProps {
   text: string;
@@ -36,7 +47,7 @@ const Tag = (props: TagProps) => {
       }}
       isActive={isActive}
     >
-      <FaTags></FaTags>
+      {TAG_ICONS[text] || <FaTags />}
       {text} x {count}
     </StyledTag>
   );
