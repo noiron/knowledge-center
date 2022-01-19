@@ -2,7 +2,7 @@ import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '../../configs';
 import { MODES } from '../../constants';
-import { ModeType } from '../../types';
+import { ITags, ModeType } from '../../types';
 import TagList from '../tag-list';
 import Tree, { INode } from '../tree';
 import FolderName from './folder-name';
@@ -39,7 +39,7 @@ interface FileListProps {
   setLeftWidth: (width: number) => void;
   saveLeftWidth: (width: number) => void;
   mode: ModeType;
-  tags: { [key: string]: number };
+  tags: ITags;
 }
 
 const FileList = (props: FileListProps) => {

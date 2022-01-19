@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
-import wordcloud from 'wordcloud';
+import WordCloud from 'wordcloud';
+import { ITags } from '../../types';
 
-const TagCloud = () => {
+interface Props {
+  tags: ITags;
+}
+
+const TagCloud = (props: Props) => {
+  const { tags } = props;
+
   useEffect(() => {
     const canvas = document.getElementById('wordcloud') as HTMLCanvasElement;
     if (!canvas) return;
@@ -9,24 +16,24 @@ const TagCloud = () => {
     canvas.width = 800;
     canvas.height = 600;
 
-    wordcloud(canvas, {
-      // TODO: 修改此处 list
-      list: [
-        ['test', 12],
-        ['hello', 10],
-        ['haha', 1],
-        ['world', 8],
-        ['react', 5],
-      ],
+    // list 是一个数组，[[tag, count], [tag, count], ...]
+    const list = Object.keys(tags).map((key) => [key, tags[key]]);
+
+    WordCloud(canvas, {
+      list,
       gridSize: Math.round((16 * 800) / 1024),
       fontFamily: 'Times, serif',
       weightFactor: 16,
       color: 'random-dark',
       rotateRatio: 0,
-      rotationSteps: 2,
+      // rotationSteps: 2,
       backgroundColor: '#fff',
+      click: (item: [string, number]) => {
+        const tag = item[0];
+        console.log('tag: ', tag);
+      },
     });
-  }, []);
+  }, [tags]);
 
   return (
     <div>

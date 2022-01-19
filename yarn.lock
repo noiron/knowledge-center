@@ -576,6 +576,11 @@
     "@types/react" "*"
     csstype "^3.0.2"
 
+"@types/wordcloud@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.npmmirror.com/@types/wordcloud/download/@types/wordcloud-1.1.3.tgz#1db038c528dfc9ea1432c8dab8e374579dbe474c"
+  integrity sha1-HbA4xSjfyeoUMsjauON0V52+R0w=
+
 "@typescript-eslint/eslint-plugin@^5.9.0":
   version "5.9.0"
   resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/download/@typescript-eslint/eslint-plugin-5.9.0.tgz"

@@ -123,7 +123,7 @@ function App() {
         </>
       )}
 
-      {mode === MODES.CLOUD && <TagCloud />}
+      {mode === MODES.CLOUD && <TagCloud tags={tags} />}
     </Box>
   );
 }

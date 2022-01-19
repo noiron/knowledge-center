@@ -1,5 +1,6 @@
 import axios, { AxiosPromise } from 'axios';
 import { INode } from './components/tree';
+import { ITags } from './types';
 
 export function getFileList(): AxiosPromise<{ [key: string]: INode }> {
   return axios.get('/api/list');
@@ -25,7 +26,7 @@ export function postUserConfig(userConfig: Partial<UserConfig>): AxiosPromise {
 
 export function getTags(): AxiosPromise<{
   success: true;
-  data: { [index: string]: number };
+  data: ITags;
 }> {
   return axios.get('/api/tags');
 }

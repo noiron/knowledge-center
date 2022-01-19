@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Tag from './tag';
+import { ITags } from '../../types';
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
   padding: 8px 20px;
@@ -15,7 +16,7 @@ const StyledFileItem = styled.div<{ isActive: boolean }>`
 
 interface Props {
   /** 所有的标签数量的列表 */
-  tags: { [key: string]: number };
+  tags: ITags;
   activeFile: string;
   clickFile: (fileName: string) => void;
 }
