@@ -9,7 +9,13 @@ import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
 import Content from './components/content';
 import { ModeType } from './types';
-import { useFileContent, useFileTree, useTags, useUserConfig } from './hooks';
+import {
+  useFileContent,
+  useFileInfoList,
+  useFileTree,
+  useTags,
+  useUserConfig,
+} from './hooks';
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
 
@@ -42,6 +48,8 @@ function App() {
   const [searchParams] = useSearchParams();
   const tags = useTags();
   const [activeTag, setActiveTag] = useState('');
+
+  const fileInfoList = useFileInfoList();
 
   const [mode, setMode] = useState<ModeType>(MODES.FILE);
   const [leftWidth, setLeftWidth] = useState(200);
@@ -115,6 +123,8 @@ function App() {
             tags={tags}
             setActiveTag={setActiveTag}
             activeTag={activeTag}
+            // @ts-ignore
+            fileInfoList={fileInfoList}
           />
 
           <Content

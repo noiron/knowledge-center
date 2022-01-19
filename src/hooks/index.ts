@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getFileContent, getFileTree, getTags, getUserConfig } from '../api';
+import {
+  getFileContent,
+  getFileTree,
+  getTags,
+  getUserConfig,
+  getFileInfoList,
+} from '../api';
 import { INode } from '../components/tree';
 
 /**
@@ -20,9 +26,17 @@ export const useFileTree = (): { [key: string]: INode } => {
 /**
  * 获取文件列表，以数组形式返回
  */
-// export const useFileListWithTime = (): { [key: string]: any } => {
+export const useFileInfoList = (): any[] => {
+  const [list, setList] = useState<any>([]);
 
-// }
+  useEffect(() => {
+    getFileInfoList().then((res) => {
+      setList(res.data);
+    });
+  }, []);
+
+  return list;
+};
 
 /**
  * 获取标签列表

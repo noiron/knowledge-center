@@ -90,12 +90,34 @@ export const traverseFolder = (rootPath: string, list: string[]) => {
   return list;
 };
 
+export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
+  const files = fs.readdirSync(rootPath);
+
+  files.forEach((file) => {
+    const absolutePath = path.resolve(rootPath, file);
+    const stats = fs.statSync(absolutePath);
+
+    if (stats.isFile()) {
+      list.push({
+        absolutePath,
+        lastModifiedTime: stats.mtime,
+      });
+    }
+
+    if (stats.isDirectory() && !isHiddenDir(file)) {
+      traverseFolderWithInfo(absolutePath, list);
+    }
+  });
+
+  return list;
+};
+
 /**
  * 检查给定的内容中是否包含标签
  */
 const checkTags = (content: string) => {
   return content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
-}
+};
 
 /**
  * 给定文件路径，读取内容，检查其中是否包含标签
@@ -104,4 +126,4 @@ export const checkFileTags = (filePath: string) => {
   const content = fs.readFileSync(filePath, 'utf8');
   const matchedTags = checkTags(content);
   return matchedTags;
-}
+};

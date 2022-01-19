@@ -6,6 +6,7 @@ import cors from '@koa/cors';
 import {
   renderList,
   getMarkdownTree,
+  getMarkdownList,
   getMarkdownFile,
   runCommand,
   getUserConfig,
@@ -24,6 +25,7 @@ app.use(serve(FILE_PATH));
 router
   .get('/', renderList)
   .get('/file-tree', getMarkdownTree)
+  .get('/file-list', getMarkdownList)
   .get('/file/(.*)', getMarkdownFile)
   .post('/run', runCommand)
   .get('/user-config', getUserConfig)

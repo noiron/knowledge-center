@@ -78,6 +78,19 @@ export async function getMarkdownTree(ctx) {
   ctx.body = list;
 }
 
+/**
+ * 获取目录下所有的 markdown 文件，以列表形式返回，按编辑时间排序
+ */
+export async function getMarkdownList(ctx) {
+  const list: any[] = [];
+  utils.traverseFolderWithInfo(FILE_PATH, list);
+  const fileList = list.filter((item) => {
+    return utils.isMarkdownFile(item.absolutePath || '');
+  });
+
+  ctx.body = fileList;
+}
+
 export async function getUserConfig(ctx) {
   const config = await import('./user-config.js');
   ctx.body = config;

@@ -6,6 +6,10 @@ export function getFileTree(): AxiosPromise<{ [key: string]: INode }> {
   return axios.get('/api/file-tree');
 }
 
+export function getFileInfoList(): AxiosPromise<{ [key: string]: any }> {
+  return axios.get('/api/file-list');
+}
+
 export function getFileContent(fileName: string): AxiosPromise<string> {
   return axios.get(`/api/file/${fileName}`);
 }

@@ -7,6 +7,7 @@ import TagList from '../tag-list';
 import Tree, { INode } from '../tree';
 import FolderName from './folder-name';
 import values from 'lodash/values';
+import { extractFileName } from '@/utils';
 
 const BORDER_WIDTH = 4;
 
@@ -17,6 +18,7 @@ const StyledSideBar = styled.div`
   border-right: 1px solid #eee;
   width: var(--width);
   height: 100%;
+  overflow-y: auto;
   padding: 0 0px;
 `;
 
@@ -45,8 +47,17 @@ interface SideBarProps {
 }
 
 const SideBar = (props: SideBarProps) => {
-  const { list, activeFile, clickFile, width, mode, setActiveTag, activeTag } =
-    props;
+  const {
+    list,
+    activeFile,
+    clickFile,
+    width,
+    mode,
+    setActiveTag,
+    activeTag,
+    // @ts-ignore
+    fileInfoList,
+  } = props;
   const ref = useRef<any>();
 
   // https://stackoverflow.com/a/62437093
@@ -112,6 +123,14 @@ const SideBar = (props: SideBarProps) => {
           }}
         >
           按照编辑时间对文件列表排序
+          {fileInfoList.map((item: any) => {
+            return (
+              <div key={item.absolutePath}>
+                {extractFileName(item.absolutePath)}
+                {/* {item.lastModifiedTime} */}
+              </div>
+            );
+          })}
         </div>
       )}
 
