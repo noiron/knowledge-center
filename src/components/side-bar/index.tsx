@@ -10,7 +10,7 @@ import values from 'lodash/values';
 
 const BORDER_WIDTH = 4;
 
-const StyledFileList = styled.div`
+const StyledSideBar = styled.div`
   position: absolute;
   top: 0;
   left: ${ACTIVITY_BAR_WIDTH}px;
@@ -30,7 +30,7 @@ const RightBorder = styled.div`
   cursor: col-resize;
 `;
 
-interface FileListProps {
+interface SideBarProps {
   width: number;
   list: { [key: string]: INode };
   /** 当前选中的文件名称 */
@@ -44,7 +44,7 @@ interface FileListProps {
   activeTag: string;
 }
 
-const FileList = (props: FileListProps) => {
+const SideBar = (props: SideBarProps) => {
   const { list, activeFile, clickFile, width, mode, setActiveTag, activeTag } =
     props;
   const ref = useRef<any>();
@@ -73,7 +73,7 @@ const FileList = (props: FileListProps) => {
   const rootNodes = getRootNodes();
 
   return (
-    <StyledFileList
+    <StyledSideBar
       style={{ '--width': width + 'px' } as CSSProperties}
       ref={ref}
     >
@@ -118,8 +118,8 @@ const FileList = (props: FileListProps) => {
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
 
       <FolderName name={rootNodes[0]?.path || ''} />
-    </StyledFileList>
+    </StyledSideBar>
   );
 };
 
-export default FileList;
+export default SideBar;
