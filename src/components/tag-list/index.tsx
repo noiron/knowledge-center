@@ -24,7 +24,7 @@ interface Props {
 }
 
 const TagList = (props: Props) => {
-  const { tags, activeFile, setActiveTag, activeTag } = props;
+  const { tags, activeFile, setActiveTag, activeTag, clickFile } = props;
   const [fileList, setFileList] = useState(['1/测试.md']);
 
   /**
@@ -40,6 +40,12 @@ const TagList = (props: Props) => {
     if (!activeTag) return;
     getTag(activeTag);
   }, [activeFile]);
+
+  useEffect(() => {
+    if (fileList.length > 0) {
+      clickFile(fileList[0]);
+    }
+  }, [fileList]);
 
   return (
     <div>
@@ -81,7 +87,7 @@ const TagList = (props: Props) => {
               key={filePath}
               isActive={activeFile === filePath}
               onClick={() => {
-                props.clickFile(filePath);
+                clickFile(filePath);
               }}
               title={filePath}
             >
