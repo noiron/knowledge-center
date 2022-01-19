@@ -59,7 +59,6 @@ interface IProps {
 
 const Tree = (props: IProps) => {
   const [nodes, setNodes] = useState<{ [key: string]: INode }>({});
-  console.log('nodes: ', nodes);
 
   useEffect(() => {
     setNodes(props.list);
@@ -75,7 +74,6 @@ const Tree = (props: IProps) => {
   };
 
   const onToggle = (node: INode) => {
-    console.log('node: ', node);
     nodes[node.path].isOpen = !node.isOpen;
     setNodes({ ...nodes });
   };

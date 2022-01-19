@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { ACTIVITY_BAR_WIDTH } from '../../configs';
+import { ACTIVITY_BAR_WIDTH } from '@/configs';
 
 const StyledContent = styled.div`
   margin-left: var(--margin-left);

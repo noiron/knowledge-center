@@ -1,8 +1,8 @@
 import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
-import { ACTIVITY_BAR_WIDTH } from '../../configs';
-import { MODES } from '../../constants';
-import { ITags, ModeType } from '../../types';
+import { ACTIVITY_BAR_WIDTH } from '@/configs';
+import { MODES } from '@/constants';
+import { ITags, ModeType } from '@/types';
 import TagList from '../tag-list';
 import Tree, { INode } from '../tree';
 import FolderName from './folder-name';

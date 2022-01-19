@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Tag from './tag';
-import { ITags } from '../../types';
+import { ITags } from '@/types';
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
   padding: 8px 20px;

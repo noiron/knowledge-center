@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import WordCloud from 'wordcloud';
-import { ITags } from '../../types';
+import { ITags } from '@/types';
 
 interface Props {
   tags: ITags;
