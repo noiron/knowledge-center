@@ -11,6 +11,7 @@ import Content from './components/content';
 import { ModeType } from './types';
 import { useFileContent, useFileList, useTags, useUserConfig } from './hooks';
 import { MODES } from './constants';
+import TagCloud from './components/tag-cloud';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -100,23 +101,29 @@ function App() {
     <Box>
       <ActivityBar changeMode={changeMode} currentMode={mode} />
 
-      <FileList
-        width={leftWidth}
-        list={list}
-        clickFile={clickFile}
-        activeFile={fileName}
-        setLeftWidth={setLeftWidth}
-        saveLeftWidth={saveLeftWidth}
-        mode={mode}
-        tags={tags}
-      />
+      {mode !== MODES.CLOUD && (
+        <>
+          <FileList
+            width={leftWidth}
+            list={list}
+            clickFile={clickFile}
+            activeFile={fileName}
+            setLeftWidth={setLeftWidth}
+            saveLeftWidth={saveLeftWidth}
+            mode={mode}
+            tags={tags}
+          />
 
-      <Content
-        content={content}
-        fileName={fileName}
-        leftWidth={leftWidth}
-        clickFile={clickFile}
-      />
+          <Content
+            content={content}
+            fileName={fileName}
+            leftWidth={leftWidth}
+            clickFile={clickFile}
+          />
+        </>
+      )}
+
+      {mode === MODES.CLOUD && <TagCloud />}
     </Box>
   );
 }

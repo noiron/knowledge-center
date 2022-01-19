@@ -3217,6 +3217,11 @@ word-wrap@^1.2.3:
   resolved "https://registry.nlark.com/word-wrap/download/word-wrap-1.2.3.tgz"
   integrity sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=
 
+wordcloud@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmmirror.com/wordcloud/download/wordcloud-1.2.2.tgz#2d32a99d8ac6a54d8b56915be1d41928f205854d"
+  integrity sha512-fUnDsGrHXou+49j1OeKaC7nOeZPx+sWjIet0L/j6eAcm0nXy+a+AuUs/iDAX4PLBg1Zc6wgXWXhoXdQsXRWAEw==
+
 wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.nlark.com/wrap-ansi/download/wrap-ansi-7.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fwrap-ansi%2Fdownload%2Fwrap-ansi-7.0.0.tgz"
