@@ -4,10 +4,11 @@ import { ITags } from '@/types';
 
 interface Props {
   tags: ITags;
+  clickTag: (tag: string) => void;
 }
 
 const TagCloud = (props: Props) => {
-  const { tags } = props;
+  const { tags, clickTag } = props;
 
   useEffect(() => {
     const canvas = document.getElementById('wordcloud') as HTMLCanvasElement;
@@ -30,7 +31,7 @@ const TagCloud = (props: Props) => {
       backgroundColor: '#fff',
       click: (item: [string, number]) => {
         const tag = item[0];
-        console.log('tag: ', tag);
+        clickTag(tag);
       },
     });
   }, [tags]);

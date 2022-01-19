@@ -41,6 +41,7 @@ function App() {
   const content = md.render(useFileContent(fileName));
   const [searchParams] = useSearchParams();
   const tags = useTags();
+  const [activeTag, setActiveTag] = useState('');
 
   const [mode, setMode] = useState<ModeType>(MODES.FILE);
   const [leftWidth, setLeftWidth] = useState(200);
@@ -112,6 +113,8 @@ function App() {
             saveLeftWidth={saveLeftWidth}
             mode={mode}
             tags={tags}
+            setActiveTag={setActiveTag}
+            activeTag={activeTag}
           />
 
           <Content
@@ -123,7 +126,15 @@ function App() {
         </>
       )}
 
-      {mode === MODES.CLOUD && <TagCloud tags={tags} />}
+      {mode === MODES.CLOUD && (
+        <TagCloud
+          tags={tags}
+          clickTag={(tag) => {
+            setActiveTag(tag);
+            setMode(MODES.TAG);
+          }}
+        />
+      )}
     </Box>
   );
 }

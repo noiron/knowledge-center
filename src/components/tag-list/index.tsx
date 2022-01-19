@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Tag from './tag';
@@ -19,11 +19,12 @@ interface Props {
   tags: ITags;
   activeFile: string;
   clickFile: (fileName: string) => void;
+  activeTag: string;
+  setActiveTag: (tag: string) => void;
 }
 
 const TagList = (props: Props) => {
-  const { tags, activeFile } = props;
-  const [activeTag, setActiveTag] = useState('');
+  const { tags, activeFile, setActiveTag, activeTag } = props;
   const [fileList, setFileList] = useState(['1/测试.md']);
 
   /**
@@ -34,6 +35,11 @@ const TagList = (props: Props) => {
       setFileList(res.data.data);
     });
   };
+
+  useEffect(() => {
+    if (!activeTag) return;
+    getTag(activeTag);
+  }, [activeFile]);
 
   return (
     <div>

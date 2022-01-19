@@ -40,10 +40,13 @@ interface FileListProps {
   saveLeftWidth: (width: number) => void;
   mode: ModeType;
   tags: ITags;
+  setActiveTag: (tag: string) => void;
+  activeTag: string;
 }
 
 const FileList = (props: FileListProps) => {
-  const { list, activeFile, clickFile, width, mode } = props;
+  const { list, activeFile, clickFile, width, mode, setActiveTag, activeTag } =
+    props;
   const ref = useRef<any>();
 
   // https://stackoverflow.com/a/62437093
@@ -84,7 +87,20 @@ const FileList = (props: FileListProps) => {
             tags={props.tags}
             clickFile={clickFile}
             activeFile={activeFile}
+            setActiveTag={setActiveTag}
+            activeTag={activeTag}
           />
+        </div>
+      )}
+
+      {mode === MODES.SEARCH && (
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 50,
+          }}
+        >
+          搜索功能开发中
         </div>
       )}
 
