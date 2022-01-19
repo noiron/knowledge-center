@@ -57,7 +57,7 @@ export async function runCommand(ctx) {
 /**
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */
-export async function getMarkdownList(ctx) {
+export async function getMarkdownTree(ctx) {
   const baseNameOfFolder = path.basename(FILE_PATH);
   const rootNode = {
     path: baseNameOfFolder,

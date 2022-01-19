@@ -4,12 +4,12 @@ import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js';
-import FileList from './components/file-list';
+import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
 import Content from './components/content';
 import { ModeType } from './types';
-import { useFileContent, useFileList, useTags, useUserConfig } from './hooks';
+import { useFileContent, useFileTree, useTags, useUserConfig } from './hooks';
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
 
@@ -36,7 +36,7 @@ const Box = styled.div`
 
 function App() {
   const userConfig = useUserConfig();
-  const list = useFileList();
+  const list = useFileTree();
   const [fileName, setFileName] = useState('');
   const content = md.render(useFileContent(fileName));
   const [searchParams] = useSearchParams();
@@ -104,7 +104,7 @@ function App() {
 
       {mode !== MODES.CLOUD && (
         <>
-          <FileList
+          <SideBar
             width={leftWidth}
             list={list}
             clickFile={clickFile}

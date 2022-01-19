@@ -13,42 +13,42 @@ export interface INode {
   isOpen?: boolean;
 }
 
-const data: {
-  [key: string]: INode;
-} = {
-  '/': {
-    path: '/',
-    type: 'folder',
-    isRoot: true,
-    isOpen: true,
-    children: ['/koa.md', '/markdown-it.md', '/todo.md', '/开发.md', '/1'],
-  },
-  '/1': {
-    path: '/1',
-    type: 'folder',
-    children: ['/1/测试.md'],
-  },
-  '/1/测试.md': {
-    path: '/1/测试.md',
-    type: 'file',
-  },
-  '/koa.md': {
-    path: '/koa.md',
-    type: 'file',
-  },
-  '/markdown-it.md': {
-    path: '/markdown-it.md',
-    type: 'file',
-  },
-  '/todo.md': {
-    path: '/todo.md',
-    type: 'file',
-  },
-  '/开发.md': {
-    path: '/开发.md',
-    type: 'file',
-  },
-};
+// const data: {
+//   [key: string]: INode;
+// } = {
+//   '/': {
+//     path: '/',
+//     type: 'folder',
+//     isRoot: true,
+//     isOpen: true,
+//     children: ['/koa.md', '/markdown-it.md', '/todo.md', '/开发.md', '/1'],
+//   },
+//   '/1': {
+//     path: '/1',
+//     type: 'folder',
+//     children: ['/1/测试.md'],
+//   },
+//   '/1/测试.md': {
+//     path: '/1/测试.md',
+//     type: 'file',
+//   },
+//   '/koa.md': {
+//     path: '/koa.md',
+//     type: 'file',
+//   },
+//   '/markdown-it.md': {
+//     path: '/markdown-it.md',
+//     type: 'file',
+//   },
+//   '/todo.md': {
+//     path: '/todo.md',
+//     type: 'file',
+//   },
+//   '/开发.md': {
+//     path: '/开发.md',
+//     type: 'file',
+//   },
+// };
 
 interface IProps {
   onSelect: (path: string) => void;

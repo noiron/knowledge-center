@@ -1,21 +1,28 @@
 import { useEffect, useState } from 'react';
-import { getFileContent, getFileList, getTags, getUserConfig } from '../api';
+import { getFileContent, getFileTree, getTags, getUserConfig } from '../api';
 import { INode } from '../components/tree';
 
 /**
  * 获取文件列表，以树形结构返回
  */
-export const useFileList = (): { [key: string]: INode } => {
+export const useFileTree = (): { [key: string]: INode } => {
   const [list, setList] = useState<{ [key: string]: INode }>({});
 
   useEffect(() => {
-    getFileList().then((res) => {
+    getFileTree().then((res) => {
       setList(res.data);
     });
   }, []);
 
   return list;
 };
+
+/**
+ * 获取文件列表，以数组形式返回
+ */
+// export const useFileListWithTime = (): { [key: string]: any } => {
+
+// }
 
 /**
  * 获取标签列表

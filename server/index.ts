@@ -5,7 +5,7 @@ import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import {
   renderList,
-  getMarkdownList,
+  getMarkdownTree,
   getMarkdownFile,
   runCommand,
   getUserConfig,
@@ -23,7 +23,7 @@ app.use(serve(FILE_PATH));
 
 router
   .get('/', renderList)
-  .get('/list', getMarkdownList)
+  .get('/file-tree', getMarkdownTree)
   .get('/file/(.*)', getMarkdownFile)
   .post('/run', runCommand)
   .get('/user-config', getUserConfig)
