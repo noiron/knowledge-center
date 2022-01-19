@@ -25,7 +25,7 @@ interface Props {
 
 const TagList = (props: Props) => {
   const { tags, activeFile, setActiveTag, activeTag, clickFile } = props;
-  const [fileList, setFileList] = useState(['1/测试.md']);
+  const [fileList, setFileList] = useState<string[]>([]);
 
   /**
    * 获取特定标签对应的文件列表
@@ -41,8 +41,9 @@ const TagList = (props: Props) => {
     getTag(activeTag);
   }, [activeFile]);
 
+  // 切换标签后自动选中第一个文件
   useEffect(() => {
-    if (fileList.length > 0) {
+    if (fileList.length > 0 && fileList.indexOf(activeFile) === -1) {
       clickFile(fileList[0]);
     }
   }, [fileList]);
