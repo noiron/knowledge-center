@@ -104,6 +104,17 @@ const FileList = (props: FileListProps) => {
         </div>
       )}
 
+      {mode === MODES.LIST && (
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 50,
+          }}
+        >
+          按照编辑时间对文件列表排序
+        </div>
+      )}
+
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
 
       <FolderName name={rootNodes[0]?.path || ''} />

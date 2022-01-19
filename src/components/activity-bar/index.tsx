@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
-import { FaFile, FaTags, FaSearch, FaCog, FaCloud } from 'react-icons/fa';
+import {
+  FaFile,
+  FaTags,
+  FaSearch,
+  FaCog,
+  FaCloud,
+  FaList,
+} from 'react-icons/fa';
 import { ModeType } from '@/types';
 import { MODES } from '@/constants';
 
@@ -56,7 +63,11 @@ const ActivityBar = (props: BarProps) => {
     {
       mode: MODES.CLOUD,
       icon: FaCloud,
-    }
+    },
+    {
+      mode: MODES.LIST,
+      icon: FaList,
+    },
   ];
 
   return (

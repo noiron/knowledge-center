@@ -3,4 +3,5 @@ export const MODES = {
   TAG: 'TAG',
   SEARCH: 'SEARCH',
   CLOUD: 'CLOUD',
+  LIST: 'LIST',
 } as const;
