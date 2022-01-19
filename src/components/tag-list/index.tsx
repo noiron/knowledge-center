@@ -4,18 +4,24 @@ import axios from 'axios';
 import Tag from './tag';
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
-  padding: 10px;
-  background: ${(props) => (props.isActive ? '#ccc' : '#eee')};
+  padding: 8px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
+  &:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+  }
 `;
 
 interface Props {
-  /** 所有的标签的列表 */
-  tags: string[];
+  /** 所有的标签数量的列表 */
+  tags: { [key: string]: number };
+  activeFile: string;
   clickFile: (fileName: string) => void;
 }
 
 const TagList = (props: Props) => {
-  const { tags } = props;
+  const { tags, activeFile } = props;
   const [activeTag, setActiveTag] = useState('');
   const [fileList, setFileList] = useState(['1/测试.md']);
 
@@ -56,20 +62,23 @@ const TagList = (props: Props) => {
       <div
         style={{
           borderTop: '4px solid #eee',
-          padding: '20px',
+          padding: '20px 0',
         }}
       >
-        <p>这里是包含选中标签的文件列表</p>
-        {fileList.map((file: string) => {
+        {fileList.map((filePath: string) => {
+          const arr = filePath.trim().split('/');
+          const fileName = arr.pop();
+
           return (
             <StyledFileItem
-              key={file}
-              isActive={false}
+              key={filePath}
+              isActive={activeFile === filePath}
               onClick={() => {
-                props.clickFile(file);
+                props.clickFile(filePath);
               }}
+              title={filePath}
             >
-              {file}
+              {fileName}
             </StyledFileItem>
           );
         })}

@@ -39,7 +39,7 @@ interface FileListProps {
   setLeftWidth: (width: number) => void;
   saveLeftWidth: (width: number) => void;
   mode: ModeType;
-  tags: string[];
+  tags: { [key: string]: number };
 }
 
 const FileList = (props: FileListProps) => {
@@ -80,7 +80,11 @@ const FileList = (props: FileListProps) => {
 
       {mode === MODES.TAG && (
         <div>
-          <TagList tags={props.tags} clickFile={clickFile} />
+          <TagList
+            tags={props.tags}
+            clickFile={clickFile}
+            activeFile={activeFile}
+          />
         </div>
       )}
 

@@ -25,7 +25,7 @@ export function postUserConfig(userConfig: Partial<UserConfig>): AxiosPromise {
 
 export function getTags(): AxiosPromise<{
   success: true;
-  data: string[];
+  data: { [index: string]: number };
 }> {
   return axios.get('/api/tags');
 }

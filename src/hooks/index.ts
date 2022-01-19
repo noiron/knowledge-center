@@ -20,8 +20,8 @@ export const useFileList = (): { [key: string]: INode } => {
 /**
  * 获取标签列表
  */
-export const useTags = (): string[] => {
-  const [tags, setTags] = useState<string[]>([]);
+export const useTags = (): { [key: string]: number } => {
+  const [tags, setTags] = useState<{ [index: string]: number }>({});
 
   useEffect(() => {
     getTags().then((res) => {
