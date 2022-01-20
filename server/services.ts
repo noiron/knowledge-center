@@ -87,6 +87,10 @@ export async function getMarkdownList(ctx) {
   const fileList = list.filter((item) => {
     return utils.isMarkdownFile(item.absolutePath || '');
   });
+  fileList.forEach((file) => {
+    file.path = path.relative(FILE_PATH, file.absolutePath);
+    delete file.absolutePath;
+  });
 
   ctx.body = fileList;
 }

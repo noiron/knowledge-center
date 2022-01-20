@@ -4,6 +4,7 @@ import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js';
+import 'highlight.js/styles/agate.css';
 import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';

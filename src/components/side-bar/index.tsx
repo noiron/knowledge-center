@@ -2,12 +2,12 @@ import { useCallback, useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
 import { MODES } from '@/constants';
-import { ITags, ModeType } from '@/types';
+import { FileInfo, ITags, ModeType } from '@/types';
 import TagList from '../tag-list';
 import Tree, { INode } from '../tree';
 import FolderName from './folder-name';
+import FileList from '../file-list';
 import values from 'lodash/values';
-import { extractFileName } from '@/utils';
 
 const BORDER_WIDTH = 4;
 
@@ -44,6 +44,7 @@ interface SideBarProps {
   tags: ITags;
   setActiveTag: (tag: string) => void;
   activeTag: string;
+  fileInfoList: FileInfo[];
 }
 
 const SideBar = (props: SideBarProps) => {
@@ -55,7 +56,6 @@ const SideBar = (props: SideBarProps) => {
     mode,
     setActiveTag,
     activeTag,
-    // @ts-ignore
     fileInfoList,
   } = props;
   const ref = useRef<any>();
@@ -116,22 +116,7 @@ const SideBar = (props: SideBarProps) => {
       )}
 
       {mode === MODES.LIST && (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 50,
-          }}
-        >
-          按照编辑时间对文件列表排序
-          {fileInfoList.map((item: any) => {
-            return (
-              <div key={item.absolutePath}>
-                {extractFileName(item.absolutePath)}
-                {/* {item.lastModifiedTime} */}
-              </div>
-            );
-          })}
-        </div>
+        <FileList fileInfoList={fileInfoList} clickFile={clickFile} />
       )}
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>

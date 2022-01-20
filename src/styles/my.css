@@ -1,9 +1,12 @@
 pre {
-  border: 1px solid #ccc;
+  line-height: 1.5em;
+  /* border: 1px solid #ccc; */
   padding: 5px;
   border-radius: 2px;
   background: #fafafa;
   font-size: 14px;
+  color: #fff;
+  background: #333;
 }
 
 blockquote {
@@ -16,7 +19,7 @@ img {
   max-width: 100%;
 }
 
-p code {
+p code, li code {
   background: #efefef;
   border-radius: 3px;
   padding: 2px 5px;
