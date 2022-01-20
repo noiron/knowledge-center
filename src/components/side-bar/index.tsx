@@ -18,6 +18,7 @@ const StyledSideBar = styled.div`
   border-right: 1px solid #eee;
   width: var(--width);
   height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
   padding: 0 0px;
 `;
@@ -27,6 +28,7 @@ const RightBorder = styled.div`
   position: absolute;
   top: 0;
   right: -${BORDER_WIDTH}px;
+  /* right: 0; */
   width: ${BORDER_WIDTH}px;
   height: 100%;
   cursor: col-resize;
@@ -45,6 +47,7 @@ interface SideBarProps {
   setActiveTag: (tag: string) => void;
   activeTag: string;
   fileInfoList: FileInfo[];
+  setFolderPath: (path: string) => void;
 }
 
 const SideBar = (props: SideBarProps) => {
@@ -57,6 +60,7 @@ const SideBar = (props: SideBarProps) => {
     setActiveTag,
     activeTag,
     fileInfoList,
+    setFolderPath,
   } = props;
   const ref = useRef<any>();
 
@@ -121,7 +125,9 @@ const SideBar = (props: SideBarProps) => {
 
       <RightBorder onMouseDown={handler} ref={ref}></RightBorder>
 
-      <FolderName name={rootNodes[0]?.path || ''} />
+      <FolderName name={rootNodes[0]?.path || ''}
+        setFolderPath={setFolderPath}
+      />
     </StyledSideBar>
   );
 };

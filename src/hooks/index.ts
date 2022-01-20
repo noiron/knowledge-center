@@ -11,14 +11,14 @@ import { INode } from '../components/tree';
 /**
  * 获取文件列表，以树形结构返回
  */
-export const useFileTree = (): { [key: string]: INode } => {
+export const useFileTree = (folderPath: string): { [key: string]: INode } => {
   const [list, setList] = useState<{ [key: string]: INode }>({});
 
   useEffect(() => {
     getFileTree().then((res) => {
       setList(res.data);
     });
-  }, []);
+  }, [folderPath]);
 
   return list;
 };
@@ -41,14 +41,14 @@ export const useFileInfoList = (): any[] => {
 /**
  * 获取标签列表
  */
-export const useTags = (): { [key: string]: number } => {
+export const useTags = (folderPath: string): { [key: string]: number } => {
   const [tags, setTags] = useState<{ [index: string]: number }>({});
 
   useEffect(() => {
     getTags().then((res) => {
       setTags(res.data.data);
     });
-  }, []);
+  }, [folderPath]);
 
   return tags;
 };

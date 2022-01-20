@@ -43,11 +43,12 @@ const Box = styled.div`
 
 function App() {
   const userConfig = useUserConfig();
-  const list = useFileTree();
+  const [folderPath, setFolderPath] = useState(userConfig.folderPath);
+  const list = useFileTree(folderPath);
   const [fileName, setFileName] = useState('');
   const content = md.render(useFileContent(fileName));
   const [searchParams] = useSearchParams();
-  const tags = useTags();
+  const tags = useTags(folderPath);
   const [activeTag, setActiveTag] = useState('');
 
   const fileInfoList = useFileInfoList();
@@ -126,6 +127,7 @@ function App() {
             activeTag={activeTag}
             // @ts-ignore
             fileInfoList={fileInfoList}
+            setFolderPath={setFolderPath}
           />
 
           <Content

@@ -13,13 +13,16 @@ import {
   saveUserConfig,
   getTags,
   getTag,
-  FILE_PATH,
+  getFilePath,
 } from './services';
+
+const FILE_PATH = getFilePath();
 
 const router = Router();
 const app = new Koa();
 app.use(cors());
 app.use(bodyParser());
+// FIXME: 如何处理 FILE_PATH 改变的情况
 app.use(serve(FILE_PATH));
 
 router

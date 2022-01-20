@@ -5,15 +5,27 @@ import { exec } from 'child_process';
 import { homedir } from 'os';
 
 // export const filePath = path.resolve(__dirname, '../mds');
-export const FILE_PATH = path.resolve(
-  homedir(),
-  './Desktop/markdown-notes-sync'
-);
+// export const FILE_PATH = path.resolve(
+//   homedir(),
+//   './Desktop/markdown-notes-sync'
+// );
+
+const configPath = path.resolve(__dirname, './user-config.js');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const userConfig = require(configPath);
+
+/**
+ * 获取文件夹的基础路径，写成一个函数是因为在运行过程中这个文件夹可能变化
+ */
+export const getFilePath = () => {
+  return userConfig.folderPath;
+};
 
 /**
  * 获取一个 markdown 文件的内容
  */
 export async function getMarkdownFile(ctx) {
+  const FILE_PATH = getFilePath();
   const fileName = ctx.params[0];
   const myMarkdown = fs.readFileSync(
     path.resolve(FILE_PATH, `${fileName}`),
@@ -26,6 +38,7 @@ export async function getMarkdownFile(ctx) {
  * 读取目录下的文件，使用基本的链接形式展示为列表
  */
 export async function renderList(ctx) {
+  const FILE_PATH = getFilePath();
   const fileList = fs.readdirSync(FILE_PATH);
   const links = fileList
     .map((file) => {
@@ -45,6 +58,7 @@ export async function renderList(ctx) {
  * 运行一个 shell 命令
  */
 export async function runCommand(ctx) {
+  const FILE_PATH = getFilePath();
   const query = ctx.request.query;
   const { file } = query;
   exec('open -a typora ' + path.resolve(FILE_PATH, file));
@@ -58,6 +72,7 @@ export async function runCommand(ctx) {
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */
 export async function getMarkdownTree(ctx) {
+  const FILE_PATH = getFilePath();
   const baseNameOfFolder = path.basename(FILE_PATH);
   const rootNode = {
     path: baseNameOfFolder,
@@ -82,6 +97,7 @@ export async function getMarkdownTree(ctx) {
  * 获取目录下所有的 markdown 文件，以列表形式返回，按编辑时间排序
  */
 export async function getMarkdownList(ctx) {
+  const FILE_PATH = getFilePath();
   const list: any[] = [];
   utils.traverseFolderWithInfo(FILE_PATH, list);
   const fileList = list.filter((item) => {
@@ -101,7 +117,6 @@ export async function getUserConfig(ctx) {
 }
 
 export async function saveUserConfig(ctx) {
-  const configPath = path.resolve(__dirname, './user-config.js');
   const config = ctx.request.body;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -116,6 +131,7 @@ export async function saveUserConfig(ctx) {
 
 /** 读取给定目录下的 markdown 文件，并查找带有 #tag 的内容 */
 export async function getTags(ctx) {
+  const FILE_PATH = getFilePath();
   const list = [];
   utils.traverseFolder(FILE_PATH, list);
   const fileList = list.filter(utils.isMarkdownFile);
@@ -142,6 +158,7 @@ export async function getTags(ctx) {
  * 获取含有指定 tag 的 markdown 文件列表
  */
 export async function getTag(ctx) {
+  const FILE_PATH = getFilePath();
   const searchTag = ctx.params[0];
 
   const list: string[] = [];
