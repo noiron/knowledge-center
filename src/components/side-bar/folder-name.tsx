@@ -30,7 +30,6 @@ const FolderName = (props: Props) => {
   const inputFolderPath = () => {
     const path = prompt('请输入一个新的文件夹地址：');
     if (path) {
-      // @ts-ignore
       postUserConfig({ folderPath: path });
       props.setFolderPath(path);
     }

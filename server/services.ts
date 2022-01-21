@@ -27,11 +27,22 @@ export const getFilePath = () => {
 export async function getMarkdownFile(ctx) {
   const FILE_PATH = getFilePath();
   const fileName = ctx.params[0];
-  const myMarkdown = fs.readFileSync(
-    path.resolve(FILE_PATH, `${fileName}`),
-    'utf8'
-  );
-  ctx.body = myMarkdown;
+
+  try {
+    const myMarkdown = fs.readFileSync(
+      path.resolve(FILE_PATH, `${fileName}`),
+      'utf8'
+    );
+    ctx.body = {
+      success: true,
+      data: myMarkdown,
+    };
+  } catch {
+    ctx.body = {
+      success: false,
+      message: '文件不存在',
+    };
+  }
 }
 
 /**

@@ -2,6 +2,26 @@ import { CSSProperties, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/agate.css';
+import taskLists from 'markdown-it-task-lists';
+
+const md = new MarkdownIt({
+  breaks: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    return ''; // 使用额外的默认转义
+  },
+});
+md.use(taskLists);
 
 const StyledContent = styled.div`
   margin-left: var(--margin-left);
@@ -32,7 +52,8 @@ interface Props {
 }
 
 const Content = (props: Props) => {
-  const { content, leftWidth, fileName } = props;
+  const { content: rawContent, leftWidth, fileName } = props;
+  const content = md.render(rawContent || '');
   const origin = location.origin; // 一般是 http://localhost:4000
 
   useEffect(() => {

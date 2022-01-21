@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
-import taskLists from 'markdown-it-task-lists';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/agate.css';
 import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
@@ -20,22 +16,6 @@ import {
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
 
-const md = new MarkdownIt({
-  breaks: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(lang, str).value;
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    return ''; // 使用额外的默认转义
-  },
-});
-md.use(taskLists);
-
 const Box = styled.div`
   height: 100vh;
   position: relative;
@@ -46,7 +26,7 @@ function App() {
   const [folderPath, setFolderPath] = useState(userConfig.folderPath);
   const list = useFileTree(folderPath);
   const [fileName, setFileName] = useState('');
-  const content = md.render(useFileContent(fileName));
+  const content = useFileContent(fileName);
   const [searchParams] = useSearchParams();
   const tags = useTags(folderPath);
   const [activeTag, setActiveTag] = useState('');
@@ -84,11 +64,6 @@ function App() {
     setFileName(filePath);
     saveUserConfig({ lastActiveFile: filePath });
 
-    // const arr = filePath.trim().split('/');
-    // arr.pop();
-    // const prefix = arr.join('/');
-    // navigate(prefix + '/');
-
     navigate({
       pathname: window.location.pathname,
       search: '?file=' + filePath,
@@ -125,7 +100,6 @@ function App() {
             tags={tags}
             setActiveTag={setActiveTag}
             activeTag={activeTag}
-            // @ts-ignore
             fileInfoList={fileInfoList}
             setFolderPath={setFolderPath}
           />

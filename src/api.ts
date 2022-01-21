@@ -10,7 +10,11 @@ export function getFileInfoList(): AxiosPromise<{ [key: string]: any }> {
   return axios.get('/api/file-list');
 }
 
-export function getFileContent(fileName: string): AxiosPromise<string> {
+export function getFileContent(fileName: string): AxiosPromise<{
+  success: boolean;
+  data: string;
+  message: string;
+}> {
   return axios.get(`/api/file/${fileName}`);
 }
 
@@ -18,6 +22,7 @@ export interface UserConfig {
   lastActiveFile: string;
   leftWidth: number;
   mode: string;
+  folderPath: string;
 }
 
 export function getUserConfig(): AxiosPromise<UserConfig> {

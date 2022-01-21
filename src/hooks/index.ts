@@ -61,9 +61,17 @@ export const useFileContent = (fileName: string) => {
 
   useEffect(() => {
     if (!fileName) return;
-    getFileContent(fileName).then((res) => {
-      setContent(res.data);
-    });
+    getFileContent(fileName)
+      .then((res) => {
+        if (res.data.success) {
+          setContent(res.data.data);
+        } else {
+          throw new Error(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   }, [fileName]);
 
   return content;
