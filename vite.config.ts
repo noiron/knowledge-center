@@ -12,10 +12,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
       },
-      "^/.+\.(?:jpe?g|png)": {
-        target: "http://localhost:4001",
-        changeOrigin: true,
-      }
+      // "^/.+\.(?:jpe?g|png)": {
+      //   target: "http://localhost:4001",
+      //   changeOrigin: true,
+      // }
     },
   },
   resolve: {

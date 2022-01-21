@@ -6,6 +6,7 @@ import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/agate.css';
 import taskLists from 'markdown-it-task-lists';
+import emptyImage from '@/assets/empty.png';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -95,7 +96,9 @@ const Content = (props: Props) => {
       const src = matches[1];
       const paths = fileName.split('/');
       paths.pop();
-      const completeSrc = [origin, ...paths, src].join('/');
+
+      const completeSrc = ['http://localhost:4001', ...paths, src].join('/');
+      // const completeSrc = [origin, ...paths, src].join('/');
       img.outerHTML = outerHTML.replace(src, completeSrc);
     });
   }, [content]);
@@ -108,7 +111,7 @@ const Content = (props: Props) => {
         } as CSSProperties
       }
     >
-      {fileName && (
+      {content && (
         <Button
           onClick={() => {
             axios.post(`/api/run?file=${fileName}`);
@@ -117,14 +120,16 @@ const Content = (props: Props) => {
           在 Typora 中打开
         </Button>
       )}
-      {content ? (
+      {fileName && content ? (
         <div
           dangerouslySetInnerHTML={{
             __html: content as string,
           }}
         ></div>
       ) : (
-        <p>这里没有内容</p>
+        <p>
+          <img src={emptyImage} />
+        </p>
       )}
     </StyledContent>
   );
