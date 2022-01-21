@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { Toaster } from 'react-hot-toast';
 import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
@@ -122,6 +123,8 @@ function App() {
           }}
         />
       )}
+
+      <Toaster />
     </Box>
   );
 }

@@ -1,4 +1,6 @@
+import { FileInfo } from '@/types';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   getFileContent,
   getFileTree,
@@ -26,8 +28,8 @@ export const useFileTree = (folderPath: string): { [key: string]: INode } => {
 /**
  * 获取文件列表，以数组形式返回
  */
-export const useFileInfoList = (): any[] => {
-  const [list, setList] = useState<any>([]);
+export const useFileInfoList = (): FileInfo[] => {
+  const [list, setList] = useState<FileInfo[]>([]);
 
   useEffect(() => {
     getFileInfoList().then((res) => {
@@ -70,7 +72,9 @@ export const useFileContent = (fileName: string) => {
         }
       })
       .catch((err) => {
-        console.error(err.message);
+        toast(err.message, {
+          icon: '❌',
+        });
       });
   }, [fileName]);
 

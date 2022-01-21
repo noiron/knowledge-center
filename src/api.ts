@@ -1,12 +1,12 @@
 import axios, { AxiosPromise } from 'axios';
 import { INode } from './components/tree';
-import { ITags } from './types';
+import { FileInfo, ITags } from './types';
 
 export function getFileTree(): AxiosPromise<{ [key: string]: INode }> {
   return axios.get('/api/file-tree');
 }
 
-export function getFileInfoList(): AxiosPromise<{ [key: string]: any }> {
+export function getFileInfoList(): AxiosPromise<FileInfo[]> {
   return axios.get('/api/file-list');
 }
 
