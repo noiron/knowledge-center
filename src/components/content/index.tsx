@@ -25,10 +25,11 @@ const md = new MarkdownIt({
 md.use(taskLists);
 
 const StyledContent = styled.div`
-  margin-left: var(--margin-left);
   max-height: 100vh;
-  padding: 10px 20px;
+  padding: 10px 50px 50px;
   overflow-y: auto;
+  flex-grow: 1;
+  box-sizing: border-box;
 `;
 
 const Button = styled.div`
@@ -110,6 +111,7 @@ const Content = (props: Props) => {
           '--margin-left': leftWidth + 20 + ACTIVITY_BAR_WIDTH + 'px',
         } as CSSProperties
       }
+      className='content'
     >
       {content && (
         <Button
@@ -128,7 +130,8 @@ const Content = (props: Props) => {
         ></div>
       ) : (
         <p>
-          <img src={emptyImage} />
+          {/* <img src={emptyImage} /> */}
+          <img src={"http://c.tenor.com/Fml1EdnqjfwAAAAi/%E4%BD%95%E3%82%82%E3%81%AA%E3%81%84-%E3%82%BC%E3%83%AD.gif"} />
         </p>
       )}
     </StyledContent>

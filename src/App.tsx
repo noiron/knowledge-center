@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Toaster } from 'react-hot-toast';
@@ -16,10 +16,23 @@ import {
 } from './hooks';
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
+import { ACTIVITY_BAR_WIDTH } from './configs';
 
 const Box = styled.div`
+  width: 100%;
   height: 100vh;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+`;
+
+const BORDER_WIDTH = 4;
+
+const RightBorder = styled.div`
+  background-color: #eee;
+  width: ${BORDER_WIDTH}px;
+  height: 100vh;
+  cursor: col-resize;
 `;
 
 function App() {
@@ -84,12 +97,36 @@ function App() {
     postUserConfig(data);
   };
 
+  const ref = useRef<any>();
+
+  // https://stackoverflow.com/a/62437093
+  const handler = useCallback(() => {
+    function onMouseMove(e: any) {
+      setLeftWidth(e.clientX - ref.current.offsetLeft - 2);
+    }
+    function onMouseUp(e: any) {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      // 因为 handler 使用了 useCallback 包装，所以直接保存上层传入的 width 值会是一个固
+      // 定值，需要手动传入要保存的值
+      saveLeftWidth(e.clientX - ref.current.offsetLeft - 2);
+    }
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }, []);
+
   return (
     <Box>
       <ActivityBar changeMode={changeMode} currentMode={mode} />
 
       {mode !== MODES.CLOUD && (
-        <>
+        <div
+          style={{
+            display: 'flex',
+            marginLeft: 50,
+          }}
+          ref={ref}
+        >
           <SideBar
             width={leftWidth}
             list={list}
@@ -105,13 +142,22 @@ function App() {
             setFolderPath={setFolderPath}
           />
 
+          <RightBorder
+            onMouseDown={handler}
+            style={
+              {
+                '--margin-left': leftWidth + ACTIVITY_BAR_WIDTH + 'px',
+              } as CSSProperties
+            }
+          ></RightBorder>
+
           <Content
             content={content}
             fileName={fileName}
             leftWidth={leftWidth}
             clickFile={clickFile}
           />
-        </>
+        </div>
       )}
 
       {mode === MODES.CLOUD && (

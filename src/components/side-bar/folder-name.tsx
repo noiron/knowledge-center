@@ -9,7 +9,6 @@ const Box = styled.div`
   height: 50px;
   box-sizing: border-box;
   border-top: 4px solid #eee;
-  border-right: 4px solid #eee;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -35,7 +34,7 @@ const FolderName = (props: Props) => {
     }
   };
 
-  return <Box onClick={inputFolderPath}>{name}</Box>;
+  return <Box onClick={inputFolderPath} className='folder-name'>{name}</Box>;
 };
 
 export default FolderName;

@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { FileInfo } from '@/types';
 import { extractFileName, formatTime } from '@/utils';
 
+const StyledFileList = styled.div`
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+`;
+
 const FileItem = styled.div`
   padding-left: 15px;
   border-bottom: 1px dashed #eee;
@@ -30,7 +35,7 @@ const FileList = (props: Props) => {
   });
 
   return (
-    <div style={{ overflowY: 'auto' }}>
+    <StyledFileList>
       {fileInfoList.map((item) => {
         return (
           <FileItem key={item.path} onClick={() => clickFile(item.path)}>
@@ -39,7 +44,7 @@ const FileList = (props: Props) => {
           </FileItem>
         );
       })}
-    </div>
+    </StyledFileList>
   );
 };
 
