@@ -3,15 +3,31 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Tag from './tag';
 import { ITags } from '@/types';
+import { extractFileName } from '@/utils';
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
-  padding: 8px 20px;
-  font-size: 14px;
+  padding: 6px 18px;
+  font-size: 12px;
   cursor: pointer;
   background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
   &:not(:last-child) {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
   }
+`;
+
+const TagsBox = styled.div`
+  padding-top: 10px;
+  max-height: 70vh;
+  overflow: auto;
+  .wrapper {
+    padding: 0px 20px;
+    margin: 0.2em 0;
+  }
+`;
+
+const ListBox = styled.div`
+  border-top: 4px solid #eee;
+  padding: 15px 0;
 `;
 
 interface Props {
@@ -48,23 +64,16 @@ const TagList = (props: Props) => {
     }
   }, [fileList]);
 
+  const allTags = Object.keys(tags);
+  // 将标签按数量从多到少排序
+  allTags.sort((tag1, tag2) => tags[tag2] - tags[tag1]);
+
   return (
     <div>
-      <div
-        style={{
-          maxHeight: '70vh',
-          overflow: 'auto',
-        }}
-      >
-        {Object.keys(tags).map((tag: string) => {
+      <TagsBox>
+        {allTags.map((tag: string) => {
           return (
-            <div
-              style={{
-                padding: '0px 20px',
-                margin: '0.2em 0',
-              }}
-              key={tag}
-            >
+            <div className="wrapper" key={tag}>
               <Tag
                 text={tag}
                 isActive={activeTag === tag}
@@ -77,17 +86,11 @@ const TagList = (props: Props) => {
             </div>
           );
         })}
-      </div>
-      <div
-        style={{
-          borderTop: '4px solid #eee',
-          padding: '20px 0',
-        }}
-      >
-        {fileList.map((filePath: string) => {
-          const arr = filePath.trim().split('/');
-          const fileName = arr.pop();
+      </TagsBox>
 
+      <ListBox>
+        {fileList.map((filePath: string) => {
+          const fileName = extractFileName(filePath);
           return (
             <StyledFileItem
               key={filePath}
@@ -101,7 +104,7 @@ const TagList = (props: Props) => {
             </StyledFileItem>
           );
         })}
-      </div>
+      </ListBox>
     </div>
   );
 };
