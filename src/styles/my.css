@@ -4,6 +4,7 @@ body {
   line-height: 1.725;
 
   --a-color: #1769e0;
+  --border-color: #eee;
 }
 
 pre {
@@ -36,7 +37,7 @@ li code {
 }
 
 h2 {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 8px;
 }
 

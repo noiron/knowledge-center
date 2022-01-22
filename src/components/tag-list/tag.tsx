@@ -3,16 +3,15 @@ import { FaTags, FaReact, FaNodeJs } from 'react-icons/fa';
 import { SiLeetcode, SiWebpack, SiJavascript, SiVite } from 'react-icons/si';
 
 const StyledTag = styled.div<{ isActive: boolean }>`
-  font-size: 14px;
-  border: 1px solid #eee;
-  padding: 4px 15px;
+  font-size: 12px;
+  padding: 2px 10px;
   display: inline-flex;
   border-radius: 5px;
   background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
 
   svg {
     margin-right: 5px;
-    margin-top: 2px;
+    margin-top: 0.4em;
   }
 `;
 

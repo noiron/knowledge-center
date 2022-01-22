@@ -6,7 +6,7 @@ import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/agate.css';
 import taskLists from 'markdown-it-task-lists';
-import emptyImage from '@/assets/empty.png';
+// import emptyImage from '@/assets/empty.png';
 
 const md = new MarkdownIt({
   breaks: true,
@@ -34,7 +34,7 @@ const StyledContent = styled.div`
 
 const Button = styled.div`
   padding: 10px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   display: inline-block;
   background: #fff;
   font-size: 12px;

@@ -1,4 +1,4 @@
-import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Toaster } from 'react-hot-toast';
@@ -16,7 +16,6 @@ import {
 } from './hooks';
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
-import { ACTIVITY_BAR_WIDTH } from './configs';
 
 const Box = styled.div`
   width: 100%;
@@ -29,7 +28,7 @@ const Box = styled.div`
 const BORDER_WIDTH = 4;
 
 const RightBorder = styled.div`
-  background-color: #eee;
+  background-color: var(--border-color);
   width: ${BORDER_WIDTH}px;
   height: 100vh;
   cursor: col-resize;
@@ -142,14 +141,7 @@ function App() {
             setFolderPath={setFolderPath}
           />
 
-          <RightBorder
-            onMouseDown={handler}
-            style={
-              {
-                '--margin-left': leftWidth + ACTIVITY_BAR_WIDTH + 'px',
-              } as CSSProperties
-            }
-          ></RightBorder>
+          <RightBorder onMouseDown={handler}></RightBorder>
 
           <Content
             content={content}

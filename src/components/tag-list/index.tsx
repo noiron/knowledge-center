@@ -50,13 +50,18 @@ const TagList = (props: Props) => {
 
   return (
     <div>
-      <div>
+      <div
+        style={{
+          maxHeight: '70vh',
+          overflow: 'auto',
+        }}
+      >
         {Object.keys(tags).map((tag: string) => {
           return (
             <div
               style={{
                 padding: '0px 20px',
-                margin: '10px 0',
+                margin: '0.2em 0',
               }}
               key={tag}
             >

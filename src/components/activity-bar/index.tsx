@@ -17,7 +17,6 @@ const StyledBar = styled.div`
   left: 0;
   width: ${ACTIVITY_BAR_WIDTH}px;
   height: 100vh;
-  border: 1px solid #eee;
   background: #eee;
   display: flex;
   flex-direction: column;

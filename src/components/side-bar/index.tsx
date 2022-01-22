@@ -12,7 +12,7 @@ import values from 'lodash/values';
 const StyledSideBar = styled.div`
   height: 100%;
   position: relative;
-  border-right: 1px solid #eee;
+  border-right: 1px solid var(--border-color);
   width: var(--width);
   height: 100vh;
   overflow-x: hidden;
