@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import * as utils from './utils';
 import { exec } from 'child_process';
-import { homedir } from 'os';
+// import { homedir } from 'os';
 
 // export const filePath = path.resolve(__dirname, '../mds');
 // export const FILE_PATH = path.resolve(
@@ -11,6 +11,17 @@ import { homedir } from 'os';
 // );
 
 const configPath = path.resolve(__dirname, './user-config.js');
+const existed = fs.existsSync(configPath);
+if (!existed) {
+  fs.writeFileSync(
+    configPath,
+    `module.exports = {
+      folderPath: '${path.resolve(__dirname, '../mds')}'
+    }`,
+    { encoding: 'utf8' }
+  );
+}
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userConfig = require(configPath);
 
@@ -123,7 +134,8 @@ export async function getMarkdownList(ctx) {
 }
 
 export async function getUserConfig(ctx) {
-  const config = await import('./user-config.js');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const config = require(configPath);
   ctx.body = config;
 }
 

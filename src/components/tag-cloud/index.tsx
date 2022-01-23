@@ -14,7 +14,7 @@ const TagCloud = (props: Props) => {
     const canvas = document.getElementById('wordcloud') as HTMLCanvasElement;
     if (!canvas) return;
 
-    canvas.width = 800;
+    canvas.width = 1000;
     canvas.height = 600;
 
     // list 是一个数组，[[tag, count], [tag, count], ...]
