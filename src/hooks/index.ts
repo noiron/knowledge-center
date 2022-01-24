@@ -18,7 +18,9 @@ export const useFileTree = (folderPath: string): { [key: string]: INode } => {
 
   useEffect(() => {
     getFileTree().then((res) => {
-      setList(res.data);
+      if (res.data.success) {
+        setList(res.data.data);
+      }
     });
   }, [folderPath]);
 

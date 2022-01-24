@@ -85,8 +85,7 @@ export async function runCommand(ctx) {
   const { file } = query;
   exec('open -a typora ' + path.resolve(FILE_PATH, file));
   ctx.body = {
-    code: 0,
-    message: 'success',
+    success: true
   };
 }
 
@@ -112,7 +111,10 @@ export async function getMarkdownTree(ctx) {
     nodes,
     parentNode: rootNode,
   });
-  ctx.body = list;
+  ctx.body = {
+    success: true,
+    data: list,
+  };
 }
 
 /**
