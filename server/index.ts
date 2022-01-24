@@ -14,6 +14,7 @@ import {
   getTags,
   getTag,
   getFilePath,
+  getGitStatus,
 } from './services';
 
 const FILE_PATH = getFilePath();
@@ -34,7 +35,8 @@ router
   .get('/user-config', getUserConfig)
   .post('/save-config', saveUserConfig)
   .get('/tags', getTags)
-  .get('/tag/(.*)', getTag);
+  .get('/tag/(.*)', getTag)
+  .get('/git-status', getGitStatus);
 
 app.use(router.routes());
 app.listen(4001);

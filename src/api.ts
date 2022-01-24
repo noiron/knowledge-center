@@ -42,3 +42,10 @@ export function getTags(): AxiosPromise<{
 }> {
   return axios.get('/api/tags');
 }
+
+export function getGitStatus(): AxiosPromise<{
+  success: boolean;
+  data: string;
+}> {
+  return axios.get('/api/git-status');
+}

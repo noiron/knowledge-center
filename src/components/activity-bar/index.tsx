@@ -7,9 +7,11 @@ import {
   FaCog,
   FaCloud,
   FaList,
+  FaGitAlt,
 } from 'react-icons/fa';
 import { ModeType } from '@/types';
 import { MODES } from '@/constants';
+import { getGitStatus } from '@/api';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -35,6 +37,9 @@ const StyledBar = styled.div`
   .end {
     margin-top: auto;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -83,6 +88,13 @@ const ActivityBar = (props: BarProps) => {
       })}
 
       <div className="end">
+        <FaGitAlt onClick={
+          () => {
+            getGitStatus().then(res => {
+              console.log(res.data.data);
+            })
+          }
+        }/>
         <FaCog />
       </div>
     </StyledBar>

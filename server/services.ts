@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import * as utils from './utils';
+import { promisify } from 'util';
 import { exec } from 'child_process';
+
+const promisifyExec = promisify(exec);
 // import { homedir } from 'os';
 
 // export const filePath = path.resolve(__dirname, '../mds');
@@ -85,7 +88,7 @@ export async function runCommand(ctx) {
   const { file } = query;
   exec('open -a typora ' + path.resolve(FILE_PATH, file));
   ctx.body = {
-    success: true
+    success: true,
   };
 }
 
@@ -206,4 +209,22 @@ export async function getTag(ctx) {
     success: true,
     data: list,
   };
+}
+
+export async function getGitStatus(ctx) {
+  const FILE_PATH = getFilePath();
+
+  const { stdout, stderr } = await promisifyExec(`git -C ${FILE_PATH} status`);
+
+  if (stderr) {
+    ctx.body = {
+      success: false,
+      data: stderr,
+    };
+  } else {
+    ctx.body = {
+      success: true,
+      data: stdout,
+    };
+  }
 }
