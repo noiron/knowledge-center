@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
 import {
@@ -9,9 +10,11 @@ import {
   FaList,
   FaGitAlt,
 } from 'react-icons/fa';
+import { Modal } from '@mui/material';
 import { ModeType } from '@/types';
 import { MODES } from '@/constants';
 import { getGitStatus } from '@/api';
+import GitInfo from '../git-info';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -50,6 +53,10 @@ interface BarProps {
 
 const ActivityBar = (props: BarProps) => {
   const { changeMode, currentMode } = props;
+  const [gitStatus, setGitStatus] = React.useState<string | null>(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const list = [
     {
@@ -75,29 +82,44 @@ const ActivityBar = (props: BarProps) => {
   ];
 
   return (
-    <StyledBar>
-      {list.map((item) => {
-        const Icon = item.icon;
-        return (
-          <Icon
-            key={item.mode}
-            onClick={() => changeMode(item.mode)}
-            className={currentMode === item.mode ? 'active' : ''}
-          />
-        );
-      })}
+    <>
+      <StyledBar>
+        {list.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Icon
+              key={item.mode}
+              onClick={() => changeMode(item.mode)}
+              className={currentMode === item.mode ? 'active' : ''}
+            />
+          );
+        })}
 
-      <div className="end">
-        <FaGitAlt onClick={
-          () => {
-            getGitStatus().then(res => {
-              console.log(res.data.data);
-            })
-          }
-        }/>
-        <FaCog />
-      </div>
-    </StyledBar>
+        <div className="end">
+          <FaGitAlt
+            onClick={() => {
+              getGitStatus().then((res) => {
+                console.log(res.data.data);
+                setGitStatus(res.data.data);
+              });
+              handleOpen();
+            }}
+          />
+          <FaCog />
+        </div>
+      </StyledBar>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div>
+          <GitInfo gitStatus={gitStatus || ''} />
+        </div>
+      </Modal>
+    </>
   );
 };
 
