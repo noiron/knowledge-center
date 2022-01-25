@@ -68,16 +68,16 @@ const ActivityBar = (props: BarProps) => {
       icon: FaTags,
     },
     {
-      mode: MODES.SEARCH,
-      icon: FaSearch,
-    },
-    {
       mode: MODES.CLOUD,
       icon: FaCloud,
     },
     {
       mode: MODES.LIST,
       icon: FaList,
+    },
+    {
+      mode: MODES.SEARCH,
+      icon: FaSearch,
     },
   ];
 

@@ -6,6 +6,7 @@ import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/agate.css';
 import taskLists from 'markdown-it-task-lists';
+import hashtag from 'markdown-it-hashtag';
 // import emptyImage from '@/assets/empty.png';
 
 const md = new MarkdownIt({
@@ -23,6 +24,19 @@ const md = new MarkdownIt({
   },
 });
 md.use(taskLists);
+md.use(hashtag, {
+  hashtagRegExp: '[^#|\\s]+',
+  preceding: '^|\\s',
+});
+
+// https://www.npmjs.com/package/markdown-it-hashtag#advanced
+md.renderer.rules.hashtag_open = function () {
+  return '<span class="tag">';
+};
+
+md.renderer.rules.hashtag_close = function () {
+  return '</span>';
+};
 
 const StyledContent = styled.div`
   max-height: 100vh;
@@ -111,7 +125,7 @@ const Content = (props: Props) => {
           '--margin-left': leftWidth + 20 + ACTIVITY_BAR_WIDTH + 'px',
         } as CSSProperties
       }
-      className='content'
+      className="content"
     >
       {content && (
         <Button
@@ -131,7 +145,11 @@ const Content = (props: Props) => {
       ) : (
         <p>
           {/* <img src={emptyImage} /> */}
-          <img src={"http://c.tenor.com/Fml1EdnqjfwAAAAi/%E4%BD%95%E3%82%82%E3%81%AA%E3%81%84-%E3%82%BC%E3%83%AD.gif"} />
+          <img
+            src={
+              'http://c.tenor.com/Fml1EdnqjfwAAAAi/%E4%BD%95%E3%82%82%E3%81%AA%E3%81%84-%E3%82%BC%E3%83%AD.gif'
+            }
+          />
         </p>
       )}
     </StyledContent>
