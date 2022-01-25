@@ -55,7 +55,7 @@ const TagList = (props: Props) => {
   useEffect(() => {
     if (!activeTag) return;
     getTag(activeTag);
-  }, [activeFile]);
+  }, [activeTag]);
 
   // 切换标签后自动选中第一个文件
   useEffect(() => {
@@ -78,7 +78,6 @@ const TagList = (props: Props) => {
                 text={tag}
                 isActive={activeTag === tag}
                 onClick={(tag) => {
-                  getTag(tag);
                   clickTag(tag);
                 }}
                 count={tags[tag]}

@@ -11,6 +11,7 @@ const FileItem = styled.div`
   padding-left: 15px;
   border-bottom: 1px dashed #eee;
   font-size: 14px;
+  cursor: pointer;
   p {
     margin: 5px;
   }

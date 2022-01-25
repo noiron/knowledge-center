@@ -56,4 +56,5 @@ span.tag {
   border-radius: 8px;
   color: #333;
   font-size: 0.9em;
+  cursor: pointer;
 }

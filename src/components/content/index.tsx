@@ -65,10 +65,11 @@ interface Props {
   leftWidth: number;
   fileName: string;
   clickFile: (fileName: string) => void;
+  clickTag: (tag: string) => void;
 }
 
 const Content = (props: Props) => {
-  const { content: rawContent, leftWidth, fileName } = props;
+  const { content: rawContent, leftWidth, fileName, clickTag } = props;
   const content = md.render(rawContent || '');
   const origin = location.origin; // 一般是 http://localhost:4000
 
@@ -115,6 +116,15 @@ const Content = (props: Props) => {
       const completeSrc = ['http://localhost:4001', ...paths, src].join('/');
       // const completeSrc = [origin, ...paths, src].join('/');
       img.outerHTML = outerHTML.replace(src, completeSrc);
+    });
+  }, [content]);
+
+  useEffect(() => {
+    if (!content) return;
+    document.querySelectorAll('span.tag').forEach((tag) => {
+      tag.addEventListener('click', () => {
+        clickTag(tag.innerHTML.slice(1));
+      });
     });
   }, [content]);
 

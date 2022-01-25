@@ -153,6 +153,7 @@ function App() {
             fileName={fileName}
             leftWidth={leftWidth}
             clickFile={clickFile}
+            clickTag={clickTag}
           />
         </div>
       )}
