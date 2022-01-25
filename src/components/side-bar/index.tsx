@@ -8,7 +8,6 @@ import FolderName from './folder-name';
 import FileList from '../file-list';
 import values from 'lodash/values';
 
-
 const StyledSideBar = styled.div`
   height: 100%;
   position: relative;
@@ -30,7 +29,7 @@ interface SideBarProps {
   saveLeftWidth: (width: number) => void;
   mode: ModeType;
   tags: ITags;
-  setActiveTag: (tag: string) => void;
+  clickTag: (tag: string) => void;
   activeTag: string;
   fileInfoList: FileInfo[];
   setFolderPath: (path: string) => void;
@@ -43,8 +42,8 @@ const SideBar = (props: SideBarProps) => {
     clickFile,
     width,
     mode,
-    setActiveTag,
     activeTag,
+    clickTag,
     fileInfoList,
     setFolderPath,
   } = props;
@@ -88,8 +87,8 @@ const SideBar = (props: SideBarProps) => {
             tags={props.tags}
             clickFile={clickFile}
             activeFile={activeFile}
-            setActiveTag={setActiveTag}
             activeTag={activeTag}
+            clickTag={clickTag}
           />
         </div>
       )}
@@ -109,7 +108,8 @@ const SideBar = (props: SideBarProps) => {
         <FileList fileInfoList={fileInfoList} clickFile={clickFile} />
       )}
 
-      <FolderName name={rootNodes[0]?.path || ''}
+      <FolderName
+        name={rootNodes[0]?.path || ''}
         setFolderPath={setFolderPath}
       />
     </StyledSideBar>

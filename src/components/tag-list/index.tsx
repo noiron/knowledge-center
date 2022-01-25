@@ -36,11 +36,11 @@ interface Props {
   activeFile: string;
   clickFile: (fileName: string) => void;
   activeTag: string;
-  setActiveTag: (tag: string) => void;
+  clickTag: (tag: string) => void;
 }
 
 const TagList = (props: Props) => {
-  const { tags, activeFile, setActiveTag, activeTag, clickFile } = props;
+  const { tags, activeFile, activeTag, clickFile, clickTag } = props;
   const [fileList, setFileList] = useState<string[]>([]);
 
   /**
@@ -77,9 +77,9 @@ const TagList = (props: Props) => {
               <Tag
                 text={tag}
                 isActive={activeTag === tag}
-                onClick={(text) => {
-                  getTag(text);
-                  setActiveTag(text);
+                onClick={(tag) => {
+                  getTag(tag);
+                  clickTag(tag);
                 }}
                 count={tags[tag]}
               />

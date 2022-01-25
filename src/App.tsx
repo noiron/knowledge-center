@@ -83,6 +83,11 @@ function App() {
     });
   };
 
+  const clickTag = (tag: string) => {
+    setActiveTag(tag);
+    setMode(MODES.TAG);
+  }
+
   const saveLeftWidth = (width: number) => {
     saveUserConfig({ leftWidth: width });
   };
@@ -135,8 +140,8 @@ function App() {
             saveLeftWidth={saveLeftWidth}
             mode={mode}
             tags={tags}
-            setActiveTag={setActiveTag}
             activeTag={activeTag}
+            clickTag={clickTag}
             fileInfoList={fileInfoList}
             setFolderPath={setFolderPath}
           />
@@ -155,10 +160,7 @@ function App() {
       {mode === MODES.CLOUD && (
         <TagCloud
           tags={tags}
-          clickTag={(tag) => {
-            setActiveTag(tag);
-            setMode(MODES.TAG);
-          }}
+          clickTag={clickTag}
         />
       )}
 
