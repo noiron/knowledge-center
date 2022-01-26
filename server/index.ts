@@ -26,17 +26,19 @@ app.use(bodyParser());
 // FIXME: 如何处理 FILE_PATH 改变的情况
 app.use(serve(FILE_PATH));
 
+app.use(serve(__dirname + '/../dist'));
+
 router
   .get('/', renderList)
-  .get('/file-tree', getMarkdownTree)
-  .get('/file-list', getMarkdownList)
-  .get('/file/(.*)', getMarkdownFile)
-  .post('/run', runCommand)
-  .get('/user-config', getUserConfig)
-  .post('/save-config', saveUserConfig)
-  .get('/tags', getTags)
-  .get('/tag/(.*)', getTag)
-  .get('/git-status', getGitStatus);
+  .get('/api/file-tree', getMarkdownTree)
+  .get('/api/file-list', getMarkdownList)
+  .get('/api/file/(.*)', getMarkdownFile)
+  .post('/api/run', runCommand)
+  .get('/api/user-config', getUserConfig)
+  .post('/api/save-config', saveUserConfig)
+  .get('/api/tags', getTags)
+  .get('/api/tag/(.*)', getTag)
+  .get('/api/git-status', getGitStatus);
 
 app.use(router.routes());
 app.listen(4001);

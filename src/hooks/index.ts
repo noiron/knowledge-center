@@ -1,4 +1,5 @@
-import { FileInfo, INode } from '@/types';
+import { INode } from '@/types';
+import { FileInfo } from '@common/types';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {

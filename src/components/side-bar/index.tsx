@@ -1,12 +1,13 @@
 import { useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { MODES } from '@/constants';
-import { FileInfo, INode, ITags, ModeType } from '@/types';
+import { INode, ITags, ModeType } from '@/types';
 import { getRootNodes } from '@/utils';
 import TagList from '../tag-list';
 import Tree from '../tree';
 import FolderName from './folder-name';
 import FileList from '../file-list';
+import { FileInfo } from '@common/types';
 
 const StyledSideBar = styled.div`
   height: 100%;

@@ -1,6 +1,6 @@
 import axios, { AxiosPromise } from 'axios';
-import { INode } from './components/tree';
-import { FileInfo, ITags } from './types';
+import { INode, ITags } from './types';
+import { FileInfo } from '@common/types';
 
 export function getFileTree(): AxiosPromise<{
   success: boolean;

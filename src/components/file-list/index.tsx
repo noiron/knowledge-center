@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FileInfo } from '@/types';
+import { FileInfo } from '@common/types';
 import { extractFileName, formatTime } from '@/utils';
 
 const StyledFileList = styled.div`

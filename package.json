@@ -9,6 +9,9 @@
     "server:dev": "nodemon --exec 'ts-node' ./server/index.ts",
     "cloc": "cloc src server --not-match-f=bear.css"
   },
+  "bin": {
+    "kc": "./cli.sh"
+  },
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
