@@ -6,11 +6,6 @@ export interface ITags {
   [key: string]: number;
 }
 
-export interface FileInfo {
-  path: string;
-  lastModifiedTime: string;
-}
-
 export type NodeType = 'folder' | 'file';
 
 /** 文件树中的节点类型 */

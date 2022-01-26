@@ -4,6 +4,7 @@ import * as utils from './utils';
 import { promisify } from 'util';
 import { exec } from 'child_process';
 import { purifyTag } from '../common/utils';
+import { FileInfo } from '../common/types';
 
 const promisifyExec = promisify(exec);
 // import { homedir } from 'os';
@@ -126,13 +127,13 @@ export async function getMarkdownTree(ctx) {
  */
 export async function getMarkdownList(ctx) {
   const FILE_PATH = getFilePath();
-  const list: any[] = [];
+  const list: FileInfo[] = [];
   utils.traverseFolderWithInfo(FILE_PATH, list);
   const fileList = list.filter((item) => {
     return utils.isMarkdownFile(item.absolutePath || '');
   });
   fileList.forEach((file) => {
-    file.path = path.relative(FILE_PATH, file.absolutePath);
+    file.path = path.relative(FILE_PATH, file.absolutePath || '');
     delete file.absolutePath;
   });
 
@@ -192,6 +193,7 @@ export async function getTag(ctx) {
 
   const list: string[] = [];
   const fileList = [];
+  // TODO: 这里的内容应该在获取 tags 的时候就缓存过，在缓存中没有的情况下才再次获取
   utils.traverseFolder(FILE_PATH, fileList);
   fileList.filter(utils.isMarkdownFile).forEach((file) => {
     const absolutePath = path.resolve(FILE_PATH, file);
