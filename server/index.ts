@@ -40,5 +40,8 @@ router
   .get('/api/tag/(.*)', getTag)
   .get('/api/git-status', getGitStatus);
 
+const PORT = 4001;
 app.use(router.routes());
-app.listen(4001);
+app.listen(PORT);
+
+console.log('App in running at http://localhost:' + PORT);
