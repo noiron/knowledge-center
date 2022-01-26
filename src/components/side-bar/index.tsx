@@ -1,12 +1,12 @@
 import { useRef, CSSProperties } from 'react';
 import styled from 'styled-components';
 import { MODES } from '@/constants';
-import { FileInfo, ITags, ModeType } from '@/types';
+import { FileInfo, INode, ITags, ModeType } from '@/types';
+import { getRootNodes } from '@/utils';
 import TagList from '../tag-list';
-import Tree, { INode } from '../tree';
+import Tree from '../tree';
 import FolderName from './folder-name';
 import FileList from '../file-list';
-import values from 'lodash/values';
 
 const StyledSideBar = styled.div`
   height: 100%;
@@ -19,6 +19,7 @@ const StyledSideBar = styled.div`
   padding: 0 0px;
   flex-shrink: 0;
 `;
+
 interface SideBarProps {
   width: number;
   list: { [key: string]: INode };
@@ -65,35 +66,27 @@ const SideBar = (props: SideBarProps) => {
   //   document.addEventListener('mouseup', onMouseUp);
   // }, []);
 
-  // FIXME: 这个函数和 Tree 组件中的是重复的
-  const getRootNodes = () => {
-    return values(list).filter((node) => node.isRoot === true);
-  };
+  const rootNodes = getRootNodes(list);
 
-  const rootNodes = getRootNodes();
+  const renderByMode = () => {
+    if (mode === MODES.FILE) {
+      return <Tree onSelect={clickFile} list={list} activeFile={activeFile} />;
+    }
 
-  return (
-    <StyledSideBar
-      style={{ '--width': width + 'px' } as CSSProperties}
-      ref={ref}
-    >
-      {mode === MODES.FILE && (
-        <Tree onSelect={clickFile} list={list} activeFile={activeFile} />
-      )}
+    if (mode === MODES.TAG) {
+      return (
+        <TagList
+          tags={props.tags}
+          clickFile={clickFile}
+          activeFile={activeFile}
+          activeTag={activeTag}
+          clickTag={clickTag}
+        />
+      );
+    }
 
-      {mode === MODES.TAG && (
-        <div>
-          <TagList
-            tags={props.tags}
-            clickFile={clickFile}
-            activeFile={activeFile}
-            activeTag={activeTag}
-            clickTag={clickTag}
-          />
-        </div>
-      )}
-
-      {mode === MODES.SEARCH && (
+    if (mode === MODES.SEARCH) {
+      return (
         <div
           style={{
             textAlign: 'center',
@@ -102,11 +95,22 @@ const SideBar = (props: SideBarProps) => {
         >
           搜索功能开发中
         </div>
-      )}
+      );
+    }
 
-      {mode === MODES.LIST && (
-        <FileList fileInfoList={fileInfoList} clickFile={clickFile} />
-      )}
+    if (mode === MODES.LIST) {
+      return <FileList fileInfoList={fileInfoList} clickFile={clickFile} />;
+    }
+
+    return null;
+  };
+
+  return (
+    <StyledSideBar
+      style={{ '--width': width + 'px' } as CSSProperties}
+      ref={ref}
+    >
+      {renderByMode()}
 
       <FolderName
         name={rootNodes[0]?.path || ''}

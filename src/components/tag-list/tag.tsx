@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaTags, FaReact, FaNodeJs } from 'react-icons/fa';
 import { SiLeetcode, SiWebpack, SiJavascript, SiVite } from 'react-icons/si';
+import { RiTodoLine } from 'react-icons/ri';
 
 const StyledTag = styled.div<{ isActive: boolean }>`
   font-size: 12px;
@@ -22,6 +23,7 @@ const TAG_ICONS: { [key: string]: any } = {
   webpack: <SiWebpack />,
   javascript: <SiJavascript />,
   vite: <SiVite />,
+  todo: <RiTodoLine />,
 };
 
 interface TagProps {

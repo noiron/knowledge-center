@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import values from 'lodash/values';
 import TreeNode from './tree-node';
-
-export type NodeType = 'folder' | 'file';
-
-export interface INode {
-  path: string;
-  type: NodeType;
-  isRoot?: boolean;
-  children?: string[];
-  content?: string;
-  isOpen?: boolean;
-}
+import { INode, ITree } from '@/types';
+import { getRootNodes } from '@/utils';
 
 // const data: {
 //   [key: string]: INode;
@@ -52,21 +42,17 @@ export interface INode {
 
 interface IProps {
   onSelect: (path: string) => void;
-  list: { [key: string]: INode };
+  list: ITree;
   /** 当前选中的文件 */
   activeFile: string;
 }
 
 const Tree = (props: IProps) => {
-  const [nodes, setNodes] = useState<{ [key: string]: INode }>({});
+  const [nodes, setNodes] = useState<ITree>({});
 
   useEffect(() => {
     setNodes(props.list);
   }, [props.list]);
-
-  const getRootNodes = () => {
-    return values(nodes).filter((node) => node.isRoot === true);
-  };
 
   const getChildNodes = (node: INode) => {
     if (!node.children) return [];
@@ -83,7 +69,7 @@ const Tree = (props: IProps) => {
     onSelect(node.path);
   };
 
-  const rootNodes = getRootNodes();
+  const rootNodes = getRootNodes(nodes);
   if (rootNodes[0]) {
     rootNodes[0].isOpen = true;
   }
