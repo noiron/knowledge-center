@@ -2,7 +2,8 @@
   "name": "knowledge-center",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vite --port 4000",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "client:dev": "vite --port 4000",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "server:dev": "nodemon --exec 'ts-node' ./server/index.ts",
@@ -44,6 +45,7 @@
     "@typescript-eslint/parser": "^5.9.0",
     "@vitejs/plugin-react": "^1.0.7",
     "babel-plugin-styled-components": "^2.0.2",
+    "concurrently": "^7.0.0",
     "eslint": "^8.6.0",
     "eslint-plugin-react": "^7.28.0",
     "nodemon": "^2.0.15",

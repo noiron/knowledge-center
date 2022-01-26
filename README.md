@@ -2,15 +2,13 @@
 
 ## 介绍
 
-管理你的 MARKDOWN 文档。
+用于管理你的 MARKDOWN 文件的工具。
 
 ## 使用
 
 ```shell
 yarn install
-// 打开两个命令行，分别运行以下命令
 npm run dev
-npm run server:dev
 ```
 
 ## 项目结构
