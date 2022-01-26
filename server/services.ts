@@ -3,6 +3,7 @@ import path from 'path';
 import * as utils from './utils';
 import { promisify } from 'util';
 import { exec } from 'child_process';
+import { purifyTag } from '../common/utils';
 
 const promisifyExec = promisify(exec);
 // import { homedir } from 'os';
@@ -170,7 +171,7 @@ export async function getTags(ctx) {
     const matchedTags = utils.checkFileTags(absolutePath);
     if (matchedTags) {
       matchedTags.forEach((t) => {
-        if (t[0] === '#') t = t.slice(1); // 去掉开头的 hash
+        t = purifyTag(t);
         tags[t] = !tags[t] ? 1 : tags[t] + 1;
       });
     }
@@ -197,7 +198,7 @@ export async function getTag(ctx) {
     const matchedTags = utils.checkFileTags(absolutePath);
     if (matchedTags) {
       for (const tag of matchedTags) {
-        if (tag.slice(1) === searchTag) {
+        if (purifyTag(tag) === searchTag) {
           list.push(path.relative(FILE_PATH, absolutePath));
           break;
         }

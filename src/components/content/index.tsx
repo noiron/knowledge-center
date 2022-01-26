@@ -7,6 +7,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/agate.css';
 import taskLists from 'markdown-it-task-lists';
 import hashtag from 'markdown-it-hashtag';
+import { purifyTag } from '@common/utils';
 // import emptyImage from '@/assets/empty.png';
 
 const md = new MarkdownIt({
@@ -123,7 +124,7 @@ const Content = (props: Props) => {
     if (!content) return;
     document.querySelectorAll('span.tag').forEach((tag) => {
       tag.addEventListener('click', () => {
-        clickTag(tag.innerHTML.slice(1));
+        clickTag(purifyTag(tag.innerHTML));
       });
     });
   }, [content]);

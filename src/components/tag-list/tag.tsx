@@ -34,12 +34,7 @@ interface TagProps {
 }
 
 const Tag = (props: TagProps) => {
-  const { onClick, isActive, count } = props;
-
-  let text = props.text;
-  if (text[0] === '#') {
-    text = text.slice(1);
-  }
+  const { onClick, isActive, count, text } = props;
 
   return (
     <StyledTag
