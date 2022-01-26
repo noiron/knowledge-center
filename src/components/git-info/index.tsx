@@ -25,9 +25,7 @@ interface Props {
 const GitInfo = (props: Props) => {
   return (
     <Box>
-      <Box>
-        <pre>{props.gitStatus}</pre>
-      </Box>
+      <pre>{props.gitStatus}</pre>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { FileInfo } from '@/types';
+import { FileInfo, INode } from '@/types';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
@@ -8,7 +8,6 @@ import {
   getUserConfig,
   getFileInfoList,
 } from '../api';
-import { INode } from '../components/tree';
 
 /**
  * 获取文件列表，以树形结构返回

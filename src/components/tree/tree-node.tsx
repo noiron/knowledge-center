@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import styled from 'styled-components';
 import last from 'lodash/last';
-import { INode, NodeType } from '.';
+import { INode, NodeType } from '@/types';
 
 const getPaddingLeft = (level: number, type: NodeType) => {
   let paddingLeft = level * 10 + 8;

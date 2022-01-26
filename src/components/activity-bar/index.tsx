@@ -99,7 +99,6 @@ const ActivityBar = (props: BarProps) => {
           <FaGitAlt
             onClick={() => {
               getGitStatus().then((res) => {
-                console.log(res.data.data);
                 setGitStatus(res.data.data);
               });
               handleOpen();

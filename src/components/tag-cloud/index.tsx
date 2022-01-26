@@ -7,6 +7,11 @@ interface Props {
   clickTag: (tag: string) => void;
 }
 
+// list 是一个数组，[[tag, count], [tag, count], ...]
+function tagsToList(tags: ITags): [string, number][] {
+  return Object.keys(tags).map((key) => [key, tags[key]]);
+}
+
 const TagCloud = (props: Props) => {
   const { tags, clickTag } = props;
 
@@ -17,8 +22,7 @@ const TagCloud = (props: Props) => {
     canvas.width = 1000;
     canvas.height = 600;
 
-    // list 是一个数组，[[tag, count], [tag, count], ...]
-    const list = Object.keys(tags).map((key) => [key, tags[key]]);
+    const list = tagsToList(tags);
 
     WordCloud(canvas, {
       list,
