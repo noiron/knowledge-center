@@ -3,6 +3,9 @@ import Router from '@koa/router';
 import serve from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
+import detect from 'detect-port';
+import chalk from 'chalk';
+import emoji from 'node-emoji';
 import {
   renderList,
   getMarkdownTree,
@@ -42,6 +45,20 @@ router
 
 const PORT = 4001;
 app.use(router.routes());
-app.listen(PORT);
 
-console.log('App in running at http://localhost:' + PORT);
+detect(PORT)
+  .then((port) => {
+    if (port === PORT) {
+      app.listen(PORT);
+      console.log(
+        emoji.get('rocket'),
+        chalk.green('App in running at'),
+        chalk.blue('http://localhost:' + PORT)
+      );
+    } else {
+      console.log(emoji.get('frog'), `Sorry, port:${PORT} was occupied.`);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
