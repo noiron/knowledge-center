@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import toast from 'react-hot-toast';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
 import {
   FaFile,
@@ -104,7 +105,11 @@ const ActivityBar = (props: BarProps) => {
               handleOpen();
             }}
           />
-          <FaCog />
+          <FaCog
+            onClick={() => {
+              toast('🤪 Setting is coming soon.');
+            }}
+          />
         </div>
       </StyledBar>
 
