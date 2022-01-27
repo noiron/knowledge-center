@@ -121,12 +121,32 @@ function App() {
 
   const askUserToInputFolderPath = () => {
     // TODO: 换成个正经的弹窗
-    const path = prompt('请输入一个新的文件夹地址：');
+    const path = prompt(
+      '请输入你的 Markdown 文件所在文件夹的路径\n（如：/Users/me/Desktop/markdown-notes）'
+    );
     if (path) {
+      // TODO: 检查路径是否存在
       setFolderPath(path);
       saveUserConfig({ folderPath: path });
     }
   };
+
+  useEffect(() => {
+    const folderPath = userConfig.folderPath;
+    if (!folderPath) return;
+
+    // 如果文件夹地址是默认的，则询问用户输入
+    if (folderPath.match(/knowledge-center\/mds$/)) {
+      const storageKey = 'lastAskTime';
+      const lastAskTime = localStorage.getItem(storageKey);
+      const currentTime = new Date().getTime();
+      const oneDay = 24 * 60 * 60 * 1000;
+      if (!lastAskTime || currentTime - +lastAskTime > oneDay) {
+        askUserToInputFolderPath();
+        localStorage.setItem(storageKey, currentTime.toString());
+      }
+    }
+  }, [userConfig.folderPath]);
 
   return (
     <Box>
