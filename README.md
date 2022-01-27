@@ -7,13 +7,25 @@
 ## 使用
 
 ```shell
+git clone https://github.com/noiron/knowledge-center.git
+cd knowledge-center
 yarn install
+
+# for development
 npm run dev
+# open http://localhost:4000
+
+# use npm link
+npm run build
+npm link
+kc # Now, you can use this command in any path
+# open http://localhost:4001
 ```
 
 ## 项目结构
 
 项目使用 vite 创建，代码由两部分组成：
+
 - `server`: node 服务器，用于管理本地的 markdown 文档，给 client 提供接口，使用 Koa 实现
 - `src`: client 部分，在浏览器中运行，使用 React 实现
 
