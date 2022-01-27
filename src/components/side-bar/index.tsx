@@ -34,7 +34,7 @@ interface SideBarProps {
   clickTag: (tag: string) => void;
   activeTag: string;
   fileInfoList: FileInfo[];
-  setFolderPath: (path: string) => void;
+  askUserToInputFolderPath: () => void;
 }
 
 const SideBar = (props: SideBarProps) => {
@@ -47,7 +47,7 @@ const SideBar = (props: SideBarProps) => {
     activeTag,
     clickTag,
     fileInfoList,
-    setFolderPath,
+    askUserToInputFolderPath,
   } = props;
   const ref = useRef<any>();
 
@@ -115,7 +115,7 @@ const SideBar = (props: SideBarProps) => {
 
       <FolderName
         name={rootNodes[0]?.path || ''}
-        setFolderPath={setFolderPath}
+        askUserToInputFolderPath={askUserToInputFolderPath}
       />
     </StyledSideBar>
   );

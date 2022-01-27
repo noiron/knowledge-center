@@ -2,7 +2,6 @@
  * 展示及编辑文件夹名称
  */
 import styled from 'styled-components';
-import { postUserConfig } from '@/api';
 
 const Box = styled.div`
   width: 100%;
@@ -16,26 +15,22 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #fff;
+  cursor: pointer;
 `;
 
 interface Props {
   name: string;
-  setFolderPath: (path: string) => void;
+  askUserToInputFolderPath: () => void;
 }
 
 const FolderName = (props: Props) => {
-  const { name } = props;
+  const { name, askUserToInputFolderPath } = props;
 
-  const inputFolderPath = () => {
-    // TODO: 换成个正经的弹窗
-    const path = prompt('请输入一个新的文件夹地址：');
-    if (path) {
-      postUserConfig({ folderPath: path });
-      props.setFolderPath(path);
-    }
-  };
-
-  return <Box onClick={inputFolderPath} className='folder-name'>{name}</Box>;
+  return (
+    <Box onClick={askUserToInputFolderPath} className="folder-name">
+      {name}
+    </Box>
+  );
 };
 
 export default FolderName;

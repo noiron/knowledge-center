@@ -86,7 +86,7 @@ function App() {
   const clickTag = (tag: string) => {
     setActiveTag(tag);
     setMode(MODES.TAG);
-  }
+  };
 
   const saveLeftWidth = (width: number) => {
     saveUserConfig({ leftWidth: width });
@@ -119,6 +119,15 @@ function App() {
     document.addEventListener('mouseup', onMouseUp);
   }, []);
 
+  const askUserToInputFolderPath = () => {
+    // TODO: 换成个正经的弹窗
+    const path = prompt('请输入一个新的文件夹地址：');
+    if (path) {
+      setFolderPath(path);
+      saveUserConfig({ folderPath: path });
+    }
+  };
+
   return (
     <Box>
       <ActivityBar changeMode={changeMode} currentMode={mode} />
@@ -143,7 +152,7 @@ function App() {
             activeTag={activeTag}
             clickTag={clickTag}
             fileInfoList={fileInfoList}
-            setFolderPath={setFolderPath}
+            askUserToInputFolderPath={askUserToInputFolderPath}
           />
 
           <RightBorder onMouseDown={handler}></RightBorder>
@@ -158,12 +167,7 @@ function App() {
         </div>
       )}
 
-      {mode === MODES.CLOUD && (
-        <TagCloud
-          tags={tags}
-          clickTag={clickTag}
-        />
-      )}
+      {mode === MODES.CLOUD && <TagCloud tags={tags} clickTag={clickTag} />}
 
       <Toaster />
     </Box>
