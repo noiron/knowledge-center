@@ -1,10 +1,10 @@
 # Knowledge Center
 
-## 介绍
+## Introduction
 
-用于管理你的 MARKDOWN 文件的工具。
+A tool to help you managing your markdown files.
 
-## 使用
+## How To Use
 
 ```shell
 git clone https://github.com/noiron/knowledge-center.git
@@ -21,6 +21,20 @@ npm link
 kc # Now, you can use this command in any path
 # open http://localhost:4001
 ```
+
+## Screenshots
+
+### File Tree
+
+![file-tree](./screenshots/file-tree-20220127.png)
+
+### Tags
+
+![tags](./screenshots/tags-20220127.png)
+
+### Tag Cloud
+
+![tag-cloud](./screenshots/tag-cloud-20220127.png)
 
 ## 项目结构
 
