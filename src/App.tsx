@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Toaster } from 'react-hot-toast';
+import TextField from '@mui/material/TextField';
+import { Modal } from '@mui/material';
 import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
@@ -34,6 +36,18 @@ const RightBorder = styled.div`
   cursor: col-resize;
 `;
 
+const InputWrapper = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  box-shadow: 24px;
+  border-radius: 4px;
+  background: #fff;
+  padding: 40px;
+`;
+
 function App() {
   const userConfig = useUserConfig();
   const [folderPath, setFolderPath] = useState(userConfig.folderPath);
@@ -49,6 +63,8 @@ function App() {
   const [mode, setMode] = useState<ModeType>(MODES.FILE);
   const [leftWidth, setLeftWidth] = useState(200);
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   useEffect(() => {
     if (userConfig.leftWidth) {
@@ -120,15 +136,15 @@ function App() {
   }, []);
 
   const askUserToInputFolderPath = () => {
-    // TODO: 换成个正经的弹窗
-    const path = prompt(
-      '请输入你的 Markdown 文件所在文件夹的路径\n（如：/Users/me/Desktop/markdown-notes）'
-    );
-    if (path) {
-      // TODO: 检查路径是否存在
-      setFolderPath(path);
-      saveUserConfig({ folderPath: path });
-    }
+    setIsModalOpen(true);
+    // const path = prompt(
+    //   '请输入你的 Markdown 文件所在文件夹的路径\n（如：/Users/me/Desktop/markdown-notes）'
+    // );
+    // if (path) {
+    //   // TODO: 检查路径是否存在
+    //   setFolderPath(path);
+    //   saveUserConfig({ folderPath: path });
+    // }
   };
 
   useEffect(() => {
@@ -151,7 +167,6 @@ function App() {
   return (
     <Box>
       <ActivityBar changeMode={changeMode} currentMode={mode} />
-
       {mode !== MODES.CLOUD && (
         <div
           style={{
@@ -186,10 +201,36 @@ function App() {
           />
         </div>
       )}
-
       {mode === MODES.CLOUD && <TagCloud tags={tags} clickTag={clickTag} />}
-
       <Toaster />
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <InputWrapper>
+          <p>请输入你的 Markdown 文件所在文件夹的路径</p>
+          <p>（如：/Users/me/Desktop/markdown-notes）</p>
+          <TextField
+            id="outlined-basic"
+            label="请输入文件夹路径"
+            variant="outlined"
+            style={{
+              width: '80%',
+            }}
+            onBlur={(e) => {
+              const path = e.target.value;
+              if (path) {
+                // TODO: 检查路径是否存在
+                setFolderPath(path);
+                saveUserConfig({ folderPath: path });
+              }
+            }}
+          />
+        </InputWrapper>
+      </Modal>
+      )
     </Box>
   );
 }
