@@ -64,7 +64,7 @@ function App() {
   const [leftWidth, setLeftWidth] = useState(200);
   const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (userConfig.leftWidth) {

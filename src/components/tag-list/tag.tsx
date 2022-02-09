@@ -9,10 +9,20 @@ const StyledTag = styled.div<{ isActive: boolean }>`
   display: inline-flex;
   border-radius: 5px;
   background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
+  white-space: nowrap;
+  cursor: pointer;
+  &:hover {
+    background: #ddd;
+  }
 
   svg {
     margin-right: 5px;
     margin-top: 0.4em;
+  }
+  .count {
+    margin-left: 5px;
+    padding-left: 8px;
+    border-left: 1px solid #ccc;
   }
 `;
 
@@ -44,7 +54,8 @@ const Tag = (props: TagProps) => {
       isActive={isActive}
     >
       {TAG_ICONS[text] || <FaTags />}
-      {text} x {count}
+      {text}
+      <span className="count">{count}</span>
     </StyledTag>
   );
 };

@@ -17,7 +17,7 @@ const StyledFileItem = styled.div<{ isActive: boolean }>`
 
 const TagsBox = styled.div`
   padding-top: 10px;
-  max-height: 70vh;
+  max-height: 60vh;
   overflow: auto;
   .wrapper {
     padding: 0px 20px;
