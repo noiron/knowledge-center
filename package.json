@@ -10,8 +10,8 @@
     "cloc": "cloc src server --not-match-f=bear.css"
   },
   "bin": {
-    "kc": "./cli.js",
-    "kc2": "./cli.sh"
+    "know": "./cli.js",
+    "know2": "./cli.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

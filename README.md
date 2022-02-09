@@ -18,7 +18,7 @@ npm run dev
 # use npm link
 npm run build
 npm link
-kc # Now, you can use this command in any path (need install ts-node globally)
+know # Now, you can use this command in any path (need install ts-node globally)
 # open http://localhost:4001
 ```
 
