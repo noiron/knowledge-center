@@ -22,12 +22,18 @@ const StyledTreeNode = styled.div<{ level: number; type: NodeType }>`
   padding: 5px 8px;
   padding-left: ${(props) => getPaddingLeft(props.level, props.type)}px;
   cursor: pointer;
+  font-size: 14px;
   &:hover {
     background: #fafafa;
   }
   &.active {
     border-left: 2px solid #000;
-    background: #eee;
+    background: var(--active-color);
+  }
+
+  span[role='button'] {
+    white-space: nowrap;
+    line-height: 1.5;
   }
 `;
 
@@ -51,20 +57,20 @@ const TreeNode = (props: TreeNodeProps) => {
   const { node, getChildNodes, level, onToggle, onNodeSelect, activeFile } =
     props;
 
-  return (
-    <>
-      <StyledTreeNode
-        level={level}
-        type={node.type}
-        onClick={() => {
-          if (node.type === 'file') {
-            onNodeSelect(node);
-          } else {
-            onToggle(node);
-          }
-        }}
-        className={activeFile === node.path ? 'active' : ''}
-      >
+  // 不展示空文件夹
+  if (node.type === 'folder' && node.children?.length === 0) return null;
+
+  const handleClick = (node: INode) => {
+    if (node.type === 'file') {
+      onNodeSelect(node);
+    } else {
+      onToggle(node);
+    }
+  };
+
+  const renderIcon = () => {
+    return (
+      <>
         <NodeIcon>
           {node.type === 'folder' &&
             (node.isOpen ? <FaChevronDown /> : <FaChevronRight />)}
@@ -75,7 +81,21 @@ const TreeNode = (props: TreeNodeProps) => {
           {node.type === 'folder' &&
             (node.isOpen ? <FaFolderOpen /> : <FaFolder />)}
         </NodeIcon>
+      </>
+    );
+  };
 
+  return (
+    <>
+      <StyledTreeNode
+        level={level}
+        type={node.type}
+        onClick={() => {
+          handleClick(node);
+        }}
+        className={activeFile === node.path ? 'active' : ''}
+      >
+        {renderIcon()}
         <span role="button">{getNodeLabel(node)}</span>
       </StyledTreeNode>
 
