@@ -100,7 +100,13 @@ const SideBar = (props: SideBarProps) => {
     }
 
     if (mode === MODES.LIST) {
-      return <FileList fileInfoList={fileInfoList} clickFile={clickFile} />;
+      return (
+        <FileList
+          fileInfoList={fileInfoList}
+          clickFile={clickFile}
+          activeFilePath={activeFile}
+        />
+      );
     }
 
     return null;

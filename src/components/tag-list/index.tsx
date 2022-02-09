@@ -9,10 +9,12 @@ const StyledFileItem = styled.div<{ isActive: boolean }>`
   padding: 6px 18px;
   font-size: 12px;
   cursor: pointer;
-  background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
-  &:not(:last-child) {
+  background: ${(props) =>
+    props.isActive ? 'var(--active-color)' : 'transparent'};
+  border-bottom: 1px dashed #eee;
+  /* &:not(:last-child) {
     border-bottom: 1px solid var(--border-color);
-  }
+  } */
 `;
 
 const TagsBox = styled.div`
@@ -27,7 +29,7 @@ const TagsBox = styled.div`
 
 const ListBox = styled.div`
   border-top: 4px solid #eee;
-  padding: 15px 0;
+  padding: 5px 0;
 `;
 
 interface Props {

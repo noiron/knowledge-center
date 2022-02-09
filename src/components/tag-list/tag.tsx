@@ -8,11 +8,17 @@ const StyledTag = styled.div<{ isActive: boolean }>`
   padding: 2px 10px;
   display: inline-flex;
   border-radius: 5px;
-  background: ${(props) => (props.isActive ? '#ddd' : '#eee')};
+  background: ${(props) => (props.isActive ? 'var(--active-color)' : '#eee')};
   white-space: nowrap;
   cursor: pointer;
   &:hover {
-    background: #ddd;
+    background: var(--active-color);
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    opacity: 0.9;
   }
 
   svg {

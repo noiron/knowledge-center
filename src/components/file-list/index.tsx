@@ -8,22 +8,26 @@ const StyledFileList = styled.div`
 `;
 
 const FileItem = styled.div`
-  padding-left: 15px;
+  padding: 3px 0 3px 15px;
   border-bottom: 1px dashed #eee;
   font-size: 14px;
   cursor: pointer;
   p {
-    margin: 5px;
+    margin: 0px;
   }
   p.time {
-    font-size: 12px;
+    font-size: 10px;
     color: #999;
+  }
+  &.active {
+    background-color: var(--active-color);
   }
 `;
 
 interface Props {
   fileInfoList: FileInfo[];
   clickFile: (filePath: string) => void;
+  activeFilePath: string;
 }
 
 const FileList = (props: Props) => {
@@ -39,7 +43,11 @@ const FileList = (props: Props) => {
     <StyledFileList>
       {fileInfoList.map((item) => {
         return (
-          <FileItem key={item.path} onClick={() => clickFile(item.path)}>
+          <FileItem
+            key={item.path}
+            onClick={() => clickFile(item.path)}
+            className={item.path === props.activeFilePath ? 'active' : ''}
+          >
             <p>{extractFileName(item.path)}</p>
             <p className="time">{formatTime(item.lastModifiedTime)}</p>
           </FileItem>
