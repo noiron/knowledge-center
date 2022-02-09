@@ -1,5 +1,8 @@
 # Knowledge Center
 
+![Node.js CI](https://github.com/noiron/knowledge-center/actions/workflows/node.js.yml/badge.svg)
+
+
 ## Introduction
 
 A tool to help you managing your markdown files.
