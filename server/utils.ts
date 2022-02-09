@@ -116,7 +116,7 @@ export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
  * 检查给定的内容中是否包含标签
  */
 const checkTags = (content: string) => {
-  return content.match(/(?<=(^|\s))#(?!(\s|#))([\S]+)/gm);
+  return content.match(/(?<=(^|\s))#(?!(\s|#|!))([\S]+)/gm);
 };
 
 /**
