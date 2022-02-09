@@ -30,10 +30,14 @@ img {
 }
 
 p code,
-li code {
+li code,
+h1 code,
+h2 code,
+h3 code {
   background: #efefef;
   border-radius: 3px;
   padding: 2px 5px;
+  padding: 0.1em 0.2em;
   font-size: 0.9em;
 }
 
@@ -58,4 +62,10 @@ span.tag {
   color: #333;
   font-size: 0.9em;
   cursor: pointer;
+}
+span.tag:active {
+  background: var(--active-color);
+  position: relative;
+  top: 1px;
+  left: 1px;
 }
