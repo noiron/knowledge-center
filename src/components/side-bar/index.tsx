@@ -2,7 +2,12 @@ import { useRef, CSSProperties, useState } from 'react';
 import styled from 'styled-components';
 import { MODES } from '@/constants';
 import { INode, ITags, ModeType } from '@/types';
-import { getRootNodes } from '@/utils';
+import {
+  getRootNodes,
+  openFileInTypora,
+  openFileInVSCode,
+  openFolderInVSCode,
+} from '@/utils';
 import TagList from '../tag-list';
 import Tree from '../tree';
 import FolderName from './folder-name';
@@ -10,7 +15,6 @@ import FileList from '../file-list';
 import { FileInfo } from '@common/types';
 import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
-import axios from 'axios';
 
 const StyledSideBar = styled.div`
   height: 100%;
@@ -147,11 +151,24 @@ const SideBar = (props: SideBarProps) => {
       >
         <MenuItem
           onClick={() => {
-            console.log('在 VSCode 中打开文件：' + contextMenuFilePath);
-            axios.post(`/api/open?file=${contextMenuFilePath}`);
+            openFileInVSCode(contextMenuFilePath);
           }}
         >
-          Open In VSCode
+          Open File In VSCode
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            openFolderInVSCode(contextMenuFilePath);
+          }}
+        >
+          Open Folder In VSCode
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            openFileInTypora(contextMenuFilePath);
+          }}
+        >
+          Open In Typora
         </MenuItem>
       </ControlledMenu>
     </StyledSideBar>

@@ -1,9 +1,9 @@
 import { CSSProperties, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
 import { purifyTag } from '@common/utils';
 import md from './md';
+import { openFileInTypora } from '@/utils';
 // import emptyImage from '@/assets/empty.png';
 
 const StyledContent = styled.div`
@@ -108,7 +108,7 @@ const Content = (props: Props) => {
       {content && (
         <Button
           onClick={() => {
-            axios.post(`/api/run?file=${fileName}`);
+            openFileInTypora(fileName);
           }}
         >
           在 Typora 中打开

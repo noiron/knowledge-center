@@ -49,3 +49,11 @@ export function getGitStatus(): AxiosPromise<{
 }> {
   return axios.get('/api/git-status');
 }
+
+export function postOpenFileInVSCode(filePath: string): AxiosPromise {
+  return axios.post(`/api/open?file=${filePath}`);
+}
+
+export function postOpenFileInTypora(filePath: string): AxiosPromise {
+  return axios.post(`/api/run?file=${filePath}`);
+}
