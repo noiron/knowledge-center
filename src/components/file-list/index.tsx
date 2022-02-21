@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FileInfo } from '@common/types';
 import { extractFileName, formatTime } from '@/utils';
+import { OnContextMenu } from '@/types';
 
 const StyledFileList = styled.div`
   overflow-y: auto;
@@ -29,15 +30,7 @@ interface Props {
   clickFile: (filePath: string) => void;
   activeFilePath: string;
   /** 展示右键操作 */
-  onContextMenu: ({
-    filePath,
-    x,
-    y,
-  }: {
-    filePath: string;
-    x: number;
-    y: number;
-  }) => void;
+  onContextMenu: OnContextMenu;
 }
 
 const FileList = (props: Props) => {
@@ -67,7 +60,7 @@ const FileList = (props: Props) => {
             }}
           >
             <p>{extractFileName(item.path)}</p>
-            <p className="time">{formatTime(item.lastModifiedTime)}</p>
+            <p className="time">Edit: {formatTime(item.lastModifiedTime)}</p>
           </FileItem>
         );
       })}
