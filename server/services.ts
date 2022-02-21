@@ -94,6 +94,16 @@ export async function runCommand(ctx) {
   };
 }
 
+export async function openFile(ctx) {
+  const FILE_PATH = getFilePath();
+  const query = ctx.request.query;
+  const { file } = query;
+  exec('code ' + path.resolve(FILE_PATH, file));
+  ctx.body = {
+    success: true,
+  };
+}
+
 /**
  * 获取目录下所有的 markdown 文件，以树形结构返回
  */

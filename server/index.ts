@@ -18,6 +18,7 @@ import {
   getTag,
   getFilePath,
   getGitStatus,
+  openFile,
 } from './services';
 
 const FILE_PATH = getFilePath();
@@ -37,6 +38,7 @@ router
   .get('/api/file-list', getMarkdownList)
   .get('/api/file/(.*)', getMarkdownFile)
   .post('/api/run', runCommand)
+  .post('/api/open', openFile)
   .get('/api/user-config', getUserConfig)
   .post('/api/save-config', saveUserConfig)
   .get('/api/tags', getTags)

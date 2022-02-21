@@ -28,10 +28,20 @@ interface Props {
   fileInfoList: FileInfo[];
   clickFile: (filePath: string) => void;
   activeFilePath: string;
+  /** 展示右键操作 */
+  onContextMenu: ({
+    filePath,
+    x,
+    y,
+  }: {
+    filePath: string;
+    x: number;
+    y: number;
+  }) => void;
 }
 
 const FileList = (props: Props) => {
-  const { fileInfoList, clickFile } = props;
+  const { fileInfoList, clickFile, onContextMenu } = props;
   fileInfoList.sort((a, b) => {
     return (
       new Date(b.lastModifiedTime).getTime() -
@@ -47,6 +57,14 @@ const FileList = (props: Props) => {
             key={item.path}
             onClick={() => clickFile(item.path)}
             className={item.path === props.activeFilePath ? 'active' : ''}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              onContextMenu({
+                filePath: item.path,
+                x: e.clientX,
+                y: e.clientY,
+              });
+            }}
           >
             <p>{extractFileName(item.path)}</p>
             <p className="time">{formatTime(item.lastModifiedTime)}</p>

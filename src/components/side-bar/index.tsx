@@ -1,4 +1,4 @@
-import { useRef, CSSProperties } from 'react';
+import { useRef, CSSProperties, useState } from 'react';
 import styled from 'styled-components';
 import { MODES } from '@/constants';
 import { INode, ITags, ModeType } from '@/types';
@@ -8,6 +8,9 @@ import Tree from '../tree';
 import FolderName from './folder-name';
 import FileList from '../file-list';
 import { FileInfo } from '@common/types';
+import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import axios from 'axios';
 
 const StyledSideBar = styled.div`
   height: 100%;
@@ -105,12 +108,22 @@ const SideBar = (props: SideBarProps) => {
           fileInfoList={fileInfoList}
           clickFile={clickFile}
           activeFilePath={activeFile}
+          onContextMenu={({ filePath, x, y }) => {
+            toggleMenu(true);
+            setAnchorPoint({ x, y });
+            setContextMenuFilePath(filePath);
+          }}
         />
       );
     }
 
     return null;
   };
+
+  const { toggleMenu, ...menuProps } = useMenuState();
+  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+  // 当前是在哪个文件上展示了右键菜单
+  const [contextMenuFilePath, setContextMenuFilePath] = useState('');
 
   return (
     <StyledSideBar
@@ -123,6 +136,24 @@ const SideBar = (props: SideBarProps) => {
         name={rootNodes[0]?.path || ''}
         askUserToInputFolderPath={askUserToInputFolderPath}
       />
+
+      <ControlledMenu
+        {...menuProps}
+        anchorPoint={anchorPoint}
+        onClose={() => {
+          toggleMenu(false);
+          setContextMenuFilePath('');
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            console.log('在 VSCode 中打开文件：' + contextMenuFilePath);
+            axios.post(`/api/open?file=${contextMenuFilePath}`);
+          }}
+        >
+          Open In VSCode
+        </MenuItem>
+      </ControlledMenu>
     </StyledSideBar>
   );
 };
