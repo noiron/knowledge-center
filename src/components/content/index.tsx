@@ -105,15 +105,6 @@ const Content = (props: Props) => {
       }
       className="content"
     >
-      {content && (
-        <Button
-          onClick={() => {
-            openFileInTypora(fileName);
-          }}
-        >
-          在 Typora 中打开
-        </Button>
-      )}
       {fileName && content ? (
         <div
           dangerouslySetInnerHTML={{

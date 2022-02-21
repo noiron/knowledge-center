@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import styled from 'styled-components';
 import last from 'lodash/last';
-import { INode, NodeType } from '@/types';
+import { INode, NodeType, OnContextMenu } from '@/types';
 
 const getPaddingLeft = (level: number, type: NodeType) => {
   let paddingLeft = level * 10 + 8;
@@ -51,6 +51,8 @@ interface TreeNodeProps {
   getChildNodes: (node: INode) => INode[];
   onToggle: (node: INode) => void;
   onNodeSelect: (node: INode) => void;
+  /** 展示右键操作 */
+  onContextMenu: OnContextMenu;
 }
 
 const TreeNode = (props: TreeNodeProps) => {
@@ -94,6 +96,14 @@ const TreeNode = (props: TreeNodeProps) => {
           handleClick(node);
         }}
         className={activeFile === node.path ? 'active' : ''}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          props.onContextMenu({
+            filePath: node.path,
+            x: e.clientX,
+            y: e.clientY,
+          });
+        }}
       >
         {renderIcon()}
         <span role="button">{getNodeLabel(node)}</span>

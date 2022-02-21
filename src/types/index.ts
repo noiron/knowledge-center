@@ -22,3 +22,14 @@ export interface INode {
 export interface ITree {
   [key: string]: INode;
 }
+
+/** 在文件上右键点击的事件处理函数 */
+export type OnContextMenu = ({
+  filePath,
+  x,
+  y,
+}: {
+  filePath: string;
+  x: number;
+  y: number;
+}) => void;

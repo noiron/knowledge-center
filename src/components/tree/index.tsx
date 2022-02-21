@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TreeNode from './tree-node';
-import { INode, ITree } from '@/types';
+import { INode, ITree, OnContextMenu } from '@/types';
 import { getRootNodes } from '@/utils';
 
 // const data: {
@@ -45,6 +45,8 @@ interface IProps {
   list: ITree;
   /** 当前选中的文件 */
   activeFile: string;
+  /** 展示右键操作 */
+  onContextMenu: OnContextMenu;
 }
 
 const Tree = (props: IProps) => {
@@ -85,6 +87,7 @@ const Tree = (props: IProps) => {
             onNodeSelect={onNodeSelect}
             key={node.path}
             activeFile={props.activeFile}
+            onContextMenu={props.onContextMenu}
           />
         );
       })}

@@ -1,7 +1,7 @@
 import { useRef, CSSProperties, useState } from 'react';
 import styled from 'styled-components';
 import { MODES } from '@/constants';
-import { INode, ITags, ModeType } from '@/types';
+import { INode, ITags, ModeType, OnContextMenu } from '@/types';
 import {
   getRootNodes,
   openFileInTypora,
@@ -78,7 +78,14 @@ const SideBar = (props: SideBarProps) => {
 
   const renderByMode = () => {
     if (mode === MODES.FILE) {
-      return <Tree onSelect={clickFile} list={list} activeFile={activeFile} />;
+      return (
+        <Tree
+          onSelect={clickFile}
+          list={list}
+          activeFile={activeFile}
+          onContextMenu={openContextMenu}
+        />
+      );
     }
 
     if (mode === MODES.TAG) {
@@ -112,11 +119,7 @@ const SideBar = (props: SideBarProps) => {
           fileInfoList={fileInfoList}
           clickFile={clickFile}
           activeFilePath={activeFile}
-          onContextMenu={({ filePath, x, y }) => {
-            toggleMenu(true);
-            setAnchorPoint({ x, y });
-            setContextMenuFilePath(filePath);
-          }}
+          onContextMenu={openContextMenu}
         />
       );
     }
@@ -128,6 +131,12 @@ const SideBar = (props: SideBarProps) => {
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   // 当前是在哪个文件上展示了右键菜单
   const [contextMenuFilePath, setContextMenuFilePath] = useState('');
+
+  const openContextMenu: OnContextMenu = ({ filePath, x, y }) => {
+    toggleMenu(true);
+    setAnchorPoint({ x, y });
+    setContextMenuFilePath(filePath);
+  };
 
   return (
     <StyledSideBar
