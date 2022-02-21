@@ -98,8 +98,9 @@ const TreeNode = (props: TreeNodeProps) => {
         className={activeFile === node.path ? 'active' : ''}
         onContextMenu={(e) => {
           e.preventDefault();
+          // TODO: 对于文件夹节点和文件节点应该显示不同的操作
           props.onContextMenu({
-            filePath: node.path,
+            filePath: node.isRoot ? '' : node.path,
             x: e.clientX,
             y: e.clientY,
           });
