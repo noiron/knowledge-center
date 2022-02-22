@@ -16,6 +16,7 @@ import { ModeType } from '@/types';
 import { MODES } from '@/constants';
 import { getGitStatus } from '@/api';
 import GitInfo from '../git-info';
+import Setting from '../setting';
 
 const StyledBar = styled.div`
   position: fixed;
@@ -58,6 +59,7 @@ const ActivityBar = (props: BarProps) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [isSettingOpen, setIsSettingOpen] = React.useState(false);
 
   const list = [
     {
@@ -108,6 +110,7 @@ const ActivityBar = (props: BarProps) => {
           <FaCog
             onClick={() => {
               toast('🤪 Setting is coming soon.');
+              setIsSettingOpen(true);
             }}
           />
         </div>
@@ -123,6 +126,11 @@ const ActivityBar = (props: BarProps) => {
           <GitInfo gitStatus={gitStatus || ''} />
         </div>
       </Modal>
+
+      <Setting 
+        isOpen={isSettingOpen}
+        onClose={() => setIsSettingOpen(false)}
+      />
     </>
   );
 };

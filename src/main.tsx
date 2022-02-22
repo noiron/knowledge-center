@@ -5,6 +5,7 @@ import App from './App';
 import './index.css';
 // import './styles/bear.css';
 import './styles/my.css';
+import './styles/second.css';
 
 ReactDOM.render(
   <React.StrictMode>
