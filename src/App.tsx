@@ -2,15 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Toaster } from 'react-hot-toast';
-import TextField from '@mui/material/TextField';
-
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
 import SideBar from './components/side-bar';
 import { postUserConfig, UserConfig } from './api';
 import ActivityBar from './components/activity-bar';
@@ -25,6 +16,7 @@ import {
 } from './hooks';
 import { MODES } from './constants';
 import TagCloud from './components/tag-cloud';
+import FolderPathDialog from './components/folder-path-dialog';
 
 const Box = styled.div`
   width: 100%;
@@ -43,21 +35,10 @@ const RightBorder = styled.div`
   cursor: col-resize;
 `;
 
-const InputWrapper = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  box-shadow: 24px;
-  border-radius: 4px;
-  background: #fff;
-  padding: 20px 30px 40px;
-`;
-
 function App() {
   const userConfig = useUserConfig();
   const [folderPath, setFolderPath] = useState(userConfig.folderPath);
+  console.log('folderPath: ', folderPath);
   const list = useFileTree(folderPath);
   const [fileName, setFileName] = useState('');
   const content = useFileContent(fileName);
@@ -144,14 +125,6 @@ function App() {
 
   const askUserToInputFolderPath = () => {
     setIsModalOpen(true);
-    // const path = prompt(
-    //   '请输入你的 Markdown 文件所在文件夹的路径\n（如：/Users/me/Desktop/markdown-notes）'
-    // );
-    // if (path) {
-    //   // TODO: 检查路径是否存在
-    //   setFolderPath(path);
-    //   saveUserConfig({ folderPath: path });
-    // }
   };
 
   useEffect(() => {
@@ -173,11 +146,6 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const [folderPathInput, setFolderPathInput] = useState(''); // TextField 中的输入值
-  const onFolderPathChange = (path: string) => {
-    setFolderPathInput(path);
   };
 
   return (
@@ -233,7 +201,6 @@ function App() {
             onBlur={(e) => {
               const path = e.target.value;
               if (path) {
-                // TODO: 检查路径是否存在
                 setFolderPath(path);
                 saveUserConfig({ folderPath: path });
               }
@@ -241,43 +208,19 @@ function App() {
           />
         </InputWrapper>
       </Modal> */}
-      <Dialog open={isModalOpen} onClose={closeModal}>
-        {/* todo: 这个样式是因为 markdown 的样式污染了这里 */}
-        <DialogTitle style={{ borderBottom: 'none' }}>
-          输入文件夹路径
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            请输入你的 Markdown 文件所在文件夹的路径
-            （如：/Users/me/Desktop/markdown-notes）
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="请输入文件夹路径"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              onFolderPathChange(e.target.value);
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeModal}>取消</Button>
-          <Button
-            onClick={() => {
-              if (folderPathInput) {
-                setFolderPath(folderPathInput);
-                saveUserConfig({ folderPath: folderPathInput });
-                closeModal();
-              }
-            }}
-          >
-            确认
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+      <FolderPathDialog
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        setFolderPath={(path: string) => {
+          if (path) {
+            // TODO: 检查路径是否存在
+            setFolderPath(path);
+            saveUserConfig({ folderPath: path });
+          }
+        }}
+      />
+
       )
     </Box>
   );
