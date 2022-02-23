@@ -38,7 +38,6 @@ const RightBorder = styled.div`
 function App() {
   const userConfig = useUserConfig();
   const [folderPath, setFolderPath] = useState(userConfig.folderPath);
-  console.log('folderPath: ', folderPath);
   const list = useFileTree(folderPath);
   const [fileName, setFileName] = useState('');
   const content = useFileContent(fileName);

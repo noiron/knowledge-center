@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
 import { purifyTag } from '@common/utils';
 import md from './md';
-import { openFileInTypora } from '@/utils';
-// import emptyImage from '@/assets/empty.png';
 
 const StyledContent = styled.div`
   max-height: 100vh;
@@ -14,19 +12,19 @@ const StyledContent = styled.div`
   box-sizing: border-box;
 `;
 
-const Button = styled.div`
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  display: inline-block;
-  background: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-`;
+// const Button = styled.div`
+//   padding: 10px;
+//   border: 1px solid var(--border-color);
+//   display: inline-block;
+//   background: #fff;
+//   font-size: 12px;
+//   font-weight: bold;
+//   cursor: pointer;
+//   border-radius: 4px;
+//   position: absolute;
+//   right: 20px;
+//   top: 20px;
+// `;
 
 interface Props {
   content: string;
@@ -98,12 +96,12 @@ const Content = (props: Props) => {
 
   return (
     <StyledContent
+      className="content"
       style={
         {
           '--margin-left': leftWidth + 20 + ACTIVITY_BAR_WIDTH + 'px',
         } as CSSProperties
       }
-      className="content"
     >
       {fileName && content ? (
         <div
@@ -113,7 +111,6 @@ const Content = (props: Props) => {
         ></div>
       ) : (
         <p>
-          {/* <img src={emptyImage} /> */}
           <img
             src={
               'http://c.tenor.com/Fml1EdnqjfwAAAAi/%E4%BD%95%E3%82%82%E3%81%AA%E3%81%84-%E3%82%BC%E3%83%AD.gif'

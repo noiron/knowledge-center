@@ -35,8 +35,7 @@ const FolderPathDialog = (props: DialogProps) => {
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal}>
-      {/* todo: 这个样式是因为 markdown 的样式污染了这里 */}
-      <DialogTitle style={{ borderBottom: 'none' }}>输入文件夹路径</DialogTitle>
+      <DialogTitle>输入文件夹路径</DialogTitle>
       <DialogContent>
         <DialogContentText>
           请输入你的 Markdown 文件所在文件夹的路径

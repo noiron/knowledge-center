@@ -8,7 +8,7 @@ body {
   --active-color: #eee;
 }
 
-pre {
+.content pre {
   line-height: 1.5em;
   /* border: 1px solid #ccc; */
   padding: 5px;
@@ -41,7 +41,7 @@ h3 code {
   font-size: 0.9em;
 }
 
-h2 {
+.content h2 {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 8px;
 }
