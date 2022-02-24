@@ -11,27 +11,57 @@ const StyledSetting = styled.div`
   background: #fff;
   box-sizing: border-box;
   text-align: center;
-`; 
+`;
 
 interface SettingProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const styleFiles1 = ['../../styles/my.less'];
+const styleFiles2 = ['../../styles/bear.css', '../../styles/second.css'];
+
 const Setting = (props: SettingProps) => {
   const { isOpen, onClose } = props;
   const anchor = 'right';
 
-  // TODO: 读取可选的样式文件供选择
-
   return (
-    <Drawer
-      anchor={anchor}
-      open={isOpen}
-      onClose={onClose}
-    >
+    <Drawer anchor={anchor} open={isOpen} onClose={onClose}>
       <StyledSetting>
         在这里配置选项
+        <div>
+          <button
+            onClick={() => {
+              styleFiles1.forEach((file) => {
+                import(file);
+              });
+            }}
+          >
+            使用样式1
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              styleFiles2.forEach((file) => {
+                import(file);
+              });
+            }}
+          >
+            使用样式2
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              ['../../styles/3.css'].forEach((file) => {
+                import(file);
+              });
+            }}
+          >
+            使用样式3
+          </button>
+        </div>
       </StyledSetting>
     </Drawer>
   );
