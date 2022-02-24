@@ -1,0 +1,72 @@
+body {
+  color: #383838;
+  font-family: 'Menlo', 'Meslo LG', monospace;
+  line-height: 1.725;
+
+  --a-color: #1769e0;
+  --border-color: #eee;
+  --active-color: #eee;
+}
+
+pre {
+  line-height: 1.5em;
+  padding: 5px;
+  border-radius: 2px;
+  background: #fafafa;
+  font-size: 14px;
+  color: #fff;
+  background: #333;
+}
+
+/* 包含在 .content 中的是渲染 markdown 文件需要的样式 */
+.content {
+  blockquote {
+    border-left: 4px solid #ccc;
+    margin-left: 0;
+    padding: 5px 0 5px 20px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  p code,
+  li code,
+  h1 code,
+  h2 code,
+  h3 code {
+    background: #efefef;
+    border-radius: 3px;
+    padding: 2px 5px;
+    padding: 0.1em 0.2em;
+    font-size: 0.9em;
+  }
+
+  h2 {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+
+  a {
+    color: var(--a-color);
+    text-decoration: none;
+    &:hover {
+      border-bottom: 0.1em solid var(--a-color);
+    }
+  }
+
+  span.tag {
+    background: #eee;
+    padding: 4px 8px;
+    border-radius: 8px;
+    color: #333;
+    font-size: 0.9em;
+    cursor: pointer;
+    &:active {
+      background: var(--active-color);
+      position: relative;
+      top: 1px;
+      left: 1px;
+    }
+  }
+}
