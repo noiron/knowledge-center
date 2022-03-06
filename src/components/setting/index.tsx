@@ -44,7 +44,7 @@ const defaultStyles = ['../../styles/default.less'];
  * 假设有一个新的样式文件 special.less，则文件内容中的样式需要用 `.special {}` 包裹
  */
 function loadStyle(styleFilePath: string) {
-  import(styleFilePath);
+  // import(styleFilePath);
   const fileName = extractFileName(styleFilePath);
   // todo: 换个正则
   const className = fileName?.split('.')[0] || '';

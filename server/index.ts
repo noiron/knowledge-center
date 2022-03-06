@@ -3,6 +3,7 @@ import Router from '@koa/router';
 import serve from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
+import mount from 'koa-mount';
 import detect from 'detect-port';
 import chalk from 'chalk';
 import emoji from 'node-emoji';
@@ -31,6 +32,7 @@ app.use(bodyParser());
 app.use(serve(FILE_PATH));
 
 app.use(serve(__dirname + '/../dist'));
+// app.use(mount('/styles', serve(__dirname + '/../src/styles')));
 
 router
   .get('/', renderList)
