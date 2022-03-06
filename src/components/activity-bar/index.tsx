@@ -109,7 +109,7 @@ const ActivityBar = (props: BarProps) => {
           />
           <FaCog
             onClick={() => {
-              toast('🤪 Setting is coming soon.');
+              // toast('🤪 Setting is coming soon.');
               setIsSettingOpen(true);
             }}
           />

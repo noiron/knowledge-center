@@ -12,20 +12,6 @@ const StyledContent = styled.div`
   box-sizing: border-box;
 `;
 
-// const Button = styled.div`
-//   padding: 10px;
-//   border: 1px solid var(--border-color);
-//   display: inline-block;
-//   background: #fff;
-//   font-size: 12px;
-//   font-weight: bold;
-//   cursor: pointer;
-//   border-radius: 4px;
-//   position: absolute;
-//   right: 20px;
-//   top: 20px;
-// `;
-
 interface Props {
   content: string;
   leftWidth: number;
