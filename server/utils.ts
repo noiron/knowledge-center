@@ -127,3 +127,38 @@ export const checkFileTags = (filePath: string) => {
   const matchedTags = checkTags(content);
   return matchedTags;
 };
+
+/**
+ * 给定一个文件夹的地址，将所有的文件内容生成一个目录
+ */
+export const generateMenu = (folderPath: string) => {
+  const list = [];
+  traverseFolder(folderPath, list);
+
+  const contents: string[] = [];
+  list.forEach((filePath) => {
+    const stats = fs.statSync(filePath);
+    if (stats.isFile() && isMarkdownFile(filePath)) {
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const firstLine = fileContent.split('\n')[0];
+      if (firstLine.startsWith('# ')) {
+        contents.push(firstLine.slice(2));
+      }
+    }
+  });
+
+  // https://stackoverflow.com/questions/50092740/newline-in-fs-writefile
+  const CreateFiles = fs.createWriteStream(
+    path.resolve(process.cwd(), 'menu.md'),
+    {
+      flags: 'a', // flags: 'a' preserved old data
+    }
+  );
+
+  for (let i = 0; i < contents.length; i++) {
+    CreateFiles.write(contents[i].toString() + '\n');
+  }
+};
+
+generateMenu(path.resolve(__dirname, '../mds'));
+generateMenu('/Users/wukai/Desktop/markdown-notes');
