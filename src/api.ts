@@ -57,3 +57,7 @@ export function postOpenFileInVSCode(filePath: string): AxiosPromise {
 export function postOpenFileInTypora(filePath: string): AxiosPromise {
   return axios.post(`/api/run?file=${filePath}`);
 }
+
+export function postGenerateMenu(folderPath: string): AxiosPromise {
+  return axios.post('/api/generate-menu', { folderPath });
+}

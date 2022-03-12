@@ -20,6 +20,7 @@ import {
   getFilePath,
   getGitStatus,
   openFile,
+  postGenerateMenu,
 } from './services';
 
 const FILE_PATH = getFilePath();
@@ -41,6 +42,7 @@ router
   .get('/api/file/(.*)', getMarkdownFile)
   .post('/api/run', runCommand)
   .post('/api/open', openFile)
+  .post('/api/generate-menu', postGenerateMenu)
   .get('/api/user-config', getUserConfig)
   .post('/api/save-config', saveUserConfig)
   .get('/api/tags', getTags)

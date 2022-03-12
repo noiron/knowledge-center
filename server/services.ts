@@ -241,3 +241,16 @@ export async function getGitStatus(ctx) {
     };
   }
 }
+
+export async function postGenerateMenu(ctx) {
+  const { folderPath } = ctx.request.body;
+  const FILE_PATH = getFilePath();
+  const filePath = path.join(FILE_PATH, folderPath);
+
+  utils.generateMenu(filePath);
+
+  ctx.body = {
+    success: true,
+    data: folderPath,
+  }
+}

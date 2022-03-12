@@ -135,30 +135,35 @@ export const generateMenu = (folderPath: string) => {
   const list = [];
   traverseFolder(folderPath, list);
 
-  const contents: string[] = [];
+  const contents: {
+    relativePath: string;
+    title: string;
+  }[] = [];
   list.forEach((filePath) => {
     const stats = fs.statSync(filePath);
     if (stats.isFile() && isMarkdownFile(filePath)) {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       const firstLine = fileContent.split('\n')[0];
       if (firstLine.startsWith('# ')) {
-        contents.push(firstLine.slice(2));
+        contents.push({
+          relativePath: path.relative(folderPath, filePath),
+          title: firstLine.slice(2),
+        });
       }
     }
   });
 
+  // TODO: 写入文件前是否要先清空？
+
   // https://stackoverflow.com/questions/50092740/newline-in-fs-writefile
   const CreateFiles = fs.createWriteStream(
-    path.resolve(process.cwd(), 'menu.md'),
+    path.resolve(folderPath, '_menu.md'),
     {
       flags: 'a', // flags: 'a' preserved old data
     }
   );
 
   for (let i = 0; i < contents.length; i++) {
-    CreateFiles.write(contents[i].toString() + '\n');
+    CreateFiles.write(`[${contents[i].title}](${contents[i].relativePath})\n`);
   }
 };
-
-generateMenu(path.resolve(__dirname, '../mds'));
-generateMenu('/Users/wukai/Desktop/markdown-notes');

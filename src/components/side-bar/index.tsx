@@ -15,6 +15,7 @@ import FileList from '../file-list';
 import { FileInfo } from '@common/types';
 import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
+import { postGenerateMenu } from '@/api';
 
 const StyledSideBar = styled.div`
   height: 100%;
@@ -178,6 +179,13 @@ const SideBar = (props: SideBarProps) => {
           }}
         >
           Open In Typora
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            postGenerateMenu(contextMenuFilePath);
+          }}
+        >
+          Generate Menu
         </MenuItem>
       </ControlledMenu>
     </StyledSideBar>
