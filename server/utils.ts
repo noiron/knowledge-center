@@ -132,7 +132,7 @@ export const checkFileTags = (filePath: string) => {
  * 给定一个文件夹的地址，将所有的文件内容生成一个目录
  */
 export const generateMenu = (folderPath: string) => {
-  const list = [];
+  const list: string[] = [];
   traverseFolder(folderPath, list);
 
   const contents: {

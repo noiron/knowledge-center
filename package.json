@@ -12,7 +12,7 @@
     "cloc": "cloc src server --not-match-f=bear.css"
   },
   "bin": {
-    "know": "./cli.js",
+    "know": "./scripts/cli.js",
     "know2": "./cli.sh"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "@types/wordcloud": "^1.1.3",
     "axios": "^0.24.0",
     "chalk": "^4.1.x",
+    "commander": "^9.2.0",
     "detect-port": "^1.3.0",
     "highlight.js": "^11.3.1",
     "koa": "^2.13.4",
