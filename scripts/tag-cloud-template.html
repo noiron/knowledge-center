@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tag Cloud</title>
+</head>
+
+<body>
+  <canvas id="wordcloud"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+
+  <script>
+    // 替换为具体数据
+    const tags = __tags__;
+
+    function tagsToList(tags) {
+      return Object.keys(tags).map((key) => [key, tags[key]]);
+    }
+    const list = tagsToList(tags);
+
+    const canvas = document.getElementById('wordcloud');
+    canvas.width = 1000;
+    canvas.height = 600;
+
+    WordCloud(canvas, {
+      list,
+      gridSize: Math.round((16 * 800) / 1024),
+      fontFamily: 'Times, serif',
+      weightFactor: 16,
+      color: 'random-dark',
+      rotateRatio: 0,
+      rotationSteps: 2,
+      backgroundColor: '#fff',
+    });
+  </script>
+</body>
+
+</html>

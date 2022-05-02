@@ -3,7 +3,7 @@ import path from 'path';
 import * as utils from './utils';
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import { purifyTag } from '../common/utils';
+import * as commonUtils from '../common/utils';
 import { FileInfo } from '../common/types';
 
 const promisifyExec = promisify(exec);
@@ -172,21 +172,7 @@ export async function saveUserConfig(ctx) {
 /** 读取给定目录下的 markdown 文件，并查找带有 #tag 的内容 */
 export async function getTags(ctx) {
   const FILE_PATH = getFilePath();
-  const list = [];
-  utils.traverseFolder(FILE_PATH, list);
-  const fileList = list.filter(utils.isMarkdownFile);
-
-  const tags = {};
-  fileList.forEach((file) => {
-    const absolutePath = path.resolve(FILE_PATH, file);
-    const matchedTags = utils.checkFileTags(absolutePath);
-    if (matchedTags) {
-      matchedTags.forEach((t) => {
-        t = purifyTag(t);
-        tags[t] = !tags[t] ? 1 : tags[t] + 1;
-      });
-    }
-  });
+  const tags = commonUtils.getTags(FILE_PATH);
 
   ctx.body = {
     success: true,
@@ -210,7 +196,7 @@ export async function getTag(ctx) {
     const matchedTags = utils.checkFileTags(absolutePath);
     if (matchedTags) {
       for (const tag of matchedTags) {
-        if (purifyTag(tag) === searchTag) {
+        if (commonUtils.purifyTag(tag) === searchTag) {
           list.push(path.relative(FILE_PATH, absolutePath));
           break;
         }

@@ -5,3 +5,7 @@ export interface FileInfo {
   path: string;
   lastModifiedTime: string;
 }
+
+export interface Tags {
+  [tag: string]: number;
+}

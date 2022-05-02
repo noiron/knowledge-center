@@ -1,9 +1,17 @@
 #!/usr/bin/env ts-node
 // @ts-check
-import { fork } from 'child_process';
+// import fs from 'fs';
 import path from 'path';
+import { exec, fork } from 'child_process';
 import { Command } from 'commander';
-import { getFileListInTimeRange, selectFileToOpen } from './utils';
+import chalk from 'chalk';
+// import emoji from 'node-emoji';
+import {
+  getFileListInTimeRange,
+  openTagCloudInBrowser,
+  selectFileToOpen,
+} from './utils';
+import * as commonUtils from '../common/utils';
 
 const serverPath = path.resolve(__dirname, '../server/index.ts');
 // fork(serverPath);
@@ -11,9 +19,9 @@ const serverPath = path.resolve(__dirname, '../server/index.ts');
 const program = new Command();
 
 program
-  .name('string-util')
-  .description('CLI to some JavaScript string utilities')
-  .version('0.8.0');
+  .name('knowledge-center')
+  .description('CLI to manage your markdown files')
+  .version('0.0.1');
 
 program
   .command('start')
@@ -30,6 +38,26 @@ program
     const list = getFileListInTimeRange(week);
     const fileNames = list.map((item) => item.absolutePath);
     selectFileToOpen(fileNames);
+  });
+
+program
+  .command('tags')
+  .description('列出所有标签')
+  .option('-o, --open', '在浏览器中打开标签云')
+  .action(({ open }) => {
+    const tags = commonUtils.getTags(process.cwd());
+    const keys = Object.keys(tags);
+    const tagList = keys.map((key) => [key, tags[key]]);
+    // @ts-ignore
+    tagList.sort((a, b) => b[1] - a[1]);
+    const str = tagList.reduce((prev, tag) => {
+      return (prev += `${chalk.green(tag[0])} x ${chalk.yellow(tag[1])}\n`);
+    }, '');
+    console.log(str);
+
+    if (open) {
+      openTagCloudInBrowser(tags);
+    }
   });
 
 program.parse();

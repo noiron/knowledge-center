@@ -1,4 +1,5 @@
 // @ts-check
+import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
 import inquirer from 'inquirer';
@@ -68,4 +69,15 @@ function logFile(fileName, index) {
       fileName
     )}`
   );
+}
+
+export function openTagCloudInBrowser(tags) {
+  const templatePath = path.resolve(__dirname, './tag-cloud-template.html');
+  let html = fs.readFileSync(templatePath, {
+    encoding: 'utf-8',
+  });
+  html = html.replace('__tags__', JSON.stringify(tags));
+  const writePath = path.resolve(__dirname, '../dist/tag-cloud.html');
+  fs.writeFileSync(writePath, html);
+  exec(`open -a 'google chrome' ${writePath}`);
 }
