@@ -11,28 +11,42 @@ import { isMarkdownFile, traverseFolderWithInfo } from '../server/utils';
  * @param {*} files string[]
  */
 export function selectFileToOpen(files, firstTime = true) {
-  if (firstTime) {
-    console.log(emoji.get('file_folder') + ' 下列是最近一周内编辑过的文件：');
-    files.forEach((fileName, index) => {
-      logFile(fileName, index);
-    });
-  }
+  // if (firstTime) {
+  //   console.log(emoji.get('file_folder') + ' 下列是最近一周内编辑过的文件：');
+  //   files.forEach((fileName, index) => {
+  //     logFile(fileName, index);
+  //   });
+  // }
 
   inquirer
     .prompt([
       {
         name: 'fileIndex',
-        type: 'number',
-        message: firstTime ? '请输入想查看的文件编号' : '打开另一个文件（0退出）？',
+        type: 'checkbox',
+        message: firstTime
+          ? '请选择想查看的文件编号'
+          : '打开另一个文件（0退出）？',
+        pageSize: 10,
+        loop: false,
+        choices: [
+          {
+            name: `0. 退出`,
+            value: 0,
+          },
+          ...files.map((fileName, index) => ({
+            name: `${index + 1}. ${path.relative(process.cwd(), fileName)}`,
+            value: index + 1,
+          })),
+        ],
       },
     ])
     .then((answers) => {
       const { fileIndex } = answers;
-      if (fileIndex < 1 || fileIndex > files.length) {
-        return;
-      }
-      exec('open -a typora ' + files[fileIndex - 1]);
-      selectFileToOpen(files, false);
+      // if (fileIndex < 1 || fileIndex > files.length) {
+      //   return;
+      // }
+      fileIndex.forEach((i) => exec('open -a typora ' + files[i - 1]));
+      // selectFileToOpen(files, false);
     })
     .catch((error) => {
       console.log(error);
