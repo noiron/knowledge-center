@@ -21,8 +21,8 @@
     const list = tagsToList(tags);
 
     const canvas = document.getElementById('wordcloud');
-    canvas.width = 1000;
-    canvas.height = 600;
+    canvas.width = window.innerWidth * 0.95;
+    canvas.height = window.innerHeight * 0.95;
 
     WordCloud(canvas, {
       list,

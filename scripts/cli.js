@@ -5,6 +5,7 @@ import path from 'path';
 import { exec, fork } from 'child_process';
 import { Command } from 'commander';
 import chalk from 'chalk';
+import inquirer from 'inquirer';
 // import emoji from 'node-emoji';
 import {
   getFileListInTimeRange,
@@ -53,11 +54,23 @@ program
     const str = tagList.reduce((prev, tag) => {
       return (prev += `${chalk.green(tag[0])} x ${chalk.yellow(tag[1])}\n`);
     }, '');
-    console.log(str);
+    // console.log(str);
 
+    // 使用 inquirer 的格式输出，并未对答案进行处理
+    inquirer.prompt({
+      type: 'list',
+      name: 'tag',
+      message: `🏷  共有 ${tagList.length} 个标签 🏷  `,
+      choices: str.split('\n'),
+      pageSize: 15,
+      loop: false,
+      prefix: '',
+    });
     if (open) {
       openTagCloudInBrowser(tags);
     }
   });
+
+// todo: 找出包含一个 tag 的文件列表
 
 program.parse();
