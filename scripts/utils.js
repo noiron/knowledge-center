@@ -9,7 +9,7 @@ import { isMarkdownFile } from '../common/utils';
 
 /**
  * 从文件列表中选择一个打开
- * @param {*} files string[]
+ * @param {string[]} files
  */
 export function selectFileToOpen(files, firstTime = true) {
   // if (firstTime) {
@@ -30,7 +30,10 @@ export function selectFileToOpen(files, firstTime = true) {
         pageSize: 10,
         loop: false,
         choices: files.map((fileName, index) => ({
-          name: `${index + 1}. ${path.relative(process.cwd(), fileName)}`,
+          name: `${index + 1}. ${getFileTitle(fileName)}（${path.relative(
+            process.cwd(),
+            fileName
+          )}）`,
           value: index + 1,
         })),
       },
@@ -50,7 +53,7 @@ export function selectFileToOpen(files, firstTime = true) {
 
 /**
  * 列出在给定时间段内编辑过的文件
- * @param {*} ms number 距今毫秒数
+ * @param {number} ms 距今毫秒数
  */
 export function getFileListInTimeRange(ms) {
   const list = [];
@@ -80,6 +83,10 @@ function logFile(fileName, index) {
   );
 }
 
+/**
+ * 在浏览器中打开标签云页面
+ * @param {*} tags
+ */
 export function openTagCloudInBrowser(tags) {
   const templatePath = path.resolve(__dirname, './tag-cloud-template.html');
   let html = fs.readFileSync(templatePath, {
@@ -89,4 +96,20 @@ export function openTagCloudInBrowser(tags) {
   const writePath = path.resolve(__dirname, '../dist/tag-cloud.html');
   fs.writeFileSync(writePath, html);
   exec(`open -a 'google chrome' ${writePath}`);
+}
+
+/**
+ * 从文件内容中获得文件标题，一般为文件的第一行，以 # 开头
+ * @param {string} filePath
+ */
+export function getFileTitle(filePath) {
+  const content = fs.readFileSync(filePath, {
+    encoding: 'utf-8',
+  });
+  const lines = content.split('\n');
+  const firstLine = lines[0];
+  if (firstLine.startsWith('# ')) {
+    return firstLine.substring(2).trim();
+  }
+  return '';
 }
