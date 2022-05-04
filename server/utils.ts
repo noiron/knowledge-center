@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { isMarkdownFile } from '../common/utils';
 
 // todo: 这里全部是用同步的方式，可考虑改为异步的
 export const walkFolder = ({
@@ -51,14 +52,6 @@ export const walkFolder = ({
   });
 
   return nodes;
-};
-
-/**
- * 判断一个文件是否为 markdown 文件
- */
-export const isMarkdownFile = (filePath: string) => {
-  const extname = path.extname(filePath).toLowerCase();
-  return extname === '.md' || extname === '.markdown';
 };
 
 /**

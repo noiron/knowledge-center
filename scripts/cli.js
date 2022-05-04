@@ -38,6 +38,7 @@ program
     const week = 1000 * 60 * 60 * 24 * 7;
     const list = getFileListInTimeRange(week);
     const fileNames = list.map((item) => item.absolutePath);
+    // TODO: 除了展示文件路径外，还要展示文件标题
     selectFileToOpen(fileNames);
   });
 
@@ -71,6 +72,13 @@ program
     }
   });
 
-// todo: 找出包含一个 tag 的文件列表
+program
+  .command('tag')
+  .description('列出包含指定标签的文件')
+  .argument('<tag>')
+  .action((tag) => {
+    const files = commonUtils.getTag(process.cwd(), tag);
+    selectFileToOpen(files);
+  });
 
 program.parse();

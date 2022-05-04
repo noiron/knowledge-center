@@ -4,7 +4,8 @@ import path from 'path';
 import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
-import { isMarkdownFile, traverseFolderWithInfo } from '../server/utils';
+import { traverseFolderWithInfo } from '../server/utils';
+import { isMarkdownFile } from '../common/utils';
 
 /**
  * 从文件列表中选择一个打开
@@ -28,16 +29,10 @@ export function selectFileToOpen(files, firstTime = true) {
           : '打开另一个文件（0退出）？',
         pageSize: 10,
         loop: false,
-        choices: [
-          {
-            name: `0. 退出`,
-            value: 0,
-          },
-          ...files.map((fileName, index) => ({
-            name: `${index + 1}. ${path.relative(process.cwd(), fileName)}`,
-            value: index + 1,
-          })),
-        ],
+        choices: files.map((fileName, index) => ({
+          name: `${index + 1}. ${path.relative(process.cwd(), fileName)}`,
+          value: index + 1,
+        })),
       },
     ])
     .then((answers) => {

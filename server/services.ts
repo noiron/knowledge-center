@@ -140,7 +140,7 @@ export async function getMarkdownList(ctx) {
   const list: FileInfo[] = [];
   utils.traverseFolderWithInfo(FILE_PATH, list);
   const fileList = list.filter((item) => {
-    return utils.isMarkdownFile(item.absolutePath || '');
+    return commonUtils.isMarkdownFile(item.absolutePath || '');
   });
   fileList.forEach((file) => {
     file.path = path.relative(FILE_PATH, file.absolutePath || '');
@@ -186,23 +186,7 @@ export async function getTags(ctx) {
 export async function getTag(ctx) {
   const FILE_PATH = getFilePath();
   const searchTag = ctx.params[0];
-
-  const list: string[] = [];
-  const fileList = [];
-  // TODO: 这里的内容应该在获取 tags 的时候就缓存过，在缓存中没有的情况下才再次获取
-  utils.traverseFolder(FILE_PATH, fileList);
-  fileList.filter(utils.isMarkdownFile).forEach((file) => {
-    const absolutePath = path.resolve(FILE_PATH, file);
-    const matchedTags = utils.checkFileTags(absolutePath);
-    if (matchedTags) {
-      for (const tag of matchedTags) {
-        if (commonUtils.purifyTag(tag) === searchTag) {
-          list.push(path.relative(FILE_PATH, absolutePath));
-          break;
-        }
-      }
-    }
-  });
+  const list = commonUtils.getTag(FILE_PATH, searchTag);
 
   ctx.body = {
     success: true,
@@ -238,5 +222,5 @@ export async function postGenerateMenu(ctx) {
   ctx.body = {
     success: true,
     data: folderPath,
-  }
+  };
 }
