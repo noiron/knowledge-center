@@ -1,11 +1,13 @@
 // @ts-check
 import fs from 'fs';
 import path from 'path';
+import chalk from 'chalk';
 import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
 import { traverseFolderWithInfo } from '../server/utils';
 import { isMarkdownFile } from '../common/utils';
+import { Tags } from '../common/types';
 
 /**
  * 从文件列表中选择一个打开
@@ -30,11 +32,9 @@ export function selectFileToOpen(files, firstTime = true) {
         pageSize: 10,
         loop: false,
         choices: files.map((fileName, index) => ({
-          // TODO: 区分颜色
-          name: `${index + 1}. ${getFileTitle(fileName)}（${path.relative(
-            process.cwd(),
-            fileName
-          )}）`,
+          name: `${index + 1}. ${chalk.yellow(
+            getFileTitle(fileName)
+          )}（${path.relative(process.cwd(), fileName)}）`,
           value: index + 1,
         })),
       },
@@ -56,15 +56,14 @@ export function selectFileToOpen(files, firstTime = true) {
  * 列出在给定时间段内编辑过的文件
  * @param {number} ms 距今毫秒数
  */
-export function getFileListInTimeRange(ms) {
+export function getFileListInTimeRange(ms: number) {
   const list = [];
   traverseFolderWithInfo(path.resolve(process.cwd()), list);
   const filteredList = list
     .filter((item: any) => isMarkdownFile(item.absolutePath))
     .filter((item) => {
       const { lastModifiedTime } = item;
-      const week = 1000 * 60 * 60 * 24 * 7;
-      return Date.now() - new Date(lastModifiedTime).getTime() < week;
+      return Date.now() - new Date(lastModifiedTime).getTime() < ms;
     })
     .sort((a: any, b: any) => {
       return (
@@ -88,7 +87,7 @@ function logFile(fileName, index) {
  * 在浏览器中打开标签云页面
  * @param {*} tags
  */
-export function openTagCloudInBrowser(tags) {
+export function openTagCloudInBrowser(tags: Tags) {
   const templatePath = path.resolve(__dirname, './tag-cloud-template.html');
   let html = fs.readFileSync(templatePath, {
     encoding: 'utf-8',
@@ -103,7 +102,7 @@ export function openTagCloudInBrowser(tags) {
  * 从文件内容中获得文件标题，一般为文件的第一行，以 # 开头
  * @param {string} filePath
  */
-export function getFileTitle(filePath) {
+export function getFileTitle(filePath: string) {
   const content = fs.readFileSync(filePath, {
     encoding: 'utf-8',
   });

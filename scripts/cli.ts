@@ -76,6 +76,10 @@ program
   .argument('<tag>')
   .action((tag) => {
     const files = commonUtils.getTag(process.cwd(), tag);
+    if (!files.length) {
+      console.log(`🚨  没有找到包含 ${chalk.red(tag)} 的文件 🚨`);
+      return;
+    }
     selectFileToOpen(files);
   });
 
