@@ -6,11 +6,11 @@
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite --port 4000",
     "build": "tsc && vite build",
+    "build:scripts": "tsc -p ./scripts",
     "preview": "vite preview",
     "server:dev": "nodemon --exec 'ts-node' ./server/index.ts",
     "test": "echo \"Error: no test specified\"",
-    "cloc": "cloc src server --not-match-f=bear.css",
-    "build:scripts": "tsc -p ./scripts"
+    "cloc": "cloc src server --not-match-f=bear.css"
   },
   "bin": {
     "know": "./scripts/cli.ts",
