@@ -30,6 +30,7 @@ export function selectFileToOpen(files, firstTime = true) {
         pageSize: 10,
         loop: false,
         choices: files.map((fileName, index) => ({
+          // TODO: 区分颜色
           name: `${index + 1}. ${getFileTitle(fileName)}（${path.relative(
             process.cwd(),
             fileName
@@ -59,13 +60,13 @@ export function getFileListInTimeRange(ms) {
   const list = [];
   traverseFolderWithInfo(path.resolve(process.cwd()), list);
   const filteredList = list
-    .filter((item) => isMarkdownFile(item.absolutePath))
+    .filter((item: any) => isMarkdownFile(item.absolutePath))
     .filter((item) => {
       const { lastModifiedTime } = item;
       const week = 1000 * 60 * 60 * 24 * 7;
       return Date.now() - new Date(lastModifiedTime).getTime() < week;
     })
-    .sort((a, b) => {
+    .sort((a: any, b: any) => {
       return (
         new Date(b.lastModifiedTime).getTime() -
         new Date(a.lastModifiedTime).getTime()

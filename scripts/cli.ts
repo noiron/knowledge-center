@@ -1,6 +1,4 @@
 #!/usr/bin/env ts-node
-// @ts-check
-// import fs from 'fs';
 import path from 'path';
 import { exec, fork } from 'child_process';
 import { Command } from 'commander';
@@ -37,8 +35,8 @@ program
   .action(() => {
     const week = 1000 * 60 * 60 * 24 * 7;
     const list = getFileListInTimeRange(week);
+    // @ts-ignore
     const fileNames = list.map((item) => item.absolutePath);
-    // TODO: 除了展示文件路径外，还要展示文件标题
     selectFileToOpen(fileNames);
   });
 

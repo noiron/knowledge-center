@@ -9,10 +9,11 @@
     "preview": "vite preview",
     "server:dev": "nodemon --exec 'ts-node' ./server/index.ts",
     "test": "echo \"Error: no test specified\"",
-    "cloc": "cloc src server --not-match-f=bear.css"
+    "cloc": "cloc src server --not-match-f=bear.css",
+    "build:scripts": "tsc -p ./scripts"
   },
   "bin": {
-    "know": "./scripts/cli.js",
+    "know": "./scripts/cli.ts",
     "know2": "./cli.sh"
   },
   "dependencies": {
