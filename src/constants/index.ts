@@ -5,3 +5,5 @@ export const MODES = {
   CLOUD: 'CLOUD',
   LIST: 'LIST',
 } as const;
+
+export const FOLDER_NAME_HEIGHT = 50;

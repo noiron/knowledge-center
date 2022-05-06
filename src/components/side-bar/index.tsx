@@ -24,7 +24,7 @@ const StyledSideBar = styled.div`
   width: var(--width);
   height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 0 0px;
   flex-shrink: 0;
 `;

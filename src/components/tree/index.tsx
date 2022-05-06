@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TreeNode from './tree-node';
 import { INode, ITree, OnContextMenu } from '@/types';
 import { getRootNodes } from '@/utils';
+import styled from 'styled-components';
+import { FOLDER_NAME_HEIGHT } from '@/constants';
+
+const StyledTree = styled.div`
+  overflow: auto;
+  max-height: calc(100vh - ${FOLDER_NAME_HEIGHT}px);
+`;
 
 // const data: {
 //   [key: string]: INode;
@@ -77,7 +84,7 @@ const Tree = (props: IProps) => {
   }
 
   return (
-    <div>
+    <StyledTree>
       {rootNodes.map((node) => {
         return (
           <TreeNode
@@ -91,7 +98,7 @@ const Tree = (props: IProps) => {
           />
         );
       })}
-    </div>
+    </StyledTree>
   );
 };
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Tag from './tag';
 import { ITags } from '@/types';
 import { extractFileName } from '@/utils';
+import { FOLDER_NAME_HEIGHT } from '@/constants';
 
 const StyledFileItem = styled.div<{ isActive: boolean }>`
   padding: 6px 18px;
@@ -30,6 +31,8 @@ const TagsBox = styled.div`
 const ListBox = styled.div`
   border-top: 4px solid #eee;
   padding: 5px 0;
+  max-height: calc(40vh - ${FOLDER_NAME_HEIGHT + 25}px);
+  overflow: auto;
 `;
 
 interface Props {
