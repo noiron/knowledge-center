@@ -13,7 +13,6 @@ import {
 import * as commonUtils from '../common/utils';
 
 const serverPath = path.resolve(__dirname, '../server/index.ts');
-// fork(serverPath);
 
 const program = new Command();
 
@@ -73,12 +72,21 @@ program
 program
   .command('tag')
   .description('列出包含指定标签的文件')
-  .argument('<tag>')
+  .argument('[tag]', '标签名')
   .action((tag) => {
     const files = commonUtils.getTag(process.cwd(), tag);
     if (!files.length) {
-      console.log(`🚨  没有找到包含 ${chalk.red(tag)} 的文件 🚨`);
+      if (tag) {
+        console.log(`🚨  没有找到包含 ${chalk.red(tag)} 的文件 🚨`);
+      } else {
+        // 此时所有的文件都至少包含一个标签
+        console.log(chalk.red('请输入标签名'));
+      }
       return;
+    }
+
+    if (!tag) {
+      console.log(chalk.red('🌎 以下文件不包含标签'));
     }
     selectFileToOpen(files);
   });

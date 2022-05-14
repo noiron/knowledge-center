@@ -53,16 +53,20 @@ export function getTag(folder: string, searchTag: string) {
   const fileList: string[] = [];
   // todo: 这里的内容应该在获取 tags 的时候就缓存过，在缓存中没有的情况下才再次获取
   traverseFolder(folder, fileList);
-  fileList.filter(isMarkdownFile).forEach((file) => {
-    const absolutePath = path.resolve(folder, file);
-    const matchedTags = checkFileTags(absolutePath);
-    if (matchedTags) {
-      for (const tag of matchedTags) {
+  fileList.filter(isMarkdownFile).forEach((absolutePath) => {
+    const tagsInFile = checkFileTags(absolutePath);
+    const relativePath = path.relative(folder, absolutePath);
+
+    if (tagsInFile) {
+      for (const tag of tagsInFile) {
         if (purifyTag(tag) === searchTag) {
-          list.push(path.relative(folder, absolutePath));
+          list.push(relativePath);
           break;
         }
       }
+    } else if (!searchTag) {
+      // 查找所有不包含标签的文件
+      list.push(relativePath);
     }
   });
   return list;
