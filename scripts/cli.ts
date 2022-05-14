@@ -40,6 +40,22 @@ program
   });
 
 program
+  .command('list')
+  .description('列出指定时间内编辑过的文件')
+  .option('-d, --day [day]', '指定时间范围，单位为天')
+  .action(({ day = 1 }) => {
+    const range = 1000 * 60 * 60 * 24 * day;
+    const list = getFileListInTimeRange(range);
+    // @ts-ignore
+    const files = list.map((item) => item.absolutePath);
+    if (files.length === 0) {
+      console.log(chalk.red(`没有 ${day} 天内编辑过的文件`));
+      return;
+    }
+    selectFileToOpen(files);
+  });
+
+program
   .command('tags')
   .description('列出所有标签')
   .option('-o, --open', '在浏览器中打开标签云')
