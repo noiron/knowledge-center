@@ -4,6 +4,7 @@ import * as utils from './utils';
 import { promisify } from 'util';
 import { exec } from 'child_process';
 import * as commonUtils from '../common/utils';
+import { isMarkdownFile } from 'kainotes-tools';
 import { FileInfo } from '../common/types';
 
 const promisifyExec = promisify(exec);
@@ -140,7 +141,7 @@ export async function getMarkdownList(ctx) {
   const list: FileInfo[] = [];
   utils.traverseFolderWithInfo(FILE_PATH, list);
   const fileList = list.filter((item) => {
-    return commonUtils.isMarkdownFile(item.absolutePath || '');
+    return isMarkdownFile(item.absolutePath || '');
   });
   fileList.forEach((file) => {
     file.path = path.relative(FILE_PATH, file.absolutePath || '');

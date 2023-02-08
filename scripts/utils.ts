@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
 import { traverseFolderWithInfo } from '../server/utils';
-import { isMarkdownFile } from '../common/utils';
+import { isMarkdownFile } from 'kainotes-tools';
 import { Tags } from '../common/types';
 
 /**

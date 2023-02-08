@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { isMarkdownFile } from '../common/utils';
+import { isMarkdownFile } from 'kainotes-tools';
 
 // todo: 这里全部是用同步的方式，可考虑改为异步的
 export const walkFolder = ({

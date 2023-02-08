@@ -1,14 +1,7 @@
 import path from 'path';
 import { traverseFolder, checkFileTags } from '../server/utils';
+import { isMarkdownFile } from 'kainotes-tools';
 import { Tags } from './types';
-
-/**
- * 判断一个文件是否为 markdown 文件
- */
-export const isMarkdownFile = (filePath: string) => {
-  const extname = path.extname(filePath).toLowerCase();
-  return extname === '.md' || extname === '.markdown';
-};
 
 /**
  * 在标签文字的获取过程中，可能会带上开头的 #，统一用这个函数去处理
