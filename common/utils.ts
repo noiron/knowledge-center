@@ -1,6 +1,6 @@
 import path from 'path';
-import { traverseFolder, checkFileTags } from '../server/utils';
-import { isMarkdownFile, purifyTag } from 'kainotes-tools';
+import { traverseFolder, extractFileTags } from '../server/utils';
+import { isMarkdownFile, purifyTag, getFilesContainTag } from 'kainotes-tools';
 import { Tags } from './types';
 
 /**
@@ -16,7 +16,7 @@ export function getTags(folder: string) {
   const tags: Tags = {};
   fileList.forEach((file) => {
     const absolutePath = path.resolve(folder, file);
-    const matchedTags = checkFileTags(absolutePath);
+    const matchedTags = extractFileTags(absolutePath);
     if (matchedTags) {
       matchedTags.forEach((t) => {
         t = purifyTag(t);
@@ -32,22 +32,9 @@ export function getTags(folder: string) {
  * @param folder 文件夹路径
  * @param searchTag 要查找的标签
  */
-export function getTag(folder: string, searchTag: string) {
-  const list: string[] = [];
+export async function getTag(folder: string, searchTag: string) {
   const fileList: string[] = [];
   // todo: 这里的内容应该在获取 tags 的时候就缓存过，在缓存中没有的情况下才再次获取
   traverseFolder(folder, fileList);
-  fileList.filter(isMarkdownFile).forEach((file) => {
-    const absolutePath = path.resolve(folder, file);
-    const matchedTags = checkFileTags(absolutePath);
-    if (matchedTags) {
-      for (const tag of matchedTags) {
-        if (purifyTag(tag) === searchTag) {
-          list.push(path.relative(folder, absolutePath));
-          break;
-        }
-      }
-    }
-  });
-  return list;
+  return await getFilesContainTag(folder, fileList, searchTag, extractFileTags);
 }

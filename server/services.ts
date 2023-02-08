@@ -187,7 +187,7 @@ export async function getTags(ctx) {
 export async function getTag(ctx) {
   const FILE_PATH = getFilePath();
   const searchTag = ctx.params[0];
-  const list = commonUtils.getTag(FILE_PATH, searchTag);
+  const list = await commonUtils.getTag(FILE_PATH, searchTag);
 
   ctx.body = {
     success: true,

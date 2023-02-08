@@ -115,7 +115,7 @@ export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
 /**
  * 给定文件路径，读取内容，检查其中是否包含标签
  */
-export const checkFileTags = (filePath: string) => {
+export const extractFileTags = (filePath: string) => {
   const content = fs.readFileSync(filePath, 'utf8');
   return extractTagsFromContent(content);
 };
