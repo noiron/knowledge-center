@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
 import { traverseFolderWithInfo } from '../server/utils';
-import { isMarkdownFile } from 'kainotes-tools';
+import { isMarkdownFile, extractTitleFromContent } from 'kainotes-tools';
 import { Tags } from '../common/types';
 
 /**
@@ -106,10 +106,5 @@ export function getFileTitle(filePath: string) {
   const content = fs.readFileSync(filePath, {
     encoding: 'utf-8',
   });
-  const lines = content.split('\n');
-  const firstLine = lines[0];
-  if (firstLine.startsWith('# ')) {
-    return firstLine.substring(2).trim();
-  }
-  return '';
+  return extractTitleFromContent(content);
 }

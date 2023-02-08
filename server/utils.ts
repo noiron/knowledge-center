@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { isMarkdownFile } from 'kainotes-tools';
+import { extractTagsFromContent, isMarkdownFile } from 'kainotes-tools';
 
 // todo: 这里全部是用同步的方式，可考虑改为异步的
 export const walkFolder = ({
@@ -105,20 +105,19 @@ export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
   return list;
 };
 
-/**
- * 检查给定的内容中是否包含标签
- */
-const checkTags = (content: string) => {
-  return content.match(/(?<=(^|\s))#(?!(\s|#|!))([\S]+)/gm);
-};
+// /**
+//  * 检查给定的内容中是否包含标签
+//  */
+// const checkTags = (content: string) => {
+//   return content.match(/(?<=(^|\s))#(?!(\s|#|!))([\S]+)/gm);
+// };
 
 /**
  * 给定文件路径，读取内容，检查其中是否包含标签
  */
 export const checkFileTags = (filePath: string) => {
   const content = fs.readFileSync(filePath, 'utf8');
-  const matchedTags = checkTags(content);
-  return matchedTags;
+  return extractTagsFromContent(content);
 };
 
 /**

@@ -30,7 +30,7 @@
     "detect-port": "^1.3.0",
     "highlight.js": "^11.3.1",
     "inquirer": "^8.2.4",
-    "kainotes-tools": "^0.0.2",
+    "kainotes-tools": "^0.0.4",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-mount": "^4.0.0",
