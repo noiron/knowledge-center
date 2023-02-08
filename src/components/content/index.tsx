@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect } from 'react';
 import styled from 'styled-components';
 import { ACTIVITY_BAR_WIDTH } from '@/configs';
-import { purifyTag } from '@common/utils';
+import { purifyTag } from 'kainotes-tools';
 import md from './md';
 
 const StyledContent = styled.div`
