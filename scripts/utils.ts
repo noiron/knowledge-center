@@ -5,9 +5,10 @@ import chalk from 'chalk';
 import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
-import { traverseFolderWithInfo } from '../server/utils';
-import { isMarkdownFile } from '../common/utils';
-import { Tags } from '../common/types';
+import markdownLinkExtractor from 'markdown-link-extractor';
+import { traverseFolder, traverseFolderWithInfo } from '../server/utils';
+import { isImage, isMarkdownFile } from '../common/utils';
+import { FileInfo, Tags } from '../common/types';
 
 /**
  * 从文件列表中选择一个打开
@@ -44,6 +45,7 @@ export function selectFileToOpen(files, firstTime = true) {
       // if (fileIndex < 1 || fileIndex > files.length) {
       //   return;
       // }
+      // TODO: 打开方式可选
       fileIndex.forEach((i) => exec('open -a typora ' + files[i - 1]));
       // selectFileToOpen(files, false);
     })
@@ -57,10 +59,10 @@ export function selectFileToOpen(files, firstTime = true) {
  * @param {number} ms 距今毫秒数
  */
 export function getFileListInTimeRange(ms: number) {
-  const list = [];
+  const list: FileInfo[] = [];
   traverseFolderWithInfo(path.resolve(process.cwd()), list);
   const filteredList = list
-    .filter((item: any) => isMarkdownFile(item.absolutePath))
+    .filter((item) => isMarkdownFile(item.path))
     .filter((item) => {
       const { lastModifiedTime } = item;
       return Date.now() - new Date(lastModifiedTime).getTime() < ms;
@@ -113,3 +115,55 @@ export function getFileTitle(filePath: string) {
   }
   return '';
 }
+
+/**
+ * 给定文件地址，提取文件种的所有链接
+ * @param filePath
+ * @returns
+ */
+export function extractLinks(filePath: string): string[] {
+  const markdown = fs.readFileSync(filePath, { encoding: 'utf8' });
+  // todo: 这个库使用的是解析整个 markdown 文件，然后提取链接的方式，可以考虑更换
+  const links = markdownLinkExtractor(markdown);
+  return links;
+}
+
+export function getAllLinks() {
+  const list = [];
+  traverseFolder(process.cwd(), list);
+
+  const graph: { [file: string]: string[] } = {};
+
+  list.forEach((file) => {
+    const links: string[] = extractLinks(file)
+      .filter(isLocalLink)
+      .filter((link: string) => !isImage(link))
+      .filter((link: string) => !isBearLink(link));
+    if (links.length > 0) {
+      // console.log(chalk.green('---------------------'));
+      // console.log(chalk.yellow(file));
+      // console.log(path.dirname(file));
+      const processedLinks = links.map((link) => {
+        const absolutePath = path.resolve(
+          path.dirname(file),
+          decodeURIComponent(link)
+        );
+        return path.relative(process.cwd(), absolutePath);
+      });
+      graph[path.relative(process.cwd(), file)] = processedLinks;
+    }
+  });
+
+  fs.writeFileSync(__dirname + '/graph.json', JSON.stringify(graph, null, 2));
+}
+
+function isLocalLink(link: string) {
+  if (link.startsWith('http')) return false;
+  return true;
+}
+
+function isBearLink(link: string) {
+  return link.startsWith('bear://x-callback-url');
+}
+
+getAllLinks();

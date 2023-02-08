@@ -9,6 +9,7 @@ import {
   getFileListInTimeRange,
   openTagCloudInBrowser,
   selectFileToOpen,
+  getAllLinks,
 } from './utils';
 import * as commonUtils from '../common/utils';
 
@@ -105,6 +106,13 @@ program
       console.log(chalk.red('🌎 以下文件不包含标签'));
     }
     selectFileToOpen(files);
+  });
+
+program
+  .command('links')
+  .description('列出文件间的引用关系')
+  .action(() => {
+    getAllLinks();
   });
 
 program.parse();

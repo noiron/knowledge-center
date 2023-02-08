@@ -4,3 +4,4 @@ dist
 dist-ssr
 *.local
 user-config.js
+scripts/graph.json

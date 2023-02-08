@@ -71,3 +71,11 @@ export function getTag(folder: string, searchTag: string) {
   });
   return list;
 }
+
+/**
+ * 判断一个链接是否是图片
+ * @param link 链接或本地文件路径
+ */
+export function isImage(link: string) {
+  return /\.(jpe?g|png|svg|gif)$/i.test(link);
+}

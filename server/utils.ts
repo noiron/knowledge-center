@@ -1,3 +1,4 @@
+import { FileInfo } from '@common/types';
 import fs from 'fs';
 import path from 'path';
 import { isMarkdownFile } from '../common/utils';
@@ -83,7 +84,7 @@ export const traverseFolder = (rootPath: string, list: string[]) => {
   return list;
 };
 
-export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
+export const traverseFolderWithInfo = (rootPath: string, list: FileInfo[]) => {
   const files = fs.readdirSync(rootPath);
 
   files.forEach((file) => {
@@ -93,7 +94,8 @@ export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
     if (stats.isFile()) {
       list.push({
         absolutePath,
-        lastModifiedTime: stats.mtime,
+        lastModifiedTime: stats.mtime.toString(),
+        path: file,
       });
     }
 

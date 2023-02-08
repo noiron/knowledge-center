@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+</head>
+
+<body>
+  <div id="paper" style="height: 600px; width: 800px;"></div>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
+
+  <script>
+    (async function () {
+      const responses = await fetch('./graph.json');
+      const data = await responses.json();
+
+      var Graph = Dracula.Graph
+      var Renderer = Dracula.Renderer.Raphael
+      var Layout = Dracula.Layout.Spring
+
+      var graph = new Graph()
+
+      const files = Object.keys(data);
+      files.forEach(file => {
+        const links = data[file];
+        console.log('links: ', links);
+        links.forEach(link => {
+          graph.addEdge(file, link);
+        })
+      })
+
+      var layout = new Layout(graph)
+      var renderer = new Renderer('#paper', graph, 1000, 600)
+      renderer.draw()
+
+    })()
+  </script>
+</body>
+
+</html>
