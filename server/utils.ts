@@ -117,7 +117,7 @@ export const traverseFolderWithInfo = (rootPath: string, list: any[]) => {
  */
 export const extractFileTags = (filePath: string) => {
   const content = fs.readFileSync(filePath, 'utf8');
-  return extractTagsFromContent(content);
+  return extractTagsFromContent(content) || [];
 };
 
 /**

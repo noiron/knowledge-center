@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import emoji from 'node-emoji';
 import { traverseFolderWithInfo } from '../server/utils';
-import { isMarkdownFile, extractTitleFromContent } from 'kainotes-tools';
+import { isMarkdownFile, extractFileTitle } from 'kainotes-tools';
 import { Tags } from '../common/types';
 
 /**
@@ -33,7 +33,7 @@ export function selectFileToOpen(files, firstTime = true) {
         loop: false,
         choices: files.map((fileName, index) => ({
           name: `${index + 1}. ${chalk.yellow(
-            getFileTitle(fileName)
+            extractFileTitle(fileName, readFileContent)
           )}（${path.relative(process.cwd(), fileName)}）`,
           value: index + 1,
         })),
@@ -89,9 +89,7 @@ function logFile(fileName, index) {
  */
 export function openTagCloudInBrowser(tags: Tags) {
   const templatePath = path.resolve(__dirname, './tag-cloud-template.html');
-  let html = fs.readFileSync(templatePath, {
-    encoding: 'utf-8',
-  });
+  let html = readFileContent(templatePath);
   html = html.replace('__tags__', JSON.stringify(tags));
   const writePath = path.resolve(__dirname, '../dist/tag-cloud.html');
   fs.writeFileSync(writePath, html);
@@ -99,12 +97,12 @@ export function openTagCloudInBrowser(tags: Tags) {
 }
 
 /**
- * 从文件内容中获得文件标题，一般为文件的第一行，以 # 开头
- * @param {string} filePath
+ * 给定一个文件地址，以字符串形式返回文件内容
+ * @param filePath
+ * @returns
  */
-export function getFileTitle(filePath: string) {
-  const content = fs.readFileSync(filePath, {
+export function readFileContent(filePath: string): string {
+  return fs.readFileSync(filePath, {
     encoding: 'utf-8',
   });
-  return extractTitleFromContent(content);
 }
