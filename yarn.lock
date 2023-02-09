@@ -2643,10 +2643,10 @@ json5@^2.2.1:
     array-includes "^3.1.4"
     object.assign "^4.1.2"
 
-kainotes-tools@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/kainotes-tools/-/kainotes-tools-0.0.6.tgz#e4bc4566006ef55875a5bd052de77828ecd769d3"
-  integrity sha512-F34XVlXGbVbVQrkSDNqaYJQNU8zHZad1vVKEOsflrxPBi+iK8UQeJn5cuiDNa3GjrRbaqYKTdZUBaRpiiYn/lg==
+kainotes-tools@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/kainotes-tools/-/kainotes-tools-0.0.7.tgz#ea56d1cab904e6ef689c6fb000da5c9e3ee19bc5"
+  integrity sha512-o4SOYJsxEpscF2Reref7+FnjJRU+J+KAkZuSoESinN0WkMM/cWHT5mBystdPeukp8LbGNnei8XdFtZJ08e9s9A==
 
 keygrip@~1.1.0:
   version "1.1.0"
