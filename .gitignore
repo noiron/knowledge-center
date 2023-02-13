@@ -4,3 +4,5 @@ dist
 dist-ssr
 *.local
 user-config.js
+.yalc
+yalc.lock

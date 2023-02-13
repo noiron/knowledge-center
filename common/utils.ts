@@ -1,6 +1,5 @@
 import path from 'path';
 import { traverseFolder } from '../server/utils';
-import { readFileContent } from '../scripts/utils';
 import {
   isMarkdownFile,
   purifyTag,
@@ -22,7 +21,7 @@ export function getTags(folder: string) {
   const tags: Tags = {};
   fileList.forEach(async (file) => {
     const absolutePath = path.resolve(folder, file);
-    const matchedTags = await extractFileTags(absolutePath, readFileContent);
+    const matchedTags = await extractFileTags(absolutePath);
     if (matchedTags) {
       matchedTags.forEach((t) => {
         t = purifyTag(t);
@@ -42,5 +41,5 @@ export async function getTag(folder: string, searchTag: string) {
   const fileList: string[] = [];
   // todo: 这里的内容应该在获取 tags 的时候就缓存过，在缓存中没有的情况下才再次获取
   traverseFolder(folder, fileList);
-  return await getFilesContainTag(folder, fileList, searchTag, readFileContent);
+  return await getFilesContainTag(folder, fileList, searchTag);
 }

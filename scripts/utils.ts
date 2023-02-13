@@ -33,7 +33,7 @@ export function selectFileToOpen(files, firstTime = true) {
         loop: false,
         choices: files.map((fileName, index) => ({
           name: `${index + 1}. ${chalk.yellow(
-            extractFileTitle(fileName, readFileContent)
+            extractFileTitle(fileName)
           )}（${path.relative(process.cwd(), fileName)}）`,
           value: index + 1,
         })),
